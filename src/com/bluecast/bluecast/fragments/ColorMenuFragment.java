@@ -1,8 +1,8 @@
 package com.bluecast.bluecast.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.app.Fragment;
+import android.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,41 +30,52 @@ public class ColorMenuFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id) {
-		Fragment newContent = null;
-		switch (position) {
-		case 0:
-			newContent = new BeaconIndividualScanFragment();
-			break;
-		case 1:
-			newContent = new BeaconBusinessScanFragment();
-			break;
-		case 2:
-			newContent = new ColorFragment(R.color.blue);
-			break;
-		case 3:
-			newContent = new ColorFragment(android.R.color.white);
-			break;
-		case 4:
-			newContent = new ColorFragment(android.R.color.black);
-			break;
-		}
-		if (newContent != null)
-			switchFragment(newContent);
+		switchFragment(position);
+//		Fragment newContent = null;
+//		switch (position) {
+//		case 0:
+//			newContent = new BeaconIndividualScanFragment();
+//			break;
+//		case 1:
+//			newContent = new BeaconBusinessScanFragment();
+//			break;
+//		case 2:
+//			newContent = new ColorFragment(R.color.blue);
+//			break;
+//		case 3:
+//			newContent = new ColorFragment(android.R.color.white);
+//			break;
+//		case 4:
+//			newContent = new ColorFragment(android.R.color.black);
+//			break;
+//		}
+//		if (newContent != null)
+//			switchFragment(newContent);
 	}
 
 	// the meat of switching the above fragment
-	private void switchFragment(Fragment fragment) {
+	private void switchFragment(int position) {
 		if (getActivity() == null)
 			return;
 		
 		if (getActivity() instanceof MainActivity) {
 			MainActivity fca = (MainActivity) getActivity();
-			fca.switchContent(fragment);
-		} else if (getActivity() instanceof ResponsiveUIActivity) {
-			ResponsiveUIActivity ra = (ResponsiveUIActivity) getActivity();
-			ra.switchContent(fragment);
-		}
+			fca.switchFragmentPosition(position);
+		} 
 	}
+	
+//	private void switchFragment(Fragment fragment) {
+//		if (getActivity() == null)
+//			return;
+//		
+//		if (getActivity() instanceof MainActivity) {
+//			MainActivity fca = (MainActivity) getActivity();
+//			fca.switchContent(fragment);
+//		} else if (getActivity() instanceof ResponsiveUIActivity) {
+//			ResponsiveUIActivity ra = (ResponsiveUIActivity) getActivity();
+//			ra.switchContent(fragment);
+//		}
+//	}
 
 
 }

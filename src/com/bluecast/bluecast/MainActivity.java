@@ -10,13 +10,17 @@ import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bluecast.bluecast.R;
+import com.bluecast.bluecast.fragments.BeaconIndividualScanFragment;
 import com.bluecast.bluecast.fragments.ColorMenuFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -25,10 +29,22 @@ import com.radiusnetworks.ibeacon.IBeaconManager;
 import com.radiusnetworks.ibeacon.RangeNotifier;
 import com.radiusnetworks.ibeacon.Region;
 
-public class MainActivity extends BaseActivity implements
-		IBeaconConsumer {
+public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 	// private Fragment mContent;
+	
+	//Middle 
+	private RefreshListFragment refreshFragment; 
+	
+	//Left 
+	private ColorMenuFragment colorMenuFragment; 
+	//Right
+	
+	private BeaconIndividualScanFragment beaconIndividualScanFragment; 
+	
+	private FragmentManager fragmentManager; 
+	
+	
 
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
@@ -45,31 +61,32 @@ public class MainActivity extends BaseActivity implements
 
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
+		refreshFragment = new RefreshListFragment();
+		colorMenuFragment = new ColorMenuFragment();
+		beaconIndividualScanFragment = new BeaconIndividualScanFragment();
 
-		// set the Above View
+		fragmentManager = getFragmentManager();
+		
+		//Set the Above View
 		setContentView(R.layout.content_frame);
-		getFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, new RefreshListFragment())
-				.commit();
+		
+		fragmentManager.beginTransaction().replace(R.id.content_frame, refreshFragment).commit();
+		
+//		fragmentManager.beginTransaction().replace(R.id.content_frame, refreshFragment).commit();
 
-		// set the Behind View
+		//Set the Left View
 		setBehindContentView(R.layout.menu_frame);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, new ColorMenuFragment()).commit();
-
+		getFragmentManager().beginTransaction().replace(R.id.menu_frame, colorMenuFragment).commit();
+		//Set the Right View 
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, new SampleListFragment())
-				.commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragment()).commit();
 
 		// customize the SlidingMenu
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
-
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
-
 	}
 
 	@Override
@@ -91,6 +108,24 @@ public class MainActivity extends BaseActivity implements
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
 	}
+	
+	public void switchFragmentPosition(int index){
+		switch (index) {
+		case 0:
+			getFragmentManager().beginTransaction().replace(R.id.content_frame, refreshFragment).commit();
+			break;
+		case 1:
+			getFragmentManager().beginTransaction().replace(R.id.content_frame, beaconIndividualScanFragment).commit();
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		}
+		getSlidingMenu().showContent();
+	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -98,12 +133,15 @@ public class MainActivity extends BaseActivity implements
 //		 getSupportFragmentManager().putFragment(outState, "mContent", mContent);
 	}
 
-	public void switchContent(Fragment fragment) {
-		// mContent = fragment;
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-		getSlidingMenu().showContent();
-	}
+//	public void switchContent(Fragment fragment) {
+//		// mContent = fragment;
+//		
+//		getFragmentManager().beginTransaction().remove(refreshFragment).commit();
+//
+//		getSupportFragmentManager().beginTransaction()
+//				.replace(R.id.content_frame, fragment).commit();
+//		getSlidingMenu().showContent();
+//	}
 
 	public MainActivity() {
 		super(R.string.changing_fragments);
@@ -116,6 +154,13 @@ public class MainActivity extends BaseActivity implements
 			public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons,
 					Region region) {
 				if (iBeacons.size() > 0) {
+					
+					
+//					Iterator<IBeacon> ib = iBeacons.iterator();
+//					while(ib.hasNext()){
+//						ib.next().getAccuracy();
+//					}
+					
 					logToDisplay("The first iBeacon I see is about "
 							+ iBeacons.iterator().next().getAccuracy()
 							+ " meters away.");
