@@ -21,10 +21,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.bluecast.bluecast.animation.CustomScaleAnimation;
-import com.bluecast.bluecast.animation.CustomSlideAnimation;
-import com.bluecast.bluecast.animation.CustomZoomAnimation;
-import com.bluecast.bluecast.fragments.FragmentChangeActivity;
 import com.bluecast.bluecast.fragments.ResponsiveUIActivity;
 import com.crittercism.app.Crittercism;
 import com.bluecast.bluecast.R;
@@ -49,7 +45,7 @@ public class ExampleListActivity extends SherlockPreferenceActivity {
 		} else if (title.equals(getString(R.string.attach))) {
 			cls = AttachExample.class;
 		} else if (title.equals(getString(R.string.changing_fragments))) {
-			cls = FragmentChangeActivity.class;
+			cls = MainActivity.class;
 		} else if (title.equals(getString(R.string.left_and_right))) {
 			cls = LeftAndRightActivity.class;
 		} else if (title.equals(getString(R.string.responsive_ui))) {
@@ -60,13 +56,7 @@ public class ExampleListActivity extends SherlockPreferenceActivity {
 			cls = SlidingTitleBar.class;
 		} else if (title.equals(getString(R.string.title_bar_content))) {
 			cls = SlidingContent.class;
-		} else if (title.equals(getString(R.string.anim_zoom))) {
-			cls = CustomZoomAnimation.class;
-		} else if (title.equals(getString(R.string.anim_scale))) {
-			cls = CustomScaleAnimation.class;
-		} else if (title.equals(getString(R.string.anim_slide))) {
-			cls = CustomSlideAnimation.class;
-		}
+		} 
 		Intent intent = new Intent(this, cls);
 		startActivity(intent);
 		return true;

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.bluecast.bluecast.MainActivity;
 import com.bluecast.bluecast.R;
 
 public class ColorMenuFragment extends ListFragment {
@@ -56,8 +57,8 @@ public class ColorMenuFragment extends ListFragment {
 		if (getActivity() == null)
 			return;
 		
-		if (getActivity() instanceof FragmentChangeActivity) {
-			FragmentChangeActivity fca = (FragmentChangeActivity) getActivity();
+		if (getActivity() instanceof MainActivity) {
+			MainActivity fca = (MainActivity) getActivity();
 			fca.switchContent(fragment);
 		} else if (getActivity() instanceof ResponsiveUIActivity) {
 			ResponsiveUIActivity ra = (ResponsiveUIActivity) getActivity();
