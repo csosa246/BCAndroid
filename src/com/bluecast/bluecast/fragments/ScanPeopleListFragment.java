@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bluecast.adapters.ScanPeopleListAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
@@ -55,26 +56,12 @@ import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 			// Hide the list
 			setListShown(false);
 			
-//			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask();
-//			scanPeopleAsyncTask.execute();
-
-			new AsyncTask<Void, Void, Void>() {
-
+			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(new ScanPeopleAsyncTaskDelegate() {
+				
 				@Override
-				protected Void doInBackground(Void... params) {
-					try {
-						Thread.sleep(4000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void result) {
-					super.onPostExecute(result);
-					// Notify PullToRefreshLayout that the refresh has finished
-					notifyMainActivityDone();
+				public void didReceiveResponse(String response) {
+					showText(response);
+//					notifyMainActivityDone();
 					
 					mPullToRefreshLayout.setRefreshComplete();
 
@@ -83,17 +70,49 @@ import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 						setListShown(true);
 					}
 				}
-			}.execute();
+			});
+			scanPeopleAsyncTask.execute();
+
+//			new AsyncTask<Void, Void, Void>() {
+//
+//				@Override
+//				protected Void doInBackground(Void... params) {
+//					try {
+//						Thread.sleep(4000);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					return null;
+//				}
+//
+//				@Override
+//				protected void onPostExecute(Void result) {
+//					super.onPostExecute(result);
+//					// Notify PullToRefreshLayout that the refresh has finished
+//					notifyMainActivityDone();
+//					
+//					mPullToRefreshLayout.setRefreshComplete();
+//
+//					if (getView() != null) {
+//						// Show the list again
+//						setListShown(true);
+//					}
+//				}
+//			}.execute();
 		}
 		
-		// the meat of switching the above fragment
-		private void notifyMainActivityDone() {
-			if (getActivity() == null)
-				return;
-			
-			if (getActivity() instanceof MainActivity) {
-				MainActivity fca = (MainActivity) getActivity();
-				fca.refreshMenuDone();
-			} 
+		public void showText(String result){
+			Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 		}
+		
+//		// the meat of switching the above fragment
+//		private void notifyMainActivityDone() {
+//			if (getActivity() == null)
+//				return;
+//			
+//			if (getActivity() instanceof MainActivity) {
+//				MainActivity fca = (MainActivity) getActivity();
+//				fca.refreshMenuDone();
+//			} 
+//		}
 	}

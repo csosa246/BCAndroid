@@ -26,9 +26,9 @@ import java.util.List;
 public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
     private ScanPeopleAsyncTaskDelegate delegate;
 	
-//    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback){
-//        delegate = callback;
-//    }
+    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback){
+        delegate = callback;
+    }
 
 	@Override
 	protected String doInBackground(Void... params) {
@@ -56,7 +56,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 
     @Override
     protected void onPostExecute(String result) {
-//    	delegate.didReceiveResponse(result);
+    	delegate.didReceiveResponse(result);
     	Log.e("Tag", result);
     }
 

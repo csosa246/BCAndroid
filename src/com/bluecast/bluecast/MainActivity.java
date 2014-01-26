@@ -132,9 +132,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().showContent();
 	}
 
-	public void refreshMenuDone() {
-		Toast.makeText(this, "Done Loading", Toast.LENGTH_LONG).show();
-	}
+//	public void refreshMenuDone() {
+//		Toast.makeText(this, "Done Loading", Toast.LENGTH_LONG).show();
+//	}
 
 	public MainActivity() {
 		super(R.string.changing_fragments);
