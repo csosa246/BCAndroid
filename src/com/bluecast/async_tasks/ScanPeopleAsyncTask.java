@@ -1,29 +1,27 @@
 package com.bluecast.async_tasks;
 
-//package com.julintani.ccny_and.async_tasks;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-//import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
-//import com.julintani.ccny_and.fragments.NewsGridFragment;
-//import com.julintani.ccny_and.models.NewsStory;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.bluecast.models.Beacon;
 
 public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
+	
+	public ArrayList<Beacon> beaconArrayList;
     private ScanPeopleAsyncTaskDelegate delegate;
 	
     public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback){
@@ -32,19 +30,59 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 
 	@Override
 	protected String doInBackground(Void... params) {
-		// TODO Auto-generated method stub
+		beaconArrayList = new ArrayList<Beacon>(); 
+		
+		Beacon beacon1 = new Beacon("10","10","10"); 
+		Beacon beacon2 = new Beacon("11","11","11"); 
+		
+		beaconArrayList.add(beacon1);
+		beaconArrayList.add(beacon2);
+		
+		JSONArray ja = new JSONArray();
+
+		for(int i = 0; i < beaconArrayList.size(); i ++){
+			Beacon myBeacon = beaconArrayList.get(i);
+					
+			JSONObject jo = new JSONObject();
+			try {
+				jo.put("uuid", myBeacon.getUuid());
+				jo.put("minor", myBeacon.getMinor());
+				jo.put("major", myBeacon.getMajor());
+
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+			
+			ja.put(jo);
+		}
+
+		JSONObject mainObj = new JSONObject();
+		try {
+			mainObj.put("beacons", ja);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		
     	String page = "";
+        DefaultHttpClient client = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://bluecastalpha.herokuapp.com/mobile/beacon/scan");
+        httpPost.setHeader("Content-type", "application/json");
+        StringEntity se;
+		try {
+			se = new StringEntity(mainObj.toString());
+	        httpPost.setEntity(se);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
         try {
-            DefaultHttpClient client = new DefaultHttpClient();
-            HttpGet get = new HttpGet("http://bluecasttest.herokuapp.com/mobile_show");
-            HttpResponse response = client.execute(get);
+            HttpResponse response = client.execute(httpPost);
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     response.getEntity().getContent()));
             String line;
             while ((line = in.readLine()) != null) {
                 page += line + "\n";
             }
-
 //            Gson gson = new Gson();
 //            Type listOfNewsStories = new TypeToken<ArrayList<NewsStory>>(){}.getType();
 //            stories = gson.fromJson(page, listOfNewsStories);
@@ -60,7 +98,4 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
     	Log.e("Tag", result);
     }
 
-//    public interface FeedTaskCallback{
-//        public void setFeed(ArrayList<NewsStory> stories);
-//    }
 }

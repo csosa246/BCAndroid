@@ -54,26 +54,26 @@ public class BaseActivity extends SlidingFragmentActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-		// TODO Auto-generated method stub
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			toggle();
-			return true;
-		case R.id.github:
-			Util.goToGitHub(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		// TODO Auto-generated method stub
-		getMenuInflater().inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+//		// TODO Auto-generated method stub
+//		switch (item.getItemId()) {
+//		case android.R.id.home:
+//			toggle();
+//			return true;
+//		case R.id.github:
+//			Util.goToGitHub(this);
+//			return true;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
+//
+//
+//	@Override
+//	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+//		// TODO Auto-generated method stub
+//		getMenuInflater().inflate(R.menu.main, menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
 	
 }

@@ -131,11 +131,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		}
 		getSlidingMenu().showContent();
 	}
-
-//	public void refreshMenuDone() {
-//		Toast.makeText(this, "Done Loading", Toast.LENGTH_LONG).show();
-//	}
-
+	
 	public MainActivity() {
 		super(R.string.changing_fragments);
 	}
@@ -180,5 +176,24 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			}
 		});
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			toggle();
+			return true;
+		case R.id.github:
+			getSlidingMenu().showSecondaryMenu();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 }
