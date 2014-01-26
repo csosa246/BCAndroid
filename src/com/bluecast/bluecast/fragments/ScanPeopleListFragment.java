@@ -1,8 +1,5 @@
 package com.bluecast.bluecast.fragments;
 
-
-import com.bluecast.adapters.ScanPeopleAdapter;
-
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -11,20 +8,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
+import com.bluecast.adapters.ScanPeopleListAdapter;
+import com.bluecast.async_tasks.ScanPeopleAsyncTask;
+import com.bluecast.bluecast.MainActivity;
+import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 
 	public class ScanPeopleListFragment extends ListFragment implements
 			OnRefreshListener {
-
-		private String[] ITEMS = { "Abbaye de Belloc",
-				"Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
-				"Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu",
-				"Airag", "Airedale", "Aisy Cendre", "Allgauer Emmentaler",
-				"Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam",
-				"Abondance", "Ackawi", "Acorn", "Adelost",
-				"Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",
-				"Aisy Cendre", "Allgauer Emmentaler" };
-
 		private PullToRefreshLayout mPullToRefreshLayout;
 
 		@Override
@@ -53,11 +44,9 @@ import android.widget.ArrayAdapter;
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
-
-			// Set the List Adapter to display the sample items
 //			setListAdapter(new ArrayAdapter<String>(getActivity(),
 //					android.R.layout.simple_list_item_1, ITEMS));
-			setListAdapter(new ScanPeopleAdapter(getActivity()));
+			setListAdapter(new ScanPeopleListAdapter(getActivity()));
 			setListShownNoAnimation(true);
 		}
 
@@ -65,6 +54,9 @@ import android.widget.ArrayAdapter;
 		public void onRefreshStarted(View view) {
 			// Hide the list
 			setListShown(false);
+			
+//			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask();
+//			scanPeopleAsyncTask.execute();
 
 			new AsyncTask<Void, Void, Void>() {
 
@@ -82,6 +74,8 @@ import android.widget.ArrayAdapter;
 				protected void onPostExecute(Void result) {
 					super.onPostExecute(result);
 					// Notify PullToRefreshLayout that the refresh has finished
+					notifyMainActivityDone();
+					
 					mPullToRefreshLayout.setRefreshComplete();
 
 					if (getView() != null) {
@@ -90,5 +84,16 @@ import android.widget.ArrayAdapter;
 					}
 				}
 			}.execute();
+		}
+		
+		// the meat of switching the above fragment
+		private void notifyMainActivityDone() {
+			if (getActivity() == null)
+				return;
+			
+			if (getActivity() instanceof MainActivity) {
+				MainActivity fca = (MainActivity) getActivity();
+				fca.refreshMenuDone();
+			} 
 		}
 	}

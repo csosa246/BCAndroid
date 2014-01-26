@@ -1204,11 +1204,12 @@ containing a value of this type.
         public static final int ostrich=0x7f02007a;
         public static final int peacock=0x7f02007b;
         public static final int penguin=0x7f02007c;
-        public static final int shadow=0x7f02007d;
-        public static final int shadowright=0x7f02007e;
-        public static final int toucan=0x7f02007f;
-        public static final int turkey=0x7f020080;
-        public static final int vulture=0x7f020081;
+        public static final int prof=0x7f02007d;
+        public static final int shadow=0x7f02007e;
+        public static final int shadowright=0x7f02007f;
+        public static final int toucan=0x7f020080;
+        public static final int turkey=0x7f020081;
+        public static final int vulture=0x7f020082;
     }
     public static final class id {
         public static final int about=0x7f05005e;
@@ -1263,7 +1264,6 @@ containing a value of this type.
         public static final int github_button=0x7f050043;
         public static final int grid_item_img=0x7f050044;
         public static final int homeAsUp=0x7f05000f;
-        public static final int imageView1=0x7f05005b;
         public static final int inside=0x7f050004;
         public static final int left=0x7f050019;
         public static final int left_right=0x7f050049;
@@ -1276,6 +1276,8 @@ containing a value of this type.
         public static final int normal=0x7f05000a;
         public static final int outside=0x7f050005;
         public static final int pager=0x7f050047;
+        public static final int profile_name=0x7f05005a;
+        public static final int profile_picture=0x7f050059;
         public static final int ptr_content=0x7f050006;
         public static final int ptr_progress=0x7f050008;
         public static final int ptr_text=0x7f050007;
@@ -1297,8 +1299,7 @@ containing a value of this type.
         public static final int spb_interpolator_decelerate=0x7f050003;
         public static final int spb_interpolator_linear=0x7f050001;
         public static final int tabMode=0x7f05000c;
-        public static final int textview_train_name=0x7f050059;
-        public static final int textview_train_status=0x7f05005a;
+        public static final int textView2=0x7f05005b;
         public static final int touch_above=0x7f05004a;
         public static final int touch_above_full=0x7f05004b;
         public static final int touch_above_margin=0x7f05004c;

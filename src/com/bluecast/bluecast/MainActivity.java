@@ -19,19 +19,17 @@ import com.radiusnetworks.ibeacon.IBeaconManager;
 import com.radiusnetworks.ibeacon.RangeNotifier;
 import com.radiusnetworks.ibeacon.Region;
 
-public class MainActivity extends BaseActivity implements
-		IBeaconConsumer {
+public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	// private Fragment mContent;
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
-	
+
 	ScanPeopleListFragment refreshListFragment;
-	ColorMenuFragment colorMenuFragment; 
-	SampleListFragment sampleListFragment; 
+	ColorMenuFragment colorMenuFragment;
+	SampleListFragment sampleListFragment;
 	ScanBusinessFragment beaconBusinessScanFragment;
-	BookmarksFragment bookmarksFragment; 
-	SettingsFragment settingsFragment; 
-	
+	BookmarksFragment bookmarksFragment;
+	SettingsFragment settingsFragment;
 	FragmentManager contentFragmentManager;
 
 	@Override
@@ -43,11 +41,11 @@ public class MainActivity extends BaseActivity implements
 		// getSupportFragmentManager().getFragment(savedInstanceState,
 		// "mContent");
 		// if (mContent == null)
-		
+
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
 		contentFragmentManager = getFragmentManager();
-		
+
 		refreshListFragment = new ScanPeopleListFragment();
 		colorMenuFragment = new ColorMenuFragment();
 		sampleListFragment = new SampleListFragment();
@@ -58,8 +56,7 @@ public class MainActivity extends BaseActivity implements
 		// set the Above View
 		setContentView(R.layout.content_frame);
 		contentFragmentManager.beginTransaction()
-				.replace(R.id.content_frame, refreshListFragment)
-				.commit();
+				.replace(R.id.content_frame, refreshListFragment).commit();
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
@@ -69,8 +66,7 @@ public class MainActivity extends BaseActivity implements
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, settingsFragment)
-				.commit();
+				.replace(R.id.menu_frame_two, settingsFragment).commit();
 		// customize the SlidingMenu
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -99,29 +95,34 @@ public class MainActivity extends BaseActivity implements
 			iBeaconManager.setBackgroundMode(this, false);
 	}
 
-//	@Override
-//	public void onSaveInstanceState(Bundle outState) {
-//		super.onSaveInstanceState(outState);
-////		 getSupportFragmentManager().putFragment(outState, "mContent", mContent);
-//	}
-//
-//	public void switchContent(Fragment fragment) {
-//		// mContent = fragment;
-//		getSupportFragmentManager().beginTransaction()
-//				.replace(R.id.content_frame, fragment).commit();
-//		getSlidingMenu().showContent();
-//	}
-	
-	public void switchFragment(int position){
+	// @Override
+	// public void onSaveInstanceState(Bundle outState) {
+	// super.onSaveInstanceState(outState);
+	// // getSupportFragmentManager().putFragment(outState, "mContent",
+	// mContent);
+	// }
+	//
+	// public void switchContent(Fragment fragment) {
+	// // mContent = fragment;
+	// getSupportFragmentManager().beginTransaction()
+	// .replace(R.id.content_frame, fragment).commit();
+	// getSlidingMenu().showContent();
+	// }
+
+	public void switchFragment(int position) {
 		switch (position) {
 		case 0:
-			contentFragmentManager.beginTransaction().replace(R.id.content_frame, refreshListFragment).commit();
+			contentFragmentManager.beginTransaction()
+					.replace(R.id.content_frame, refreshListFragment).commit();
 			break;
 		case 1:
-			contentFragmentManager.beginTransaction().replace(R.id.content_frame, beaconBusinessScanFragment).commit();
+			contentFragmentManager.beginTransaction()
+					.replace(R.id.content_frame, beaconBusinessScanFragment)
+					.commit();
 			break;
 		case 2:
-			contentFragmentManager.beginTransaction().replace(R.id.content_frame, bookmarksFragment).commit();
+			contentFragmentManager.beginTransaction()
+					.replace(R.id.content_frame, bookmarksFragment).commit();
 			break;
 		case 3:
 			break;
@@ -129,8 +130,10 @@ public class MainActivity extends BaseActivity implements
 			break;
 		}
 		getSlidingMenu().showContent();
-//		if (newContent != null)
-//			switchFragment(newContent);
+	}
+
+	public void refreshMenuDone() {
+		Toast.makeText(this, "Done Loading", Toast.LENGTH_LONG).show();
 	}
 
 	public MainActivity() {

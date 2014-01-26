@@ -2,8 +2,6 @@ package com.bluecast.adapters;
 
 import java.util.ArrayList;
 
-import com.bluecast.bluecast.R;
-
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -12,18 +10,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class ScanPeopleAdapter extends BaseAdapter {
+import com.bluecast.bluecast.R;
+
+public class ScanPeopleListAdapter extends BaseAdapter {
 	private final Activity context;
 	ArrayList<String> subwayModel;
 	Typeface typeface;
 
 	static class ViewHolder {
-		public TextView textViewTrainName;
-		public TextView textViewTrainStatus;
-		public TextView textViewTrainColor;
+		public TextView name;
 	}
 
-	public ScanPeopleAdapter(Activity context) {
+	public ScanPeopleListAdapter(Activity context) {
 		this.context = context;
 		subwayModel = new ArrayList<String>(); 
 		subwayModel.add("TEST");
@@ -40,35 +38,19 @@ public class ScanPeopleAdapter extends BaseAdapter {
 			LayoutInflater inflater = context.getLayoutInflater();
 			convertView = inflater.inflate(R.layout.rowlayout, null);
 			viewHolder = new ViewHolder();
-			viewHolder.textViewTrainName = (TextView) convertView
-					.findViewById(R.id.textview_train_name);
-			viewHolder.textViewTrainStatus = (TextView) convertView
-					.findViewById(R.id.textview_train_status);
-//			viewHolder.textViewTrainColor = (TextView) convertView
-//					.findViewById(R.id.textview_train_color);
+			viewHolder.name = (TextView) convertView
+					.findViewById(R.id.profile_name);
 			convertView.setTag(viewHolder);
 
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		
-		
 		// Color of train
-		viewHolder.textViewTrainName.setTypeface(typeface);
-		viewHolder.textViewTrainStatus.setTypeface(typeface);
+//		viewHolder.textViewTrainName.setTypeface(typeface);
+//		viewHolder.textViewTrainStatus.setTypeface(typeface);
 
-		viewHolder.textViewTrainName.setText(subwayModel.get(position).toString());
-//		viewHolder.textViewTrainName.setBackgroundColor((subwayModel
-//				.get(position).getTextNameColor()));
-//
-//		viewHolder.textViewTrainName.setTextColor((subwayModel.get(position)
-//				.getTextLineColor()));
-//
-//		viewHolder.textViewTrainStatus.setText(subwayModel.get(position)
-//				.getStatus());
-//				
-//		viewHolder.textViewTrainColor.setBackgroundColor(subwayModel.get(
-//				position).getTextStatusColor());
+//		viewHolder.name.setText(subwayModel.get(position).toString());
+
 		return convertView;
 	}
 	

@@ -305,11 +305,12 @@ int drawable octocat_scaled 0x7f020079
 int drawable ostrich 0x7f02007a
 int drawable peacock 0x7f02007b
 int drawable penguin 0x7f02007c
-int drawable shadow 0x7f02007d
-int drawable shadowright 0x7f02007e
-int drawable toucan 0x7f02007f
-int drawable turkey 0x7f020080
-int drawable vulture 0x7f020081
+int drawable prof 0x7f02007d
+int drawable shadow 0x7f02007e
+int drawable shadowright 0x7f02007f
+int drawable toucan 0x7f020080
+int drawable turkey 0x7f020081
+int drawable vulture 0x7f020082
 int id about 0x7f05005e
 int id abs__action_bar 0x7f05002e
 int id abs__action_bar_container 0x7f05002d
@@ -362,7 +363,6 @@ int id github 0x7f05005d
 int id github_button 0x7f050043
 int id grid_item_img 0x7f050044
 int id homeAsUp 0x7f05000f
-int id imageView1 0x7f05005b
 int id inside 0x7f050004
 int id left 0x7f050019
 int id left_right 0x7f050049
@@ -375,6 +375,8 @@ int id mode 0x7f050048
 int id normal 0x7f05000a
 int id outside 0x7f050005
 int id pager 0x7f050047
+int id profile_name 0x7f05005a
+int id profile_picture 0x7f050059
 int id ptr_content 0x7f050006
 int id ptr_progress 0x7f050008
 int id ptr_text 0x7f050007
@@ -396,8 +398,7 @@ int id spb_interpolator_acceleratedecelerate 0x7f050002
 int id spb_interpolator_decelerate 0x7f050003
 int id spb_interpolator_linear 0x7f050001
 int id tabMode 0x7f05000c
-int id textview_train_name 0x7f050059
-int id textview_train_status 0x7f05005a
+int id textView2 0x7f05005b
 int id touch_above 0x7f05004a
 int id touch_above_full 0x7f05004b
 int id touch_above_margin 0x7f05004c
