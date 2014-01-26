@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import com.bluecast.bluecast.fragments.BookmarksFragment;
 import com.bluecast.bluecast.fragments.ScanBusinessFragment;
 import com.bluecast.bluecast.fragments.ScanIndividualFragment;
 import com.bluecast.bluecast.fragments.ColorMenuFragment;
+import com.bluecast.bluecast.fragments.SettingsFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
@@ -27,9 +29,10 @@ public class MainActivity extends BaseActivity implements
 	ColorMenuFragment colorMenuFragment; 
 	SampleListFragment sampleListFragment; 
 	ScanBusinessFragment beaconBusinessScanFragment;
+	BookmarksFragment bookmarksFragment; 
+	SettingsFragment settingsFragment; 
 	
-	
-	FragmentManager fragmentManager;
+	FragmentManager contentFragmentManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,16 +46,18 @@ public class MainActivity extends BaseActivity implements
 
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
-		fragmentManager = getFragmentManager();
+		contentFragmentManager = getFragmentManager();
 		
 		refreshListFragment = new ScanIndividualFragment();
 		colorMenuFragment = new ColorMenuFragment();
 		sampleListFragment = new SampleListFragment();
 		beaconBusinessScanFragment = new ScanBusinessFragment();
+		bookmarksFragment = new BookmarksFragment();
+		settingsFragment = new SettingsFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
-		fragmentManager.beginTransaction()
+		contentFragmentManager.beginTransaction()
 				.replace(R.id.content_frame, refreshListFragment)
 				.commit();
 
@@ -63,8 +68,8 @@ public class MainActivity extends BaseActivity implements
 
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, sampleListFragment)
+		getFragmentManager().beginTransaction()
+				.replace(R.id.menu_frame_two, settingsFragment)
 				.commit();
 		// customize the SlidingMenu
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
@@ -110,12 +115,13 @@ public class MainActivity extends BaseActivity implements
 	public void switchFragment(int position){
 		switch (position) {
 		case 0:
-			fragmentManager.beginTransaction().replace(R.id.content_frame, refreshListFragment).commit();
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, refreshListFragment).commit();
 			break;
 		case 1:
-			fragmentManager.beginTransaction().replace(R.id.content_frame, beaconBusinessScanFragment).commit();
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, beaconBusinessScanFragment).commit();
 			break;
 		case 2:
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, bookmarksFragment).commit();
 			break;
 		case 3:
 			break;
@@ -172,84 +178,4 @@ public class MainActivity extends BaseActivity implements
 		});
 
 	}
-
-//	public static class RefreshListFragment extends ListFragment implements
-//			OnRefreshListener {
-//
-//		private static String[] ITEMS = { "Abbaye de Belloc",
-//				"Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
-//				"Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu",
-//				"Airag", "Airedale", "Aisy Cendre", "Allgauer Emmentaler",
-//				"Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam",
-//				"Abondance", "Ackawi", "Acorn", "Adelost",
-//				"Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",
-//				"Aisy Cendre", "Allgauer Emmentaler" };
-//
-//		private PullToRefreshLayout mPullToRefreshLayout;
-//
-//		@Override
-//		public void onViewCreated(View view, Bundle savedInstanceState) {
-//			super.onViewCreated(view, savedInstanceState);
-//			ViewGroup viewGroup = (ViewGroup) view;
-//
-//			// As we're using a ListFragment we create a PullToRefreshLayout
-//			// manually
-//			mPullToRefreshLayout = new PullToRefreshLayout(
-//					viewGroup.getContext());
-//
-//			// We can now setup the PullToRefreshLayout
-//			ActionBarPullToRefresh
-//					.from(getActivity())
-//					// We need to insert the PullToRefreshLayout into the
-//					// Fragment's ViewGroup
-//					.insertLayoutInto(viewGroup)
-//					// Here we mark just the ListView and it's Empty View as
-//					// pullable
-//					.theseChildrenArePullable(android.R.id.list,
-//							android.R.id.empty).listener(this)
-//					.setup(mPullToRefreshLayout);
-//		}
-//
-//		@Override
-//		public void onActivityCreated(Bundle savedInstanceState) {
-//			super.onActivityCreated(savedInstanceState);
-//
-//			// Set the List Adapter to display the sample items
-//			setListAdapter(new ArrayAdapter<String>(getActivity(),
-//					android.R.layout.simple_list_item_1, ITEMS));
-//			setListShownNoAnimation(true);
-//		}
-//
-//		@Override
-//		public void onRefreshStarted(View view) {
-//			// Hide the list
-//			setListShown(false);
-//
-//			new AsyncTask<Void, Void, Void>() {
-//
-//				@Override
-//				protected Void doInBackground(Void... params) {
-//					try {
-//						Thread.sleep(4000);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					return null;
-//				}
-//
-//				@Override
-//				protected void onPostExecute(Void result) {
-//					super.onPostExecute(result);
-//					// Notify PullToRefreshLayout that the refresh has finished
-//					mPullToRefreshLayout.setRefreshComplete();
-//
-//					if (getView() != null) {
-//						// Show the list again
-//						setListShown(true);
-//					}
-//				}
-//			}.execute();
-//		}
-//	}
-
 }
