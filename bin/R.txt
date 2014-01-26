@@ -299,9 +299,6 @@ int drawable prof 0x7f020074
 int drawable shadow 0x7f020075
 int drawable shadowright 0x7f020076
 int drawable still4 0x7f020077
-int drawable toucan 0x7f020078
-int drawable turkey 0x7f020079
-int drawable vulture 0x7f02007a
 int id about 0x7f050065
 int id abs__action_bar 0x7f05002e
 int id abs__action_bar_container 0x7f05002d

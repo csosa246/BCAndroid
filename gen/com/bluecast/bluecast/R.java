@@ -1198,9 +1198,6 @@ containing a value of this type.
         public static final int shadow=0x7f020075;
         public static final int shadowright=0x7f020076;
         public static final int still4=0x7f020077;
-        public static final int toucan=0x7f020078;
-        public static final int turkey=0x7f020079;
-        public static final int vulture=0x7f02007a;
     }
     public static final class id {
         public static final int about=0x7f050065;
