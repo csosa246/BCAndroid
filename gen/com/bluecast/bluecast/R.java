@@ -10,7 +10,6 @@ package com.bluecast.bluecast;
 public final class R {
     public static final class array {
         public static final int birds=0x7f0c0001;
-        public static final int birds_img=0x7f0c0002;
         public static final int color_names=0x7f0c0000;
     }
     public static final class attr {
@@ -1191,26 +1190,17 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int bluecast=0x7f020070;
-        public static final int eagle=0x7f020071;
-        public static final int flamingo=0x7f020072;
-        public static final int heron=0x7f020073;
-        public static final int ic_action_github=0x7f020074;
-        public static final int ic_launcher=0x7f020075;
-        public static final int indicator=0x7f020076;
-        public static final int new_indicator=0x7f020077;
-        public static final int octocat=0x7f020078;
-        public static final int octocat_scaled=0x7f020079;
-        public static final int ostrich=0x7f02007a;
-        public static final int peacock=0x7f02007b;
-        public static final int penguin=0x7f02007c;
-        public static final int prof=0x7f02007d;
-        public static final int shadow=0x7f02007e;
-        public static final int shadowright=0x7f02007f;
-        public static final int still4=0x7f020080;
-        public static final int toucan=0x7f020081;
-        public static final int turkey=0x7f020082;
-        public static final int vulture=0x7f020083;
+        public static final int ic_action_github=0x7f020070;
+        public static final int ic_launcher=0x7f020071;
+        public static final int indicator=0x7f020072;
+        public static final int new_indicator=0x7f020073;
+        public static final int prof=0x7f020074;
+        public static final int shadow=0x7f020075;
+        public static final int shadowright=0x7f020076;
+        public static final int still4=0x7f020077;
+        public static final int toucan=0x7f020078;
+        public static final int turkey=0x7f020079;
+        public static final int vulture=0x7f02007a;
     }
     public static final class id {
         public static final int about=0x7f050065;

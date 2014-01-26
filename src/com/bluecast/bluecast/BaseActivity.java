@@ -1,19 +1,9 @@
 package com.bluecast.bluecast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.bluecast.bluecast.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -53,27 +43,5 @@ public class BaseActivity extends SlidingFragmentActivity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
-	
-//	@Override
-//	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-//		// TODO Auto-generated method stub
-//		switch (item.getItemId()) {
-//		case android.R.id.home:
-//			toggle();
-//			return true;
-//		case R.id.github:
-//			Util.goToGitHub(this);
-//			return true;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
-//
-//
-//	@Override
-//	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-//		// TODO Auto-generated method stub
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return super.onCreateOptionsMenu(menu);
-//	}
 	
 }
