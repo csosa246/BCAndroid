@@ -1,6 +1,8 @@
 package com.bluecast.bluecast.fragments;
 
 
+import com.bluecast.adapters.ScanPeopleAdapter;
+
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -11,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-	public class ScanIndividualFragment extends ListFragment implements
+	public class ScanPeopleListFragment extends ListFragment implements
 			OnRefreshListener {
 
 		private String[] ITEMS = { "Abbaye de Belloc",
@@ -53,8 +55,9 @@ import android.widget.ArrayAdapter;
 			super.onActivityCreated(savedInstanceState);
 
 			// Set the List Adapter to display the sample items
-			setListAdapter(new ArrayAdapter<String>(getActivity(),
-					android.R.layout.simple_list_item_1, ITEMS));
+//			setListAdapter(new ArrayAdapter<String>(getActivity(),
+//					android.R.layout.simple_list_item_1, ITEMS));
+			setListAdapter(new ScanPeopleAdapter(getActivity()));
 			setListShownNoAnimation(true);
 		}
 

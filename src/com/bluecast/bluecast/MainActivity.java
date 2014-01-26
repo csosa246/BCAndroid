@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.bluecast.bluecast.fragments.BookmarksFragment;
 import com.bluecast.bluecast.fragments.ScanBusinessFragment;
-import com.bluecast.bluecast.fragments.ScanIndividualFragment;
+import com.bluecast.bluecast.fragments.ScanPeopleListFragment;
 import com.bluecast.bluecast.fragments.ColorMenuFragment;
 import com.bluecast.bluecast.fragments.SettingsFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity implements
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
 	
-	ScanIndividualFragment refreshListFragment;
+	ScanPeopleListFragment refreshListFragment;
 	ColorMenuFragment colorMenuFragment; 
 	SampleListFragment sampleListFragment; 
 	ScanBusinessFragment beaconBusinessScanFragment;
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements
 		// mContent = new RefreshListFragment();
 		contentFragmentManager = getFragmentManager();
 		
-		refreshListFragment = new ScanIndividualFragment();
+		refreshListFragment = new ScanPeopleListFragment();
 		colorMenuFragment = new ColorMenuFragment();
 		sampleListFragment = new SampleListFragment();
 		beaconBusinessScanFragment = new ScanBusinessFragment();

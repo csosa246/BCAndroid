@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#50FFFFFF" >
+
+    <TextView
+        android:id="@+id/textview_train_name"
+        android:layout_width="70dip"
+        android:layout_height="100dip"
+        android:gravity="left"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:text="WERD"
+        android:textColor="#FFF"
+        android:textSize="22sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textview_train_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="right"
+        android:paddingLeft="70dip"
+        android:paddingRight="5dip"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/bluecast" />
+
+</RelativeLayout>
