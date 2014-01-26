@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		}
 		getSlidingMenu().showContent();
 	}
-	
+
 	public MainActivity() {
 		super(R.string.changing_fragments);
 	}
@@ -142,25 +142,25 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			@Override
 			public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons,
 					Region region) {
-//				if (iBeacons.size() > 0) {
-						
-					try {
-						iBeaconManager.stopRangingBeaconsInRegion(new Region(
-								"myRangingUniqueId", null, null, null));
-					} catch (RemoteException e) {
+				// if (iBeacons.size() > 0) {
 
-					}
-//					logToDisplay("The first iBeacon I see is about "
-//					+ iBeacons.iterator().next().getAccuracy()
-//					+ " meters away.");
-					logToDisplay("GOT EM", iBeacons);
-//				}
+				try {
+					iBeaconManager.stopRangingBeaconsInRegion(new Region(
+							"myRangingUniqueId", null, null, null));
+				} catch (RemoteException e) {
+					
+				}
+				// logToDisplay("The first iBeacon I see is about "
+				// + iBeacons.iterator().next().getAccuracy()
+				// + " meters away.");
+				logToDisplay("GOT EM", iBeacons);
+				// }
 			}
 
 		});
 	}
-	
-	public void shouldStartRangingForBeacons(){
+
+	public void shouldStartRangingForBeacons() {
 		try {
 			iBeaconManager.startRangingBeaconsInRegion(new Region(
 					"myRangingUniqueId", null, null, null));
@@ -173,19 +173,20 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
 
-	private void logToDisplay(final String line,final Collection<IBeacon> iBeacons) {
+	private void logToDisplay(final String line,
+			final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if (iBeacons.size()>0){
+				if (iBeacons.size() > 0) {
 					refreshListFragment.didReceiveBeaconCollection(iBeacons);
-				}else{
+				} else {
 					refreshListFragment.noBeaconsRanged();
 				}
 			}
 		});
 
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
 		switch (item.getItemId()) {
