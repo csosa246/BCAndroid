@@ -1,57 +1,91 @@
 package com.bluecast.bluecast.fragments;
 
-import java.util.Collection;
 
-import com.bluecast.bluecast.R;
-import com.radiusnetworks.ibeacon.IBeacon;
-import com.radiusnetworks.ibeacon.IBeaconConsumer;
-import com.radiusnetworks.ibeacon.IBeaconManager;
-import com.radiusnetworks.ibeacon.RangeNotifier;
-import com.radiusnetworks.ibeacon.Region;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+import android.app.ListFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
 
-public class BeaconIndividualScanFragment extends Fragment{
-	
-	private int mColorRes = -1;
-	
-//	public BeaconIndividualScanFragment() { 
-//		this(R.color.white);
-//	}
-//	
-//	public BeaconIndividualScanFragment(int colorRes) {
-//		mColorRes = colorRes;
-//		setRetainInstance(true);
-//	}
+	public class BeaconIndividualScanFragment extends ListFragment implements
+			OnRefreshListener {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//		if (savedInstanceState != null)
-//			mColorRes = savedInstanceState.getInt("mColorRes");
-//		int color = getResources().getColor(mColorRes);
-//		// construct the RelativeLayout
-//		RelativeLayout v = new RelativeLayout(getActivity());
-//		v.setBackgroundColor(color);		
-//		return v;
-		return inflater.inflate(R.layout.fragment_0, null);
+		private String[] ITEMS = { "Abbaye de Belloc",
+				"Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
+				"Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu",
+				"Airag", "Airedale", "Aisy Cendre", "Allgauer Emmentaler",
+				"Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam",
+				"Abondance", "Ackawi", "Acorn", "Adelost",
+				"Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",
+				"Aisy Cendre", "Allgauer Emmentaler" };
+
+		private PullToRefreshLayout mPullToRefreshLayout;
+
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+			ViewGroup viewGroup = (ViewGroup) view;
+
+			// As we're using a ListFragment we create a PullToRefreshLayout
+			// manually
+			mPullToRefreshLayout = new PullToRefreshLayout(
+					viewGroup.getContext());
+
+			// We can now setup the PullToRefreshLayout
+			ActionBarPullToRefresh
+					.from(getActivity())
+					// We need to insert the PullToRefreshLayout into the
+					// Fragment's ViewGroup
+					.insertLayoutInto(viewGroup)
+					// Here we mark just the ListView and it's Empty View as
+					// pullable
+					.theseChildrenArePullable(android.R.id.list,
+							android.R.id.empty).listener(this)
+					.setup(mPullToRefreshLayout);
+		}
+
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+
+			// Set the List Adapter to display the sample items
+			setListAdapter(new ArrayAdapter<String>(getActivity(),
+					android.R.layout.simple_list_item_1, ITEMS));
+			setListShownNoAnimation(true);
+		}
+
+		@Override
+		public void onRefreshStarted(View view) {
+			// Hide the list
+			setListShown(false);
+
+			new AsyncTask<Void, Void, Void>() {
+
+				@Override
+				protected Void doInBackground(Void... params) {
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+					// Notify PullToRefreshLayout that the refresh has finished
+					mPullToRefreshLayout.setRefreshComplete();
+
+					if (getView() != null) {
+						// Show the list again
+						setListShown(true);
+					}
+				}
+			}.execute();
+		}
 	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-		
-		
-	}
-	
-}
