@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity implements
 		// getSupportFragmentManager().getFragment(savedInstanceState,
 		// "mContent");
 		// if (mContent == null)
-
+		
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
 		contentFragmentManager = getFragmentManager();
