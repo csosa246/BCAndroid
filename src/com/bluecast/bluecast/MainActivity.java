@@ -6,6 +6,7 @@ import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,11 @@ public class MainActivity extends BaseActivity implements
 
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
+	
+	RefreshListFragment refreshListFragment;
+	ColorMenuFragment colorMenuFragment; 
+	SampleListFragment sampleListFragment; 
+	FragmentManager fragmentManager; 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,22 +51,28 @@ public class MainActivity extends BaseActivity implements
 
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
+		fragmentManager = getFragmentManager();
+		
+		
+		refreshListFragment = new RefreshListFragment();
+		colorMenuFragment = new ColorMenuFragment();
+		sampleListFragment = new SampleListFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
-		getFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, new RefreshListFragment())
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, refreshListFragment)
 				.commit();
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, new ColorMenuFragment()).commit();
+				.replace(R.id.menu_frame, colorMenuFragment).commit();
 
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, new SampleListFragment())
+				.replace(R.id.menu_frame_two, sampleListFragment)
 				.commit();
 
 		// customize the SlidingMenu
@@ -103,6 +115,24 @@ public class MainActivity extends BaseActivity implements
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 		getSlidingMenu().showContent();
+	}
+	
+	public void switchFragment(int position){
+		switch (position) {
+		case 0:
+			
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		}
+//		if (newContent != null)
+//			switchFragment(newContent);
 	}
 
 	public MainActivity() {
