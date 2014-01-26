@@ -27,7 +27,8 @@ public class MainActivity extends BaseActivity implements
 	ColorMenuFragment colorMenuFragment; 
 	SampleListFragment sampleListFragment; 
 	ScanBusinessFragment beaconBusinessScanFragment;
-
+	
+	
 	FragmentManager fragmentManager;
 
 	@Override
