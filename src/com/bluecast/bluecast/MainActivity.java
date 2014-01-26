@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.widget.Toast;
 
-import com.bluecast.bluecast.fragments.BeaconBusinessScanFragment;
-import com.bluecast.bluecast.fragments.BeaconIndividualScanFragment;
+import com.bluecast.bluecast.fragments.ScanBusinessFragment;
+import com.bluecast.bluecast.fragments.ScanIndividualFragment;
 import com.bluecast.bluecast.fragments.ColorMenuFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -23,12 +23,12 @@ public class MainActivity extends BaseActivity implements
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
 	
-	BeaconIndividualScanFragment refreshListFragment;
+	ScanIndividualFragment refreshListFragment;
 	ColorMenuFragment colorMenuFragment; 
 	SampleListFragment sampleListFragment; 
-	BeaconBusinessScanFragment beaconBusinessScanFragment;
+	ScanBusinessFragment beaconBusinessScanFragment;
 
-	FragmentManager fragmentManager; 
+	FragmentManager fragmentManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +44,10 @@ public class MainActivity extends BaseActivity implements
 		// mContent = new RefreshListFragment();
 		fragmentManager = getFragmentManager();
 		
-		refreshListFragment = new BeaconIndividualScanFragment();
+		refreshListFragment = new ScanIndividualFragment();
 		colorMenuFragment = new ColorMenuFragment();
 		sampleListFragment = new SampleListFragment();
-		beaconBusinessScanFragment = new BeaconBusinessScanFragment();
+		beaconBusinessScanFragment = new ScanBusinessFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
