@@ -1,5 +1,7 @@
 package com.bluecast.bluecast.fragments;
 
+import java.util.Collection;
+
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -14,6 +16,7 @@ import com.bluecast.adapters.ScanPeopleListAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
 import com.bluecast.bluecast.MainActivity;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
+import com.radiusnetworks.ibeacon.IBeacon;
 
 	public class ScanPeopleListFragment extends ListFragment implements
 			OnRefreshListener {
@@ -115,4 +118,8 @@ import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 //				fca.refreshMenuDone();
 //			} 
 //		}
+		
+		public void didReceiveBeaconCollection(Collection<IBeacon> iBeacons){
+			showText("yeah we got them ibeacons");
+		}
 	}

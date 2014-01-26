@@ -12,7 +12,7 @@
         android:id="@+id/settings_textview_title"
         android:background="#585858"
         android:layout_width="fill_parent"
-        android:layout_height="45dip"
+        android:layout_height="56dip"
         android:textColor="#FFF"
         android:gravity="center"
         android:layout_alignParentTop="true"

@@ -142,16 +142,22 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			@Override
 			public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons,
 					Region region) {
+				
+					
+				
 				if (iBeacons.size() > 0) {
-					logToDisplay("The first iBeacon I see is about "
-							+ iBeacons.iterator().next().getAccuracy()
-							+ " meters away.");
+
+						
 					try {
 						iBeaconManager.stopRangingBeaconsInRegion(new Region(
 								"myRangingUniqueId", null, null, null));
 					} catch (RemoteException e) {
 
 					}
+//					logToDisplay("The first iBeacon I see is about "
+//					+ iBeacons.iterator().next().getAccuracy()
+//					+ " meters away.");
+					logToDisplay("GOT EM", iBeacons);
 				}
 			}
 
@@ -169,10 +175,12 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
 
-	private void logToDisplay(final String line) {
+	private void logToDisplay(final String line,final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				showText(line);
+//				showText(line);
+				refreshListFragment.didReceiveBeaconCollection(iBeacons);
+
 			}
 		});
 
