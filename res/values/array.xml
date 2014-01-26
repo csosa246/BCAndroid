@@ -2,11 +2,11 @@
 <resources>
 
     <string-array name="color_names">
-        <item>Red</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>White</item>
-        <item>Black</item>
+        <item>Scan People</item>
+        <item>Scan Business</item>
+        <item>Bookmarks</item>
+        <item>More Settings</item>
+        <item>Logout</item>
     </string-array>
     
     <string-array name="birds">

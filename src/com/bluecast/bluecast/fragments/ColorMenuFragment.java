@@ -1,7 +1,6 @@
 package com.bluecast.bluecast.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,26 +30,6 @@ public class ColorMenuFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id) {
 		switchFragment(position);
-//		Fragment newContent = null;
-//		switch (position) {
-//		case 0:
-//			newContent = new BeaconIndividualScanFragment();
-//			break;
-//		case 1:
-//			newContent = new BeaconBusinessScanFragment();
-//			break;
-//		case 2:
-//			newContent = new ColorFragment(R.color.blue);
-//			break;
-//		case 3:
-//			newContent = new ColorFragment(android.R.color.white);
-//			break;
-//		case 4:
-//			newContent = new ColorFragment(android.R.color.black);
-//			break;
-//		}
-//		if (newContent != null)
-//			switchFragment(newContent);
 	}
 
 	// the meat of switching the above fragment
@@ -63,6 +42,4 @@ public class ColorMenuFragment extends ListFragment {
 			fca.switchFragment(position);
 		} 
 	}
-
-
 }
