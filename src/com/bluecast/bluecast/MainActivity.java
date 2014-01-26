@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bluecast.bluecast.R;
+import com.bluecast.bluecast.fragments.BeaconBusinessScanFragment;
 import com.bluecast.bluecast.fragments.ColorMenuFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -37,6 +38,8 @@ public class MainActivity extends BaseActivity implements
 	RefreshListFragment refreshListFragment;
 	ColorMenuFragment colorMenuFragment; 
 	SampleListFragment sampleListFragment; 
+	BeaconBusinessScanFragment beaconBusinessScanFragment;
+
 	FragmentManager fragmentManager; 
 
 	@Override
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity implements
 		refreshListFragment = new RefreshListFragment();
 		colorMenuFragment = new ColorMenuFragment();
 		sampleListFragment = new SampleListFragment();
+		beaconBusinessScanFragment = new BeaconBusinessScanFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
@@ -104,25 +108,26 @@ public class MainActivity extends BaseActivity implements
 			iBeaconManager.setBackgroundMode(this, false);
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-//		 getSupportFragmentManager().putFragment(outState, "mContent", mContent);
-	}
-
-	public void switchContent(Fragment fragment) {
-		// mContent = fragment;
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-		getSlidingMenu().showContent();
-	}
+//	@Override
+//	public void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+////		 getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+//	}
+//
+//	public void switchContent(Fragment fragment) {
+//		// mContent = fragment;
+//		getSupportFragmentManager().beginTransaction()
+//				.replace(R.id.content_frame, fragment).commit();
+//		getSlidingMenu().showContent();
+//	}
 	
 	public void switchFragment(int position){
 		switch (position) {
 		case 0:
-			
+			fragmentManager.beginTransaction().replace(R.id.content_frame, refreshListFragment).commit();
 			break;
 		case 1:
+			fragmentManager.beginTransaction().replace(R.id.content_frame, beaconBusinessScanFragment).commit();
 			break;
 		case 2:
 			break;
@@ -131,6 +136,7 @@ public class MainActivity extends BaseActivity implements
 		case 4:
 			break;
 		}
+		getSlidingMenu().showContent();
 //		if (newContent != null)
 //			switchFragment(newContent);
 	}
