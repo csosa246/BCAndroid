@@ -58,68 +58,50 @@ import com.radiusnetworks.ibeacon.IBeacon;
 		public void onRefreshStarted(View view) {
 			// Hide the list
 			setListShown(false);
-			
-			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(new ScanPeopleAsyncTaskDelegate() {
-				
-				@Override
-				public void didReceiveResponse(String response) {
-					showText(response);
-//					notifyMainActivityDone();
-					
-					mPullToRefreshLayout.setRefreshComplete();
-
-					if (getView() != null) {
-						// Show the list again
-						setListShown(true);
-					}
-				}
-			});
-			scanPeopleAsyncTask.execute();
-
-//			new AsyncTask<Void, Void, Void>() {
-//
-//				@Override
-//				protected Void doInBackground(Void... params) {
-//					try {
-//						Thread.sleep(4000);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					return null;
-//				}
-//
-//				@Override
-//				protected void onPostExecute(Void result) {
-//					super.onPostExecute(result);
-//					// Notify PullToRefreshLayout that the refresh has finished
-//					notifyMainActivityDone();
-//					
-//					mPullToRefreshLayout.setRefreshComplete();
-//
-//					if (getView() != null) {
-//						// Show the list again
-//						setListShown(true);
-//					}
-//				}
-//			}.execute();
+			//Scan ibeacons 
+			notifyMainActivityToScanForIBeacons();
 		}
 		
 		public void showText(String result){
 			Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 		}
 		
-//		// the meat of switching the above fragment
-//		private void notifyMainActivityDone() {
-//			if (getActivity() == null)
-//				return;
-//			
-//			if (getActivity() instanceof MainActivity) {
-//				MainActivity fca = (MainActivity) getActivity();
-//				fca.refreshMenuDone();
-//			} 
-//		}
+		// the meat of switching the above fragment
+		private void notifyMainActivityToScanForIBeacons() {
+			if (getActivity() == null)
+				return;
+			
+			if (getActivity() instanceof MainActivity) {
+				MainActivity fca = (MainActivity) getActivity();
+				fca.shouldStartRangingForBeacons();
+			} 
+		}
 		
 		public void didReceiveBeaconCollection(Collection<IBeacon> iBeacons){
 			showText("yeah we got them ibeacons");
+			
+			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(new ScanPeopleAsyncTaskDelegate() {
+				
+				@Override
+				public void didReceiveResponse(String response) {
+					showText(response);
+					refreshComplete();
+				}
+			});
+			scanPeopleAsyncTask.execute();
+			
+		}
+		
+		public void noBeaconsRanged(){
+			showText("no ibeacons in range");
+			refreshComplete();
+		}
+		
+		public void refreshComplete(){
+			mPullToRefreshLayout.setRefreshComplete();
+			if (getView() != null) {
+				// Show the list again
+				setListShown(true);
+			}	
 		}
 	}
