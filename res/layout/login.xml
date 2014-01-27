@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/still4" >
+
+    <RelativeLayout
+        android:id="@+id/login_main_relativelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="190dip"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_marginTop="60dip"
+        android:background="#FFF" >
+
+        <TextView
+            android:id="@+id/login_main_textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:textSize="25sp"
+            android:text="Blue Canary"
+                        android:textColor="#66CCFF"
+            
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/login_main_button_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+            android:background="#66CCFF"
+            android:textColor="#FFF"
+            android:onClick="didClickLogin"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:text="Login" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

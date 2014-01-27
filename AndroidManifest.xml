@@ -15,7 +15,8 @@
         android:label="@string/app_name"
         android:theme="@style/ExampleTheme" >
         <activity
-            android:name="com.bluecast.bluecast.MainActivity"
+            android:name="com.bluecast.bluecast.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|screenLayout"
             android:theme="@style/Theme.Sherlock.Light.DarkActionBar" >
             <intent-filter>
@@ -25,6 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.bluecast.bluecast.PropertiesActivity" />
+        
+        <activity android:name="com.bluecast.bluecast.MainActivity" />
         <activity android:name="com.bluecast.bluecast.LeftAndRightActivity" />
         <activity android:name="com.bluecast.bluecast.AttachExample" />
         <activity android:name="com.bluecast.bluecast.animation.CustomScaleAnimation" />

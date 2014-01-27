@@ -1,85 +1,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:background="@drawable/still4">
-    
-    <RelativeLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:background="#50FFFFFF">
-
-    <TextView
-        android:id="@+id/settings_textview_title"
-        android:background="#585858"
-        android:layout_width="fill_parent"
-        android:layout_height="56dip"
-        android:textColor="#FFF"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:text="Settings" />
+    android:layout_height="fill_parent"
+    android:background="@drawable/still4" >
 
     <RelativeLayout
-        android:id="@+id/settings_relativelayout_userinfo"
         android:layout_width="fill_parent"
-        android:background="#50000000"
-        android:layout_height="150dip"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/settings_textview_title">
-
-        <ImageView
-            android:id="@+id/settings_imageview_userinfo_profilepic"
-            android:padding="10dip"
-            android:layout_width="150dip"
-            android:layout_height="150dip"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/prof" />
+        android:layout_height="fill_parent"
+        android:background="#50FFFFFF" >
 
         <TextView
-            android:id="@+id/settings_textview_userinfo_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/settings_textview_title"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
             android:layout_alignParentTop="true"
-            android:paddingTop="20dip"
+            android:layout_centerHorizontal="true"
+            android:background="#585858"
+            android:gravity="center"
+            android:text="Settings"
             android:textColor="#FFF"
-            android:textSize="21sp"
-            android:layout_toRightOf="@+id/settings_imageview_userinfo_profilepic"
-            android:text="Crae Sosa" />
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settings_userinfo_details"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/settings_textview_userinfo_name"
-            android:layout_below="@+id/settings_textview_userinfo_name"
-            android:textColor="#FFF"
-            android:text="CTO - Blue Canary"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_below="@+id/settings_textview_title" >
 
+            <RelativeLayout
+                android:id="@+id/settings_relativelayout_userinfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <RelativeLayout
+                    android:id="@+id/settings_relativelayout_userinfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dip"
+                    android:layout_alignParentLeft="true"
+                    android:background="#50000000" >
+
+                    <ImageView
+                        android:id="@+id/settings_imageview_userinfo_profilepic"
+                        android:layout_width="100dip"
+                        android:layout_height="100dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:padding="10dip"
+                        android:src="@drawable/prof" />
+
+                    <TextView
+                        android:id="@+id/settings_textview_userinfo_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/settings_imageview_userinfo_profilepic"
+                        android:paddingTop="20dip"
+                        android:text="Crae Sosa"
+                        android:textColor="#FFF"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:id="@+id/settings_userinfo_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/settings_textview_userinfo_name"
+                        android:layout_below="@+id/settings_textview_userinfo_name"
+                        android:text="CTO - Blue Canary"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#FFF" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/settings_relativelayout_choosesocialnetworks"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2000dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/settings_relativelayout_userinfo"
+                    android:layout_centerVertical="true"
+                    android:background="#50FFFFFF" >
+
+                    <TextView
+                        android:id="@+id/settings_relativelayout_choosesocialnetworks_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="46dp"
+                        android:text="Choose Social Networks"
+                        android:textColor="#FFF" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/settings_relativelayout_choosesocialnetworks"
-        android:layout_width="fill_parent"
-        android:layout_height="70dip"
-                android:layout_below="@+id/settings_relativelayout_userinfo"
-        android:background="#50FFFFFF"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true">
-
-        <TextView
-            android:id="@+id/settings_relativelayout_choosesocialnetworks_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="46dp"
-            android:textColor="#FFF"
-            android:text="Choose Social Networks" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
 </RelativeLayout>

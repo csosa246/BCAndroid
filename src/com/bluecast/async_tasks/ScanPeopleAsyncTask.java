@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,43 +19,63 @@ import android.util.Log;
 
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 import com.bluecast.models.Beacon;
+import com.radiusnetworks.ibeacon.IBeacon;
 
 public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
+	
+	public Collection<IBeacon> beacons; 
+	
 	
 	public ArrayList<Beacon> beaconArrayList;
     private ScanPeopleAsyncTaskDelegate delegate;
 	
-    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback){
+    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback, Collection<IBeacon> beacons){
         delegate = callback;
+        
+        this.beacons = beacons;
+        
     }
 
 	@Override
 	protected String doInBackground(Void... params) {
-		beaconArrayList = new ArrayList<Beacon>(); 
 		
-		Beacon beacon1 = new Beacon("10","10","10"); 
-		Beacon beacon2 = new Beacon("11","11","11"); 
-		
-		beaconArrayList.add(beacon1);
-		beaconArrayList.add(beacon2);
+//		beaconArrayList = new ArrayList<Beacon>(); 
+//		
+//		Beacon beacon1 = new Beacon("10","10","10"); 
+//		Beacon beacon2 = new Beacon("11","11","11"); 
+//		
+//		beaconArrayList.add(beacon1);
+//		beaconArrayList.add(beacon2);
 		
 		JSONArray ja = new JSONArray();
-
-		for(int i = 0; i < beaconArrayList.size(); i ++){
-			Beacon myBeacon = beaconArrayList.get(i);
-					
-			JSONObject jo = new JSONObject();
+		
+		for(IBeacon beacon:beacons){
+			JSONObject jsonObject = new JSONObject(); 
 			try {
-				jo.put("uuid", myBeacon.getUuid());
-				jo.put("minor", myBeacon.getMinor());
-				jo.put("major", myBeacon.getMajor());
-
-			} catch (JSONException e1) {
-				e1.printStackTrace();
+				jsonObject.put("uuid", beacon.getProximityUuid());
+				jsonObject.put("minor", beacon.getMinor());
+				jsonObject.put("major", beacon.getMajor());
+			}catch(JSONException e1){
+				
 			}
-			
-			ja.put(jo);
+			ja.put(jsonObject);
 		}
+
+//		for(int i = 0; i < beaconArrayList.size(); i ++){
+//			Beacon myBeacon = beaconArrayList.get(i);
+//					
+//			JSONObject jo = new JSONObject();
+//			try {
+//				jo.put("uuid", myBeacon.getUuid());
+//				jo.put("minor", myBeacon.getMinor());
+//				jo.put("major", myBeacon.getMajor());
+//
+//			} catch (JSONException e1) {
+//				e1.printStackTrace();
+//			}
+//			
+//			ja.put(jo);
+//		}
 
 		JSONObject mainObj = new JSONObject();
 		try {

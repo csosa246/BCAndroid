@@ -5,7 +5,6 @@ import java.util.Collection;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.widget.Toast;
 
 import com.bluecast.bluecast.fragments.BookmarksFragment;
 import com.bluecast.bluecast.fragments.ScanBusinessFragment;
@@ -32,6 +31,10 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	SettingsFragment settingsFragment;
 	FragmentManager contentFragmentManager;
 
+	public MainActivity() {
+		super(R.string.changing_fragments);
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(null);
@@ -75,26 +78,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		iBeaconManager.unBind(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (iBeaconManager.isBound(this))
-			iBeaconManager.setBackgroundMode(this, true);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (iBeaconManager.isBound(this))
-			iBeaconManager.setBackgroundMode(this, false);
-	}
-
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {
 	// super.onSaveInstanceState(outState);
@@ -132,8 +115,24 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().showContent();
 	}
 
-	public MainActivity() {
-		super(R.string.changing_fragments);
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		iBeaconManager.unBind(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (iBeaconManager.isBound(this))
+			iBeaconManager.setBackgroundMode(this, true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (iBeaconManager.isBound(this))
+			iBeaconManager.setBackgroundMode(this, false);
 	}
 
 	@Override
