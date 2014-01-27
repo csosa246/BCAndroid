@@ -74,7 +74,7 @@ public class LinkedInLoginFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
             // TODO Auto-generated method stub
-                webView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                view.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
 
             super.onPageFinished(view, url);
             }
