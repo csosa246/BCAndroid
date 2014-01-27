@@ -21,6 +21,7 @@
             android:textSize="20sp" />
 
         <ScrollView
+            android:id="@+id/scrollView1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/settings_textview_title" >
@@ -71,7 +72,7 @@
                 <RelativeLayout
                     android:id="@+id/settings_relativelayout_choosesocialnetworks"
                     android:layout_width="fill_parent"
-                    android:layout_height="2000dip"
+                    android:layout_height="70dip"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/settings_relativelayout_userinfo"
                     android:layout_centerVertical="true"
@@ -86,6 +87,36 @@
                         android:layout_marginLeft="46dp"
                         android:text="Choose Social Networks"
                         android:textColor="#FFF" />
+                </RelativeLayout>
+                
+                
+                                <RelativeLayout
+                    android:id="@+id/settings_relativelayout_choosing"
+                    android:layout_width="fill_parent"
+                    android:layout_height="140dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/settings_relativelayout_choosesocialnetworks"
+                    android:layout_centerVertical="true"
+                    android:background="#50000000" >
+
+                                    <Switch
+                                        android:id="@+id/Switch01"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignLeft="@+id/switch1"
+                                        android:layout_below="@+id/switch1"
+                                        android:layout_marginTop="17dp"
+                                         />
+
+                                    <Switch
+                                        android:id="@+id/switch1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="30dp"
+                                         />
+
                 </RelativeLayout>
             </RelativeLayout>
         </ScrollView>
