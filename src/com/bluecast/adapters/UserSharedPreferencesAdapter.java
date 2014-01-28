@@ -6,9 +6,9 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class UserSharedPreferencesAdapter {
-	SharedPreferences sharedPreferences;
-	public static String ID = "com.bluecast.adapters.user.id";
-	public static String TOKEN = "com.bluecast.adapters.user.token";
+	public SharedPreferences sharedPreferences;
+	public static String ID = "com.bluecast.user.id";
+	public static String TOKEN = "com.bluecast.user.token";
 
 	public UserSharedPreferencesAdapter(Context context){
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

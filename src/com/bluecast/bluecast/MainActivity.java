@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.os.RemoteException;
 
 import com.bluecast.fragments.main.BookmarksFragment;
-import com.bluecast.fragments.main.ColorMenuFragment;
+import com.bluecast.fragments.main.MainLeftMenuFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
 import com.bluecast.fragments.main.ScanPeopleListFragment;
-import com.bluecast.fragments.main.SettingsFragment;
+import com.bluecast.fragments.main.SettingsRightMenuFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
@@ -24,11 +24,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			.getInstanceForApplication(this);
 
 	ScanPeopleListFragment refreshListFragment;
-	ColorMenuFragment colorMenuFragment;
+	MainLeftMenuFragment colorMenuFragment;
 	SampleListFragment sampleListFragment;
 	ScanBusinessFragment beaconBusinessScanFragment;
 	BookmarksFragment bookmarksFragment;
-	SettingsFragment settingsFragment;
+	SettingsRightMenuFragment settingsFragment;
 	FragmentManager contentFragmentManager;
 
 	public MainActivity() {
@@ -50,11 +50,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		contentFragmentManager = getFragmentManager();
 
 		refreshListFragment = new ScanPeopleListFragment();
-		colorMenuFragment = new ColorMenuFragment();
+		colorMenuFragment = new MainLeftMenuFragment();
 		sampleListFragment = new SampleListFragment();
 		beaconBusinessScanFragment = new ScanBusinessFragment();
 		bookmarksFragment = new BookmarksFragment();
-		settingsFragment = new SettingsFragment();
+		settingsFragment = new SettingsRightMenuFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
