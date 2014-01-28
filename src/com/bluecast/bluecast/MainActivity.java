@@ -133,13 +133,17 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
 	}
-
+	
+	Collection<IBeacon> iBeaconCollection;  
+	
 	@Override
 	public void onIBeaconServiceConnect() {
+		
 		iBeaconManager.setRangeNotifier(new RangeNotifier() {
 			@Override
 			public void didRangeBeaconsInRegion(
 					final Collection<IBeacon> iBeacons, Region region) {
+				
 				try {
 					iBeaconManager.stopRangingBeaconsInRegion(new Region(
 							"myRangingUniqueId", null, null, null));
@@ -149,6 +153,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 				
 				runOnUiThread(new Runnable() {
 					public void run() {
+						
+						
+						
 						if (iBeacons.size() > 0) {
 							refreshListFragment.didFindBeacons(iBeacons);
 						} else {
