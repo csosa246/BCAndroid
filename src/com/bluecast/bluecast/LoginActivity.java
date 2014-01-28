@@ -11,14 +11,10 @@ import com.bluecast.fragments.login.LoginFragment;
 import com.bluecast.fragments.login.LoginLinkedInFragment;
 
 public class LoginActivity extends FragmentActivity {
-
 	FragmentManager contentFragmentManager;
-	
 	LoginFragment loginFragment;
-	LoginLinkedInFragment linkedInLoginFragment; 
-	
-	boolean linkedInLoginFragmentVisible = false; 
-	
+	LoginLinkedInFragment linkedInLoginFragment;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,60 +22,53 @@ public class LoginActivity extends FragmentActivity {
 		willSetupActionBar();
 		willSetupFragments();
 	}
-	
-	public void willSetupFragments(){ 
-		
+
+	public void willSetupActionBar() {
+		getActionBar().hide();
+	}
+
+	public void willSetupFragments() {
 		contentFragmentManager = getFragmentManager();
 		loginFragment = new LoginFragment();
 		linkedInLoginFragment = new LoginLinkedInFragment();
-		
+		// Replace fragment
 		contentFragmentManager.beginTransaction()
-		.replace(R.id.login_content_frame, loginFragment).commit();
+				.replace(R.id.login_content_frame, loginFragment).commit();
 	}
-	
-	public void didClickLogin(View view){
+
+	public void didClickLogin(View view) {
 		showLinkedInLogin();
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		
-		if (keyCode == KeyEvent.KEYCODE_BACK & linkedInLoginFragmentVisible) {
-			showMainLogin();
-			return true;
-		}
-		
-		return super.onKeyDown(keyCode, event);
-
-	}
-	
-	public void didConfirmLoginAndShouldProceedToMainActivity(){
+	public void didConfirmLoginAndShouldProceedToMainActivity() {
 		Intent myIntent = new Intent(this, MainActivity.class);
 		startActivity(myIntent);
 		finish();
 	}
-	
-	public void willSetupActionBar(){ 
-		getActionBar().hide();
-	}
-	
-	public void showMainLogin(){
-		linkedInLoginFragmentVisible = false; 
-		
+
+	public void shouldShowMainLogin() {
 		contentFragmentManager.beginTransaction()
-		.replace(R.id.login_content_frame, loginFragment).commit();
+				.replace(R.id.login_content_frame, loginFragment).commit();
 	}
-	
-	public void showLinkedInLogin(){
-		linkedInLoginFragmentVisible = true;
+
+	public void showLinkedInLogin() {
 		contentFragmentManager.beginTransaction()
-		.replace(R.id.login_content_frame, linkedInLoginFragment).commit();
+				.replace(R.id.login_content_frame, linkedInLoginFragment)
+				.commit();
 	}
-	
-	public void didCancelLinkedInLogin(){
-		showMainLogin();
+
+	public void didCancelLinkedInLogin() {
+		shouldShowMainLogin();
 	}
-	
-	
-	
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				& linkedInLoginFragment.isVisible()) {
+			shouldShowMainLogin();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+
+	}
 }

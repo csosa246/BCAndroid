@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 
 import com.bluecast.bluecast.R;
 
-public class BookmarksFragment extends Fragment {
-		
+public class SettingsRightMenuFragment extends Fragment {	
 //	public BeaconBusinessScanFragment() { 
 //		this(R.color.white);
 //	}
@@ -27,7 +26,7 @@ public class BookmarksFragment extends Fragment {
 //		// construct the RelativeLayout
 //		RelativeLayout v = new RelativeLayout(getActivity());
 //		v.setBackgroundColor(color);		
-		return inflater.inflate(R.layout.bookmarks, null);
+		return inflater.inflate(R.layout.settings, null);
 	}
 	
 //	@Override

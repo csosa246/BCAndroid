@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	public MainActivity() {
 		super(R.string.changing_fragments);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(null);
@@ -75,12 +75,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
-
-		
-		
 	}
-	
-	
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {
@@ -143,15 +138,24 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	public void onIBeaconServiceConnect() {
 		iBeaconManager.setRangeNotifier(new RangeNotifier() {
 			@Override
-			public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons,
-					Region region) {
+			public void didRangeBeaconsInRegion(
+					final Collection<IBeacon> iBeacons, Region region) {
 				try {
 					iBeaconManager.stopRangingBeaconsInRegion(new Region(
 							"myRangingUniqueId", null, null, null));
 				} catch (RemoteException e) {
-					
+
 				}
-				logToDisplay("GOT EM", iBeacons);
+				
+				runOnUiThread(new Runnable() {
+					public void run() {
+						if (iBeacons.size() > 0) {
+							refreshListFragment.didFindBeacons(iBeacons);
+						} else {
+							refreshListFragment.didNotFindBeacons();
+						}
+					}
+				});
 			}
 
 		});
@@ -164,20 +168,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		} catch (RemoteException e) {
 
 		}
-	}
-
-	private void logToDisplay(final String line,
-			final Collection<IBeacon> iBeacons) {
-		runOnUiThread(new Runnable() {
-			public void run() {
-				if (iBeacons.size() > 0) {
-					refreshListFragment.didReceiveBeaconCollection(iBeacons);
-				} else {
-					refreshListFragment.noBeaconsRanged();
-				}
-			}
-		});
-
 	}
 
 	@Override

@@ -66,14 +66,14 @@ public class ScanPeopleListFragment extends ListFragment implements
 		}
 	}
 
-	public void didReceiveBeaconCollection(Collection<IBeacon> iBeacons) {
+	public void didFindBeacons(Collection<IBeacon> iBeacons) {
 		showText("yeah we got them ibeacons");
 		//Construct the arraylist to be fed into the ScanPeopleAsyncTask 
 		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,getActivity(), iBeacons);
 		scanPeopleAsyncTask.execute();
 	}
 
-	public void noBeaconsRanged() {
+	public void didNotFindBeacons() {
 		showText("no ibeacons in range");
 		shouldResignRefresh();
 	}

@@ -76,8 +76,7 @@ public class LoginLinkedInFragment extends Fragment {
 				}
 
 				if (!url.equals(URL)) {
-					loginActivity.showMainLogin();
-
+					loginActivity.shouldShowMainLogin();
 					webView.loadUrl("javascript:window.HtmlViewer.showHTML"
 							+ "(document.body.textContent);");
 					return;
@@ -95,11 +94,11 @@ public class LoginLinkedInFragment extends Fragment {
 			Gson gson = new Gson();
 			Type listType = new TypeToken<List<LinkedInLoginCredentialsModel>>() {
 			}.getType();
-			List<LinkedInLoginCredentialsModel> myModelList = gson.fromJson(
+			List<LinkedInLoginCredentialsModel> linkedInCredentials = gson.fromJson(
 					html, listType);
-			for (LinkedInLoginCredentialsModel js_obj : myModelList) {
-				sharedPreferences.saveUser(js_obj.getId(),
-						js_obj.getRememberToken());
+			for (LinkedInLoginCredentialsModel credentials : linkedInCredentials) {
+				sharedPreferences.saveUser(credentials.getId(),
+						credentials.getRememberToken());
 			}
 			loginActivity.didConfirmLoginAndShouldProceedToMainActivity();
 		}
