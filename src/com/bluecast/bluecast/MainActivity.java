@@ -6,11 +6,11 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.RemoteException;
 
-import com.bluecast.bluecast.fragments.BookmarksFragment;
-import com.bluecast.bluecast.fragments.ScanBusinessFragment;
-import com.bluecast.bluecast.fragments.ScanPeopleListFragment;
-import com.bluecast.bluecast.fragments.ColorMenuFragment;
-import com.bluecast.bluecast.fragments.SettingsFragment;
+import com.bluecast.fragments.BookmarksFragment;
+import com.bluecast.fragments.ColorMenuFragment;
+import com.bluecast.fragments.ScanBusinessFragment;
+import com.bluecast.fragments.ScanPeopleListFragment;
+import com.bluecast.fragments.SettingsFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
@@ -76,7 +76,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 		iBeaconManager.bind(this);
 
+		
+		
 	}
+	
+	
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {

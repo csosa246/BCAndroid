@@ -1,4 +1,4 @@
-package com.bluecast.bluecast.fragments;
+package com.bluecast.fragments;
 
 import java.util.Collection;
 
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bluecast.adapters.ScanPeopleListAdapter;
+import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
 import com.bluecast.bluecast.MainActivity;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
@@ -20,6 +21,8 @@ import com.radiusnetworks.ibeacon.IBeacon;
 public class ScanPeopleListFragment extends ListFragment implements
 		OnRefreshListener, ScanPeopleAsyncTaskDelegate {
 	private PullToRefreshLayout mPullToRefreshLayout;
+	
+	UserSharedPreferencesAdapter sharedPreferences;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -41,7 +44,9 @@ public class ScanPeopleListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		setListAdapter(new ScanPeopleListAdapter(getActivity()));
 		setListShownNoAnimation(true);
+		
 	}
+	
 
 	@Override
 	public void onRefreshStarted(View view) {
@@ -63,10 +68,8 @@ public class ScanPeopleListFragment extends ListFragment implements
 
 	public void didReceiveBeaconCollection(Collection<IBeacon> iBeacons) {
 		showText("yeah we got them ibeacons");
-		
 		//Construct the arraylist to be fed into the ScanPeopleAsyncTask 
-		
-		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,iBeacons);
+		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,getActivity(), iBeacons);
 		scanPeopleAsyncTask.execute();
 	}
 

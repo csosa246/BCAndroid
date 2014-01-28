@@ -1,4 +1,4 @@
-package com.bluecast.bluecast.fragments;
+package com.bluecast.fragments;
 
 import com.bluecast.bluecast.R;
 

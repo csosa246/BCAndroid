@@ -14,9 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 import com.bluecast.models.Beacon;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -25,15 +27,17 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 	
 	public Collection<IBeacon> beacons; 
 	
+	UserSharedPreferencesAdapter sharedPreferences; 
 	
 	public ArrayList<Beacon> beaconArrayList;
     private ScanPeopleAsyncTaskDelegate delegate;
+    
+    Context context;
 	
-    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback, Collection<IBeacon> beacons){
+    public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback, Context context, Collection<IBeacon> beacons){
         delegate = callback;
-        
-        this.beacons = beacons;
-        
+        this.beacons = beacons;       
+		sharedPreferences = new UserSharedPreferencesAdapter(context);        
     }
 
 	@Override
@@ -46,6 +50,23 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 //		
 //		beaconArrayList.add(beacon1);
 //		beaconArrayList.add(beacon2);
+		
+		
+//		for(int i = 0; i < beaconArrayList.size(); i ++){
+//		Beacon myBeacon = beaconArrayList.get(i);
+//				
+//		JSONObject jo = new JSONObject();
+//		try {
+//			jo.put("uuid", myBeacon.getUuid());
+//			jo.put("minor", myBeacon.getMinor());
+//			jo.put("major", myBeacon.getMajor());
+//
+//		} catch (JSONException e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//		ja.put(jo);
+//	}
 		
 		JSONArray ja = new JSONArray();
 		
@@ -61,24 +82,10 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 			ja.put(jsonObject);
 		}
 
-//		for(int i = 0; i < beaconArrayList.size(); i ++){
-//			Beacon myBeacon = beaconArrayList.get(i);
-//					
-//			JSONObject jo = new JSONObject();
-//			try {
-//				jo.put("uuid", myBeacon.getUuid());
-//				jo.put("minor", myBeacon.getMinor());
-//				jo.put("major", myBeacon.getMajor());
-//
-//			} catch (JSONException e1) {
-//				e1.printStackTrace();
-//			}
-//			
-//			ja.put(jo);
-//		}
-
 		JSONObject mainObj = new JSONObject();
 		try {
+			mainObj.put("user_id", sharedPreferences.getUserID());
+			mainObj.put("remember_token", sharedPreferences.getUserToken());
 			mainObj.put("beacons", ja);
 		} catch (JSONException e1) {
 			e1.printStackTrace();

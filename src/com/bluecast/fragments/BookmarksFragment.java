@@ -1,4 +1,4 @@
-package com.bluecast.bluecast.fragments;
+package com.bluecast.fragments;
 
 import com.bluecast.bluecast.R;
 
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-public class ScanBusinessFragment extends Fragment {
+public class BookmarksFragment extends Fragment {
 	
 	private int mColorRes = -1;
 	
@@ -30,7 +30,7 @@ public class ScanBusinessFragment extends Fragment {
 //		// construct the RelativeLayout
 //		RelativeLayout v = new RelativeLayout(getActivity());
 //		v.setBackgroundColor(color);		
-		return inflater.inflate(R.layout.fragment_1, null);
+		return inflater.inflate(R.layout.bookmarks, null);
 	}
 	
 //	@Override

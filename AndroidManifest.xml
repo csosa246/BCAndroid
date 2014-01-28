@@ -6,9 +6,10 @@
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-        <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -16,32 +17,15 @@
         android:theme="@style/ExampleTheme" >
         <activity
             android:name="com.bluecast.bluecast.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|screenLayout"
-            android:theme="@style/Theme.Sherlock.Light.DarkActionBar" >
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.bluecast.bluecast.PropertiesActivity" />
-        
         <activity android:name="com.bluecast.bluecast.MainActivity" />
-        <activity android:name="com.bluecast.bluecast.LeftAndRightActivity" />
-        <activity android:name="com.bluecast.bluecast.AttachExample" />
-        <activity android:name="com.bluecast.bluecast.animation.CustomScaleAnimation" />
-        <activity android:name="com.bluecast.bluecast.animation.CustomZoomAnimation" />
-        <activity android:name="com.bluecast.bluecast.animation.CustomRotateAnimation" />
-        <activity android:name="com.bluecast.bluecast.animation.CustomSlideAnimation" />
-        <activity android:name="com.bluecast.bluecast.SlidingTitleBar" />
-        <activity android:name="com.bluecast.bluecast.SlidingContent" />
-        <activity android:name="com.bluecast.bluecast.ViewPagerActivity" />
-        <activity android:name="com.bluecast.bluecast.fragments.ResponsiveUIActivity" />
-        <activity
-            android:name="com.bluecast.bluecast.fragments.BirdActivity"
-            android:theme="@style/Theme.Sherlock.Light.DarkActionBar" />
-        <activity android:name="com.crittercism.NotificationActivity"/>
     </application>
-
 </manifest>
