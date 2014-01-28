@@ -74,8 +74,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
 			JSONObject jsonObject = new JSONObject(); 
 			try {
 				jsonObject.put("uuid", beacon.getProximityUuid());
-				jsonObject.put("minor", beacon.getMinor());
-				jsonObject.put("major", beacon.getMajor());
+				jsonObject.put("minor", String.valueOf(beacon.getMinor()));
+				jsonObject.put("major", String.valueOf(beacon.getMajor()));
 			}catch(JSONException e1){
 				
 			}
@@ -117,6 +117,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void,Void,String>{
         }catch (Exception e){
             e.printStackTrace();
         }
+        Log.e("TAG", mainObj.toString());
 		return page;
 	};
 

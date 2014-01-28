@@ -38,10 +38,8 @@ public class LoginActivity extends FragmentActivity {
 	}
 	
 	public void didClickLogin(View view){
-//		goToMainActivity();
 		showLinkedInLogin();
 	}
-	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

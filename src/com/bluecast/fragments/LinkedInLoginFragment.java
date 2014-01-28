@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.bluecast.LoginActivity;
@@ -65,8 +64,6 @@ public class LinkedInLoginFragment extends Fragment {
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageFinished(WebView view, String url) {
-
-				
 				if (url.equals("https://www.linkedin.com/uas/oauth2/authorizedialog/submit")) {
 					// Wrong credentials
 					return;
@@ -101,11 +98,9 @@ public class LinkedInLoginFragment extends Fragment {
 			List<LinkedInLoginCredentialsModel> myModelList = gson.fromJson(
 					html, listType);
 			for (LinkedInLoginCredentialsModel js_obj : myModelList) {
-				sharedPreferences.saveUser("IDBOO",
-						"TOKENBOO");
+				sharedPreferences.saveUser(js_obj.getId(),
+						js_obj.getRememberToken());
 			}
-			
-			
 			loginActivity.didConfirmLoginAndShouldProceedToMainActivity();
 		}
 
