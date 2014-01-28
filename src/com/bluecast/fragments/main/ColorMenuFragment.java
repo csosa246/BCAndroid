@@ -1,4 +1,4 @@
-package com.bluecast.fragments;
+package com.bluecast.fragments.main;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;

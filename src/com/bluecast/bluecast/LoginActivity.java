@@ -7,15 +7,15 @@ import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.bluecast.fragments.LinkedInLoginFragment;
-import com.bluecast.fragments.LoginFragment;
+import com.bluecast.fragments.login.LoginFragment;
+import com.bluecast.fragments.login.LoginLinkedInFragment;
 
 public class LoginActivity extends FragmentActivity {
 
 	FragmentManager contentFragmentManager;
 	
 	LoginFragment loginFragment;
-	LinkedInLoginFragment linkedInLoginFragment; 
+	LoginLinkedInFragment linkedInLoginFragment; 
 	
 	boolean linkedInLoginFragmentVisible = false; 
 	
@@ -31,7 +31,7 @@ public class LoginActivity extends FragmentActivity {
 		
 		contentFragmentManager = getFragmentManager();
 		loginFragment = new LoginFragment();
-		linkedInLoginFragment = new LinkedInLoginFragment();
+		linkedInLoginFragment = new LoginLinkedInFragment();
 		
 		contentFragmentManager.beginTransaction()
 		.replace(R.id.login_content_frame, loginFragment).commit();

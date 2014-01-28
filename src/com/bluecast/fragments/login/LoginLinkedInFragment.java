@@ -1,4 +1,4 @@
-package com.bluecast.fragments;
+package com.bluecast.fragments.login;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.bluecast.models.LinkedInLoginCredentialsModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class LinkedInLoginFragment extends Fragment {
+public class LoginLinkedInFragment extends Fragment {
 
 	private WebView webView;
 	UserSharedPreferencesAdapter sharedPreferences;

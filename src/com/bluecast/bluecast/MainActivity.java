@@ -6,11 +6,11 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.RemoteException;
 
-import com.bluecast.fragments.BookmarksFragment;
-import com.bluecast.fragments.ColorMenuFragment;
-import com.bluecast.fragments.ScanBusinessFragment;
-import com.bluecast.fragments.ScanPeopleListFragment;
-import com.bluecast.fragments.SettingsFragment;
+import com.bluecast.fragments.main.BookmarksFragment;
+import com.bluecast.fragments.main.ColorMenuFragment;
+import com.bluecast.fragments.main.ScanBusinessFragment;
+import com.bluecast.fragments.main.ScanPeopleListFragment;
+import com.bluecast.fragments.main.SettingsFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
