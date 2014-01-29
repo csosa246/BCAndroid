@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 	ScanPeopleListFragment refreshListFragment;
 	MainLeftMenuFragment colorMenuFragment;
-	SampleListFragment sampleListFragment;
+//	SampleListFragment sampleListFragment;
 	ScanBusinessFragment beaconBusinessScanFragment;
 	BookmarksFragment bookmarksFragment;
 	SettingsRightMenuFragment settingsFragment;
@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 		refreshListFragment = new ScanPeopleListFragment();
 		colorMenuFragment = new MainLeftMenuFragment();
-		sampleListFragment = new SampleListFragment();
+//		sampleListFragment = new SampleListFragment();
 		beaconBusinessScanFragment = new ScanBusinessFragment();
 		bookmarksFragment = new BookmarksFragment();
 		settingsFragment = new SettingsRightMenuFragment();
@@ -78,11 +78,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
-		
-		iBeaconCollection =  new ArrayList<IBeacon>();
+
+		iBeaconCollection = new ArrayList<IBeacon>();
 	}
-	
-	
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {
@@ -139,13 +137,13 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		endTime = System.currentTimeMillis()+30000;
-		
+		endTime = System.currentTimeMillis() + 30000;
+
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
 	}
-	
-	Collection<IBeacon> iBeaconCollection;  
+
+	Collection<IBeacon> iBeaconCollection;
 	
 	@Override
 	public void onIBeaconServiceConnect() {
@@ -164,38 +162,37 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 		});
 	}
-	
-	public void showText(String text){
-		Toast.makeText(this,text, Toast.LENGTH_LONG).show();
+
+	public void showText(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
 
-	
-	public void logToThread(final Collection<IBeacon> iBeacons){
+	public void logToThread(final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if(endTime>System.currentTimeMillis()){
-					for(IBeacon beacon: iBeacons){
-						if(!iBeaconCollection.contains(beacon)){
+				if (endTime > System.currentTimeMillis()) {
+					for (IBeacon beacon : iBeacons) {
+						if (!iBeaconCollection.contains(beacon)) {
 							iBeaconCollection.add(beacon);
 						}
 					}
-				}else{
-					//Clear the array
+				} else {
+					// Clear the array
 					iBeaconCollection.clear();
-					endTime = System.currentTimeMillis()+30000;
+					endTime = System.currentTimeMillis() + 30000;
 				}
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
 
 			}
 		});
 	}
-	
+
 	public void shouldStartRangingForBeacons() {
 		if (iBeaconCollection.size() > 0) {
-		refreshListFragment.didFindBeacons(iBeaconCollection);
-	} else {
-		refreshListFragment.didNotFindBeacons();
-	}
+			refreshListFragment.didFindBeacons(iBeaconCollection);
+		} else {
+			refreshListFragment.didNotFindBeacons();
+		}
 	}
 
 	@Override
@@ -206,7 +203,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			return true;
 		case R.id.github:
 			getSlidingMenu().showSecondaryMenu();
-			return true;
+			return true; 
 		}
 		return super.onOptionsItemSelected(item);
 	}

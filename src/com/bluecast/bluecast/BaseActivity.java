@@ -22,16 +22,16 @@ public class BaseActivity extends SlidingFragmentActivity {
 
 		setTitle(mTitleRes);
 
-		// set the Behind View
-		setBehindContentView(R.layout.menu_frame);
-		if (savedInstanceState == null) {
-			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			mFrag = new SampleListFragment();
-			t.replace(R.id.menu_frame, mFrag);
-			t.commit();
-		} else {
-			mFrag = (ListFragment)this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
-		}
+//		// set the Behind View
+//		setBehindContentView(R.layout.menu_frame);
+//		if (savedInstanceState == null) {
+//			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+//			mFrag = new SampleListFragment();
+//			t.replace(R.id.menu_frame, mFrag);
+//			t.commit();
+//		} else {
+//			mFrag = (ListFragment)this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+//		}
 
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
