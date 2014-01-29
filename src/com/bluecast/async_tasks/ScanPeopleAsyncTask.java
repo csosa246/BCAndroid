@@ -86,7 +86,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 			e.printStackTrace();
 		}
 		Log.e("TAG", mainObj.toString());
-		return page;
+		return mainObj.toString();
 	};
 
 	@Override

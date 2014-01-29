@@ -21,13 +21,13 @@
             android:textSize="20sp" />
 
         <ScrollView
-            android:id="@+id/scrollView1"
+            android:id="@+id/scroll_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/settings_textview_title" >
 
             <RelativeLayout
-                android:id="@+id/settings_relativelayout_userinfo"
+                android:id="@+id/settings_relativelayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
@@ -59,7 +59,7 @@
                         android:textSize="21sp" />
 
                     <TextView
-                        android:id="@+id/settings_userinfo_details"
+                        android:id="@+id/settings_textview_userinfo_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/settings_textview_userinfo_name"
@@ -70,7 +70,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/settings_relativelayout_choosesocialnetworks"
+                    android:id="@+id/settings_relativelayout_choosebroadcast_header"
                     android:layout_width="fill_parent"
                     android:layout_height="70dip"
                     android:layout_alignParentLeft="true"
@@ -79,43 +79,55 @@
                     android:background="#50FFFFFF" >
 
                     <TextView
-                        android:id="@+id/settings_relativelayout_choosesocialnetworks_title"
+                        android:id="@+id/settings_textview_choosebroadcast_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="46dp"
-                        android:text="Choose Social Networks"
+                        android:text="Broadcast Settings"
                         android:textColor="#FFF" />
                 </RelativeLayout>
-                
-                
-                                <RelativeLayout
-                    android:id="@+id/settings_relativelayout_choosing"
+
+                <RelativeLayout
+                    android:id="@+id/settings_relativelayout_choosebroadcast_switch"
                     android:layout_width="fill_parent"
-                    android:layout_height="140dip"
+                    android:layout_height="200dip"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/settings_relativelayout_choosesocialnetworks"
+                    android:layout_below="@+id/settings_relativelayout_choosebroadcast_header"
                     android:layout_centerVertical="true"
                     android:background="#50000000" >
 
-                                    <Switch
-                                        android:id="@+id/Switch01"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignLeft="@+id/switch1"
-                                        android:layout_below="@+id/switch1"
-                                        android:layout_marginTop="17dp"
-                                         />
+                    <ImageView
+                        android:id="@+id/settings_imageview_choosebroadcast"
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="61dp"
+                        android:layout_marginTop="22dp"
+                        android:src="@drawable/bluecast" />
 
-                                    <Switch
-                                        android:id="@+id/switch1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_marginTop="30dp"
-                                         />
+                    <Switch
+                        android:id="@+id/settings_switch_choosebroadcast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="28dp" />
+
+                    <Button
+                        android:id="@+id/settings_button_choosebroadcast"
+                        style="?android:attr/buttonStyleSmall"
+                        android:onClick="didClickRegisterBeacon"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="30dip"
+                        android:layout_marginLeft="20dip"
+                        android:layout_marginRight="20dip"
+                        android:text="Register Canary" />
 
                 </RelativeLayout>
             </RelativeLayout>

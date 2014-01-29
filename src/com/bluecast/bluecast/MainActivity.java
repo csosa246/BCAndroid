@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		});
 	}
 
-	public void shouldStartRangingForBeacons() {
+	public void getIBeaconCollection() {
 		if (iBeaconCollection.size() > 0) {
 			refreshListFragment.didFindBeacons(iBeaconCollection);
 		} else {

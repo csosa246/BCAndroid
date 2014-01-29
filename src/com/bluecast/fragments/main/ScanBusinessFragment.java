@@ -18,6 +18,8 @@ public class ScanBusinessFragment extends Fragment {
 //		mColorRes = colorRes;
 //		setRetainInstance(true);
 //	}
+	
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

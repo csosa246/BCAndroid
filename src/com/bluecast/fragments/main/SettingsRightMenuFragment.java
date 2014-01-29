@@ -29,6 +29,16 @@ public class SettingsRightMenuFragment extends Fragment {
 		return inflater.inflate(R.layout.settings, null);
 	}
 	
+	@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub
+			super.onActivityCreated(savedInstanceState);
+		}
+	
+	public void didClickRegisterBeacon(View v){
+		
+	}
+	
 //	@Override
 //	public void onSaveInstanceState(Bundle outState) {
 //		super.onSaveInstanceState(outState);

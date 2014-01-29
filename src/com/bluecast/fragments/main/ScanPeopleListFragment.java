@@ -47,7 +47,6 @@ public class ScanPeopleListFragment extends ListFragment implements
 		
 	}
 	
-
 	@Override
 	public void onRefreshStarted(View view) {
 		setListShown(false);
@@ -62,7 +61,7 @@ public class ScanPeopleListFragment extends ListFragment implements
 	private void notifyMainActivityToScanForIBeacons() {
 		if (getActivity() != null) {
 			MainActivity fca = (MainActivity) getActivity();
-			fca.shouldStartRangingForBeacons();
+			fca.getIBeaconCollection();
 		}
 	}
 
