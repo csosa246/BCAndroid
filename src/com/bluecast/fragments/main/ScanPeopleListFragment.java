@@ -57,24 +57,24 @@ public class ScanPeopleListFragment extends ListFragment implements
 	public void showText(String result) {
 		Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 	}
+	
+	Collection<IBeacon> iBeaconCollection; 
 
 	private void notifyMainActivityToScanForIBeacons() {
 		if (getActivity() != null) {
 			MainActivity fca = (MainActivity) getActivity();
-			fca.getIBeaconCollection();
+			iBeaconCollection = fca.getiBeaconCollection();
+			
+			if(iBeaconCollection.size()>0){
+				showText("yeah we got them ibeacons");
+				//Construct the arraylist to be fed into the ScanPeopleAsyncTask 
+				ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,getActivity(), iBeaconCollection);
+				scanPeopleAsyncTask.execute();
+			}else{
+				showText("no ibeacons in range");
+				shouldResignRefresh();
+			}
 		}
-	}
-
-	public void didFindBeacons(Collection<IBeacon> iBeacons) {
-		showText("yeah we got them ibeacons");
-		//Construct the arraylist to be fed into the ScanPeopleAsyncTask 
-		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,getActivity(), iBeacons);
-		scanPeopleAsyncTask.execute();
-	}
-
-	public void didNotFindBeacons() {
-		showText("no ibeacons in range");
-		shouldResignRefresh();
 	}
 
 	@Override

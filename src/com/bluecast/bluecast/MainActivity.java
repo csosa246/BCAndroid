@@ -177,22 +177,26 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 						}
 					}
 				} else {
-					// Clear the array
 					iBeaconCollection.clear();
 					endTime = System.currentTimeMillis() + 30000;
 				}
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
-
 			}
 		});
 	}
 
-	public void getIBeaconCollection() {
-		if (iBeaconCollection.size() > 0) {
-			refreshListFragment.didFindBeacons(iBeaconCollection);
-		} else {
-			refreshListFragment.didNotFindBeacons();
-		}
+//	public void getIBeaconCollection() {
+//		
+//		if (iBeaconCollection.size() > 0) {
+//			refreshListFragment.didFindBeacons(iBeaconCollection);
+//		} else {
+//			refreshListFragment.didNotFindBeacons();
+//		}
+//		
+//	}
+	
+	public Collection<IBeacon> getiBeaconCollection() {
+		return iBeaconCollection;
 	}
 
 	@Override
