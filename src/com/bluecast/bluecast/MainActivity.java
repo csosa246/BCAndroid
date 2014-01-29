@@ -167,6 +167,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 		});
 	}
+	
+	
+
 
 	public void shouldStartRangingForBeacons() {
 		try {
