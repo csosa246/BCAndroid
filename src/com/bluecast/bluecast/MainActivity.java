@@ -1,10 +1,13 @@
 package com.bluecast.bluecast;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.bluecast.fragments.main.BookmarksFragment;
 import com.bluecast.fragments.main.MainLeftMenuFragment;
@@ -75,7 +78,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
+		
+		iBeaconCollection =  new ArrayList<IBeacon>();
 	}
+	
+	
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {
@@ -127,9 +134,13 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 			iBeaconManager.setBackgroundMode(this, true);
 	}
 
+	long endTime;
+
 	@Override
 	protected void onResume() {
 		super.onResume();
+		endTime = System.currentTimeMillis()+30000;
+		
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
 	}
@@ -138,46 +149,53 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	
 	@Override
 	public void onIBeaconServiceConnect() {
-		
-		iBeaconManager.setRangeNotifier(new RangeNotifier() {
-			@Override
-			public void didRangeBeaconsInRegion(
-					final Collection<IBeacon> iBeacons, Region region) {
-				
-				try {
-					iBeaconManager.stopRangingBeaconsInRegion(new Region(
-							"myRangingUniqueId", null, null, null));
-				} catch (RemoteException e) {
-
-				}
-				
-				runOnUiThread(new Runnable() {
-					public void run() {
-						
-						
-						
-						if (iBeacons.size() > 0) {
-							refreshListFragment.didFindBeacons(iBeacons);
-						} else {
-							refreshListFragment.didNotFindBeacons();
-						}
-					}
-				});
-			}
-
-		});
-	}
-	
-	
-
-
-	public void shouldStartRangingForBeacons() {
 		try {
 			iBeaconManager.startRangingBeaconsInRegion(new Region(
 					"myRangingUniqueId", null, null, null));
 		} catch (RemoteException e) {
 
 		}
+		iBeaconManager.setRangeNotifier(new RangeNotifier() {
+			@Override
+			public void didRangeBeaconsInRegion(
+					final Collection<IBeacon> iBeacons, Region region) {
+				logToThread(iBeacons);
+			}
+
+		});
+	}
+	
+	public void showText(String text){
+		Toast.makeText(this,text, Toast.LENGTH_LONG).show();
+	}
+
+	
+	public void logToThread(final Collection<IBeacon> iBeacons){
+		runOnUiThread(new Runnable() {
+			public void run() {
+				if(endTime>System.currentTimeMillis()){
+					for(IBeacon beacon: iBeacons){
+						if(!iBeaconCollection.contains(beacon)){
+							iBeaconCollection.add(beacon);
+						}
+					}
+				}else{
+					//Clear the array
+					iBeaconCollection.clear();
+					endTime = System.currentTimeMillis()+30000;
+				}
+				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
+
+			}
+		});
+	}
+	
+	public void shouldStartRangingForBeacons() {
+		if (iBeaconCollection.size() > 0) {
+		refreshListFragment.didFindBeacons(iBeaconCollection);
+	} else {
+		refreshListFragment.didNotFindBeacons();
+	}
 	}
 
 	@Override
