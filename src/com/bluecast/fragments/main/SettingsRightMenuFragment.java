@@ -2,21 +2,25 @@ package com.bluecast.fragments.main;
 
 import java.util.Collection;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bluecast.async_tasks.ScanPeopleAsyncTask;
+import com.bluecast.async_tasks.RegisterBeaconAsyncTask;
 import com.bluecast.bluecast.MainActivity;
 import com.bluecast.bluecast.R;
+import com.bluecast.interfaces.RegisterBeaconAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
-public class SettingsRightMenuFragment extends Fragment {
+public class SettingsRightMenuFragment extends Fragment implements RegisterBeaconAsyncTaskDelegate {
 
 	MainActivity mainActivity;
 	Collection<IBeacon> iBeaconCollection;
@@ -61,22 +65,54 @@ public class SettingsRightMenuFragment extends Fragment {
 		didClickRegisterButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MainActivity fca = (MainActivity) getActivity();
-				iBeaconCollection = fca.getiBeaconCollection();
+				iBeaconCollection = mainActivity.getiBeaconCollection();
 				if (iBeaconCollection.size() > 0) {
 					// showText("There are beacons, and we're gonna run through to try and register them");
-					
+					shouldConfirmBeacon();
 				}
 			}
 		});
 	}
 
 	public void shouldConfirmBeacon() {
-		
+		AlertDialog.Builder saveDialog = new AlertDialog.Builder(getActivity());
+		saveDialog.setTitle("Beacon Register");
+		saveDialog.setMessage("Confirmation Number :");
+		final EditText input = new EditText(getActivity());
+		saveDialog.setView(input);
+		saveDialog.setPositiveButton("Save",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						String confirmationNumber = input.getText().toString();
+						int i = 0; 
+						for(IBeacon beacon:iBeaconCollection){
+							if(String.valueOf(beacon.getMinor()).equals(confirmationNumber)){
+								//Send registration 
+								
+								Toast.makeText(getActivity(), "Yeah we got that", Toast.LENGTH_LONG).show();
+								
+								shouldRegisterBeacon(beacon);
+							}
+						}
+					}
+				});
+		saveDialog.setNegativeButton("Cancel",null);
+		saveDialog.show();
+	}
+	
+	public void shouldRegisterBeacon(IBeacon beacon){
+		RegisterBeaconAsyncTask registerBeaconAsyncTask = new RegisterBeaconAsyncTask(this, getActivity(), beacon);
+		registerBeaconAsyncTask.execute();
 	}
 
 	public void showText(String text) {
 		Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void didReceiveResponse(String response) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();		
 	}
 
 	// @Override

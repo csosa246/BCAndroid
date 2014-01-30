@@ -3,13 +3,11 @@ package com.bluecast.async_tasks;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Collection;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,49 +16,36 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bluecast.adapters.UserSharedPreferencesAdapter;
-import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
+import com.bluecast.interfaces.RegisterBeaconAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
 public class RegisterBeaconAsyncTask extends AsyncTask<Void, Void, String> {
-	public Collection<IBeacon> beacons;
+	IBeacon beacon;
 	UserSharedPreferencesAdapter sharedPreferences;
-	private ScanPeopleAsyncTaskDelegate delegate;
+	private RegisterBeaconAsyncTaskDelegate delegate;
 
-	public RegisterBeaconAsyncTask(ScanPeopleAsyncTaskDelegate callback,
-			Context context, Collection<IBeacon> beacons) {
+	public RegisterBeaconAsyncTask(RegisterBeaconAsyncTaskDelegate callback,Context context, IBeacon beacon) {
 		delegate = callback;
-		this.beacons = beacons;
+		this.beacon = beacon;
 		sharedPreferences = new UserSharedPreferencesAdapter(context);
 	}
-
+	
 	@Override
 	protected String doInBackground(Void... params) {
-		JSONArray ja = new JSONArray();
-		for (IBeacon beacon : beacons) {
-			JSONObject jsonObject = new JSONObject();
-			try {
-				jsonObject.put("uuid", beacon.getProximityUuid());
-				jsonObject.put("minor", String.valueOf(beacon.getMinor()));
-				jsonObject.put("major", String.valueOf(beacon.getMajor()));
-			} catch (JSONException e1) {
-
-			}
-			ja.put(jsonObject);
-		}
-
 		JSONObject mainObj = new JSONObject();
 		try {
 			mainObj.put("user_id", sharedPreferences.getUserID());
 			mainObj.put("remember_token", sharedPreferences.getUserToken());
-			mainObj.put("beacons", ja);
+			mainObj.put("uuid", beacon.getProximityUuid());
+			mainObj.put("major", String.valueOf(beacon.getMajor()));
+			mainObj.put("minor", String.valueOf(beacon.getMinor()));
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
 
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(
-				"https://bluecastalpha.herokuapp.com/mobile/beacon/scan");
+		HttpPost httpPost = new HttpPost("https://bluecastalpha.herokuapp.com/mobile/beacon/register");
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {
@@ -86,7 +71,7 @@ public class RegisterBeaconAsyncTask extends AsyncTask<Void, Void, String> {
 			e.printStackTrace();
 		}
 		Log.e("TAG", mainObj.toString());
-		return mainObj.toString();
+		return page;
 	};
 
 	@Override
