@@ -35,24 +35,24 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 
 	@Override
 	protected String doInBackground(Void... params) {
-		JSONArray ja = new JSONArray();
+		JSONArray jsonBeaconArray = new JSONArray();
 		for (IBeacon beacon : beacons) {
-			JSONObject jsonObject = new JSONObject();
+			JSONObject jsonBeaconObject = new JSONObject();
 			try {
-				jsonObject.put("uuid", beacon.getProximityUuid());
-				jsonObject.put("minor", String.valueOf(beacon.getMinor()));
-				jsonObject.put("major", String.valueOf(beacon.getMajor()));
+				jsonBeaconObject.put("uuid", beacon.getProximityUuid());
+				jsonBeaconObject.put("minor", String.valueOf(beacon.getMinor()));
+				jsonBeaconObject.put("major", String.valueOf(beacon.getMajor()));
 			} catch (JSONException e1) {
 
 			}
-			ja.put(jsonObject);
+			jsonBeaconArray.put(jsonBeaconObject);
 		}
 
-		JSONObject mainObj = new JSONObject();
+		JSONObject jsonFullObject = new JSONObject();
 		try {
-			mainObj.put("user_id", sharedPreferences.getUserID());
-			mainObj.put("remember_token", sharedPreferences.getUserToken());
-			mainObj.put("beacons", ja);
+			jsonFullObject.put("user_id", sharedPreferences.getUserID());
+			jsonFullObject.put("remember_token", sharedPreferences.getUserToken());
+			jsonFullObject.put("beacons", jsonBeaconArray);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {
-			se = new StringEntity(mainObj.toString());
+			se = new StringEntity(jsonFullObject.toString());
 			httpPost.setEntity(se);
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
@@ -85,13 +85,13 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Log.e("TAG", mainObj.toString());
-		return mainObj.toString();
+		Log.e("TAG", jsonFullObject.toString());
+		return page.toString();
 	};
 
 	@Override
 	protected void onPostExecute(String result) {
-		delegate.didReceiveResponse(result);
+		delegate.didFinishIdentifyingBeacons(result);
 		Log.e("Tag", result);
 	}
 

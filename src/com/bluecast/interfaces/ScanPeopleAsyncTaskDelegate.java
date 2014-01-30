@@ -1,5 +1,5 @@
 package com.bluecast.interfaces;
 
 public interface ScanPeopleAsyncTaskDelegate {
-    void didReceiveResponse(String response);
+    void didFinishIdentifyingBeacons(String response);
 }

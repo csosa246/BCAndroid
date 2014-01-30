@@ -24,12 +24,13 @@ public class RegisterBeaconAsyncTask extends AsyncTask<Void, Void, String> {
 	UserSharedPreferencesAdapter sharedPreferences;
 	private RegisterBeaconAsyncTaskDelegate delegate;
 
-	public RegisterBeaconAsyncTask(RegisterBeaconAsyncTaskDelegate callback,Context context, IBeacon beacon) {
+	public RegisterBeaconAsyncTask(RegisterBeaconAsyncTaskDelegate callback,
+			Context context, IBeacon beacon) {
 		delegate = callback;
 		this.beacon = beacon;
 		sharedPreferences = new UserSharedPreferencesAdapter(context);
 	}
-	
+
 	@Override
 	protected String doInBackground(Void... params) {
 		JSONObject mainObj = new JSONObject();
@@ -45,7 +46,8 @@ public class RegisterBeaconAsyncTask extends AsyncTask<Void, Void, String> {
 
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost("https://bluecastalpha.herokuapp.com/mobile/beacon/register");
+		HttpPost httpPost = new HttpPost(
+				"https://bluecastalpha.herokuapp.com/mobile/beacon/register");
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {

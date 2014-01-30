@@ -5,6 +5,7 @@ import java.util.Collection;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
@@ -14,24 +15,33 @@ import android.widget.Toast;
 import com.bluecast.adapters.ScanPeopleListAdapter;
 import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
-import com.bluecast.bluecast.MainActivity;
+import com.bluecast.interfaces.MainFragmentDelegate;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
 public class ScanPeopleListFragment extends ListFragment implements
 		OnRefreshListener, ScanPeopleAsyncTaskDelegate {
 	private PullToRefreshLayout mPullToRefreshLayout;
-	
 	UserSharedPreferencesAdapter sharedPreferences;
+	MainFragmentDelegate mainFragmentDelegate;
+	
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        
+        try {
+        	mainFragmentDelegate = (MainFragmentDelegate) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ViewGroup viewGroup = (ViewGroup) view;
-		// As we're using a ListFragment we create a PullToRefreshLayout
-		// manually
 		mPullToRefreshLayout = new PullToRefreshLayout(viewGroup.getContext());
-		// We can now setup the PullToRefreshLayout
 		ActionBarPullToRefresh
 				.from(getActivity())
 				.insertLayoutInto(viewGroup)
@@ -44,41 +54,32 @@ public class ScanPeopleListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		setListAdapter(new ScanPeopleListAdapter(getActivity()));
 		setListShownNoAnimation(true);
-		
 	}
-	
+
 	@Override
 	public void onRefreshStarted(View view) {
 		setListShown(false);
-		// Scan ibeacons
-		notifyMainActivityToScanForIBeacons();
+		mainFragmentDelegate.shouldStartBeaconScan(4000);
 	}
 
 	public void showText(String result) {
 		Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 	}
 	
-	Collection<IBeacon> iBeaconCollection; 
-
-	private void notifyMainActivityToScanForIBeacons() {
-		if (getActivity() != null) {
-			MainActivity fca = (MainActivity) getActivity();
-			iBeaconCollection = fca.getiBeaconCollection();
-			
-			if(iBeaconCollection.size()>0){
-				showText("yeah we got them ibeacons");
-				//Construct the arraylist to be fed into the ScanPeopleAsyncTask 
-				ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this,getActivity(), iBeaconCollection);
-				scanPeopleAsyncTask.execute();
-			}else{
-				showText("no ibeacons in range");
-				shouldResignRefresh();
-			}
-		}
+	Collection<IBeacon> iBeaconCollection;
+	
+	public void didFindBeacons(Collection<IBeacon> iBeaconCollection){
+		this.iBeaconCollection = iBeaconCollection;
+		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this, getActivity(), iBeaconCollection);
+		scanPeopleAsyncTask.execute();
+	}
+	
+	public void didNotFindBeacons(){
+		shouldResignRefresh();
 	}
 
 	@Override
-	public void didReceiveResponse(String response) {
+	public void didFinishIdentifyingBeacons(String response) {
 		showText(response);
 		shouldResignRefresh();
 	}

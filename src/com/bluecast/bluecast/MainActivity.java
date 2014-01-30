@@ -14,6 +14,7 @@ import com.bluecast.fragments.main.MainLeftMenuFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
 import com.bluecast.fragments.main.ScanPeopleListFragment;
 import com.bluecast.fragments.main.SettingsRightMenuFragment;
+import com.bluecast.interfaces.MainFragmentDelegate;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
@@ -21,14 +22,13 @@ import com.radiusnetworks.ibeacon.IBeaconManager;
 import com.radiusnetworks.ibeacon.RangeNotifier;
 import com.radiusnetworks.ibeacon.Region;
 
-public class MainActivity extends BaseActivity implements IBeaconConsumer {
+public class MainActivity extends BaseActivity implements IBeaconConsumer, MainFragmentDelegate {
 	// private Fragment mContent;
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
-
-	ScanPeopleListFragment refreshListFragment;
+	
+	ScanPeopleListFragment scanPeopleListFragment;
 	MainLeftMenuFragment colorMenuFragment;
-//	SampleListFragment sampleListFragment;
 	ScanBusinessFragment beaconBusinessScanFragment;
 	BookmarksFragment bookmarksFragment;
 	SettingsRightMenuFragment settingsFragment;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		// mContent = new RefreshListFragment();
 		contentFragmentManager = getFragmentManager();
 
-		refreshListFragment = new ScanPeopleListFragment();
+		scanPeopleListFragment = new ScanPeopleListFragment();
 		colorMenuFragment = new MainLeftMenuFragment();
 //		sampleListFragment = new SampleListFragment();
 		beaconBusinessScanFragment = new ScanBusinessFragment();
@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		// set the Above View
 		setContentView(R.layout.content_frame);
 		contentFragmentManager.beginTransaction()
-				.replace(R.id.content_frame, refreshListFragment).commit();
+				.replace(R.id.content_frame, scanPeopleListFragment).commit();
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
@@ -78,7 +78,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
-
 		iBeaconCollection = new ArrayList<IBeacon>();
 	}
 
@@ -100,7 +99,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		switch (position) {
 		case 0:
 			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, refreshListFragment).commit();
+					.replace(R.id.content_frame, scanPeopleListFragment).commit();
 			break;
 		case 1:
 			contentFragmentManager.beginTransaction()
@@ -137,7 +136,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		endTime = System.currentTimeMillis() + 30000;
 
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
@@ -147,20 +145,35 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	
 	@Override
 	public void onIBeaconServiceConnect() {
-		try {
-			iBeaconManager.startRangingBeaconsInRegion(new Region(
-					"myRangingUniqueId", null, null, null));
-		} catch (RemoteException e) {
-
-		}
 		iBeaconManager.setRangeNotifier(new RangeNotifier() {
 			@Override
 			public void didRangeBeaconsInRegion(
 					final Collection<IBeacon> iBeacons, Region region) {
 				logToThread(iBeacons);
 			}
-
 		});
+	}
+	
+	@Override
+	public void shouldStartBeaconScan(int scanTime) {
+		iBeaconCollection.clear();
+		try {
+			iBeaconManager.startRangingBeaconsInRegion(new Region(
+					"myRangingUniqueId", null, null, null));
+		} catch (RemoteException e) {
+			
+		}
+		endTime = System.currentTimeMillis() + scanTime;
+	}
+	
+	
+	public void stopBeaconScan(){
+		try {
+			iBeaconManager.stopRangingBeaconsInRegion(new Region(
+					"myRangingUniqueId", null, null, null));
+		} catch (RemoteException e) {
+
+		}
 	}
 
 	public void showText(String text) {
@@ -177,26 +190,16 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 						}
 					}
 				} else {
-					iBeaconCollection.clear();
-					endTime = System.currentTimeMillis() + 30000;
+					stopBeaconScan();
+					if(iBeaconCollection.size()>0){
+						scanPeopleListFragment.didFindBeacons(iBeaconCollection);
+					}else{
+						scanPeopleListFragment.didNotFindBeacons();
+					}
 				}
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
 			}
 		});
-	}
-
-//	public void getIBeaconCollection() {
-//		
-//		if (iBeaconCollection.size() > 0) {
-//			refreshListFragment.didFindBeacons(iBeaconCollection);
-//		} else {
-//			refreshListFragment.didNotFindBeacons();
-//		}
-//		
-//	}
-	
-	public Collection<IBeacon> getiBeaconCollection() {
-		return iBeaconCollection;
 	}
 
 	@Override
