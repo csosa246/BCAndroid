@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -19,6 +20,11 @@ import android.util.Log;
 
 import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.radiusnetworks.ibeacon.IBeacon;
 
 public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
@@ -78,6 +84,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 			while ((line = in.readLine()) != null) {
 				page += line + "\n";
 			}
+			
+			
 			// Gson gson = new Gson();
 			// Type listOfNewsStories = new
 			// TypeToken<ArrayList<NewsStory>>(){}.getType();
@@ -85,8 +93,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Log.e("TAG", jsonFullObject.toString());
-		return page.toString();
+//		Log.e("TAG", jsonFullObject.toString());
+		return page;
 	};
 
 	@Override

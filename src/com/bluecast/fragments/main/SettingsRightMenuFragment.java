@@ -16,32 +16,39 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bluecast.async_tasks.RegisterBeaconAsyncTask;
+import com.bluecast.async_tasks.ScanPeopleAsyncTask;
 import com.bluecast.bluecast.MainActivity;
 import com.bluecast.bluecast.R;
 import com.bluecast.interfaces.MainFragmentDelegate;
 import com.bluecast.interfaces.RegisterBeaconAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
-public class SettingsRightMenuFragment extends Fragment implements RegisterBeaconAsyncTaskDelegate {
+public class SettingsRightMenuFragment extends Fragment implements
+		RegisterBeaconAsyncTaskDelegate {
 
 	MainActivity mainActivity;
 	Collection<IBeacon> iBeaconCollection;
 	MainFragmentDelegate mainFragmentDelegate;
+	
+	public int index = 5; 
+public int getIndex() {
+	return index;
+}
 	// public BeaconBusinessScanFragment() {
 	// this(R.color.white);
 	// }
-	
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        
-        try {
-        	mainFragmentDelegate = (MainFragmentDelegate) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
-    }
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		try {
+			mainFragmentDelegate = (MainFragmentDelegate) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnHeadlineSelectedListener");
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,16 +80,25 @@ public class SettingsRightMenuFragment extends Fragment implements RegisterBeaco
 		didClickRegisterButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-//				mainActivity.startBeaconScan(6000);
-				
-				if (iBeaconCollection.size() > 0) {
+				// mainActivity.startBeaconScan(6000);
 					// showText("There are beacons, and we're gonna run through to try and register them");
-					shouldConfirmBeacon();
-				}
+//					shouldConfirmBeacon();
+					mainFragmentDelegate.shouldStartBeaconScan(5000,"settings");
+				
 			}
 		});
 	}
+	
+	public void didFindBeacons(Collection<IBeacon> iBeaconCollection){
+		this.iBeaconCollection = iBeaconCollection;
+//		showText("did find some ibeacons on settings");
+		shouldConfirmBeacon();
+	}
+	
+	public void didNotFindBeacons(){
+		
+	}
+
 
 	public void shouldConfirmBeacon() {
 		AlertDialog.Builder saveDialog = new AlertDialog.Builder(getActivity());
@@ -94,23 +110,27 @@ public class SettingsRightMenuFragment extends Fragment implements RegisterBeaco
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						String confirmationNumber = input.getText().toString();
-						int i = 0; 
-						for(IBeacon beacon:iBeaconCollection){
-							if(String.valueOf(beacon.getMinor()).equals(confirmationNumber)){
-								//Send registration 
-								Toast.makeText(getActivity(), "Yeah we got that", Toast.LENGTH_LONG).show();
+						int i = 0;
+						for (IBeacon beacon : iBeaconCollection) {
+							if (String.valueOf(beacon.getMinor()).equals(
+									confirmationNumber)) {
+								// Send registration
+								Toast.makeText(getActivity(),
+										"Yeah we got that", Toast.LENGTH_LONG)
+										.show();
 								
 								shouldRegisterBeacon(beacon);
 							}
 						}
 					}
 				});
-		saveDialog.setNegativeButton("Cancel",null);
+		saveDialog.setNegativeButton("Cancel", null);
 		saveDialog.show();
 	}
-	
-	public void shouldRegisterBeacon(IBeacon beacon){
-		RegisterBeaconAsyncTask registerBeaconAsyncTask = new RegisterBeaconAsyncTask(this, getActivity(), beacon);
+
+	public void shouldRegisterBeacon(IBeacon beacon) {
+		RegisterBeaconAsyncTask registerBeaconAsyncTask = new RegisterBeaconAsyncTask(
+				this, getActivity(), beacon);
 		registerBeaconAsyncTask.execute();
 	}
 
@@ -120,7 +140,7 @@ public class SettingsRightMenuFragment extends Fragment implements RegisterBeaco
 
 	@Override
 	public void didReceiveResponse(String response) {
-		Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();		
+		Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
 	}
 
 	// @Override

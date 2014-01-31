@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
@@ -27,11 +28,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
 	
-	ScanPeopleListFragment scanPeopleListFragment;
-	MainLeftMenuFragment colorMenuFragment;
-	ScanBusinessFragment beaconBusinessScanFragment;
-	BookmarksFragment bookmarksFragment;
-	SettingsRightMenuFragment settingsFragment;
+	public ScanPeopleListFragment fragmentScanPeople;
+	MainLeftMenuFragment fragmentLeftMenu;
+	ScanBusinessFragment fragmentScanBusiness;
+	BookmarksFragment fragmentBookmarks;
+	SettingsRightMenuFragment fragmentSettings;
 	FragmentManager contentFragmentManager;
 
 	public MainActivity() {
@@ -51,28 +52,26 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
 		contentFragmentManager = getFragmentManager();
-
-		scanPeopleListFragment = new ScanPeopleListFragment();
-		colorMenuFragment = new MainLeftMenuFragment();
-//		sampleListFragment = new SampleListFragment();
-		beaconBusinessScanFragment = new ScanBusinessFragment();
-		bookmarksFragment = new BookmarksFragment();
-		settingsFragment = new SettingsRightMenuFragment();
+		fragmentScanPeople = new ScanPeopleListFragment();
+		fragmentLeftMenu = new MainLeftMenuFragment();
+		fragmentScanBusiness = new ScanBusinessFragment();
+		fragmentBookmarks = new BookmarksFragment();
+		fragmentSettings = new SettingsRightMenuFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
 		contentFragmentManager.beginTransaction()
-				.replace(R.id.content_frame, scanPeopleListFragment).commit();
+				.replace(R.id.content_frame, fragmentScanPeople).commit();
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, colorMenuFragment).commit();
+				.replace(R.id.menu_frame, fragmentLeftMenu).commit();
 
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, settingsFragment).commit();
+				.replace(R.id.menu_frame_two, fragmentSettings).commit();
 		// customize the SlidingMenu
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -99,20 +98,21 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		switch (position) {
 		case 0:
 			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, scanPeopleListFragment).commit();
+					.replace(R.id.content_frame, fragmentScanPeople).commit();
 			break;
 		case 1:
 			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, beaconBusinessScanFragment)
+					.replace(R.id.content_frame, fragmentScanBusiness)
 					.commit();
 			break;
 		case 2:
 			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, bookmarksFragment).commit();
+					.replace(R.id.content_frame, fragmentBookmarks).commit();
 			break;
 		case 3:
 			break;
 		case 4:
+			shouldLogout();
 			break;
 		}
 		getSlidingMenu().showContent();
@@ -136,7 +136,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		if (iBeaconManager.isBound(this))
 			iBeaconManager.setBackgroundMode(this, false);
 	}
@@ -154,8 +153,11 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		});
 	}
 	
+	String currentWorkingFragment; 
 	@Override
-	public void shouldStartBeaconScan(int scanTime) {
+	public void shouldStartBeaconScan(int scanTime,String currentWorkingFragment) {
+		this.currentWorkingFragment = currentWorkingFragment;
+		getSlidingMenu().setSlidingEnabled(false);
 		iBeaconCollection.clear();
 		try {
 			iBeaconManager.startRangingBeaconsInRegion(new Region(
@@ -167,7 +169,10 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	}
 	
 	
-	public void stopBeaconScan(){
+	public void shouldStopBeaconScan(){
+//		setSlidingActionBarEnabled(true);
+		getSlidingMenu().setSlidingEnabled(true);
+//		getSlidingMenu().getSecondaryMenu()
 		try {
 			iBeaconManager.stopRangingBeaconsInRegion(new Region(
 					"myRangingUniqueId", null, null, null));
@@ -179,6 +184,8 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	public void showText(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
+	
+	String cwf = "";
 
 	public void logToThread(final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
@@ -190,17 +197,36 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 						}
 					}
 				} else {
-					stopBeaconScan();
-					if(iBeaconCollection.size()>0){
-						scanPeopleListFragment.didFindBeacons(iBeaconCollection);
-					}else{
-						scanPeopleListFragment.didNotFindBeacons();
-					}
+					shouldStopBeaconScan();
+					delegateResponseToFragment();
 				}
+				
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
+				
 			}
 		});
 	}
+	
+	public void delegateResponseToFragment(){
+		if(currentWorkingFragment.equals("scan_people")){
+			if(iBeaconCollection.size()>0){
+				fragmentScanPeople.didFindBeacons(iBeaconCollection);
+			}else{
+				fragmentScanPeople.didNotFindBeacons();
+			}
+		}
+		
+		if(currentWorkingFragment.equals("settings")){
+			if(iBeaconCollection.size()>0){
+				fragmentSettings.didFindBeacons(iBeaconCollection);
+			}else{
+				fragmentSettings.didNotFindBeacons();
+			}
+			
+		}
+	}
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -219,5 +245,12 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	public void shouldLogout() {
+		Intent myIntent = new Intent(this, LoginActivity.class);
+		startActivity(myIntent);
+		finish();
 	}
 }

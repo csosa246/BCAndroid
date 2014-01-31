@@ -25,6 +25,12 @@ public class ScanPeopleListFragment extends ListFragment implements
 	UserSharedPreferencesAdapter sharedPreferences;
 	MainFragmentDelegate mainFragmentDelegate;
 	
+	public int index = 1; 
+	
+	public int getIndex() {
+		return index;
+	}
+	
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -49,9 +55,14 @@ public class ScanPeopleListFragment extends ListFragment implements
 				.listener(this).setup(mPullToRefreshLayout);
 	}
 
+	ScanPeopleListAdapter scanPeopleListAdapter; 
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		scanPeopleListAdapter = new ScanPeopleListAdapter(getActivity());
+		
 		setListAdapter(new ScanPeopleListAdapter(getActivity()));
 		setListShownNoAnimation(true);
 	}
@@ -59,7 +70,7 @@ public class ScanPeopleListFragment extends ListFragment implements
 	@Override
 	public void onRefreshStarted(View view) {
 		setListShown(false);
-		mainFragmentDelegate.shouldStartBeaconScan(4000);
+		mainFragmentDelegate.shouldStartBeaconScan(3000,"scan_people");
 	}
 
 	public void showText(String result) {
