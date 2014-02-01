@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-public class UserSharedPreferencesAdapter {
+public class SharedPreferencesAdapter {
 	public SharedPreferences sharedPreferences;
 	public static String ID = "com.bluecast.user.id";
 	public static String TOKEN = "com.bluecast.user.token";
 
-	public UserSharedPreferencesAdapter(Context context){
+	public SharedPreferencesAdapter(Context context){
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	

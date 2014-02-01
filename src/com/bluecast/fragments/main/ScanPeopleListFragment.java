@@ -1,5 +1,6 @@
 package com.bluecast.fragments.main;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -13,23 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bluecast.adapters.ScanPeopleListAdapter;
-import com.bluecast.adapters.UserSharedPreferencesAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
 import com.bluecast.interfaces.MainFragmentDelegate;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
+import com.bluecast.models.Person;
 import com.radiusnetworks.ibeacon.IBeacon;
 
 public class ScanPeopleListFragment extends ListFragment implements
 		OnRefreshListener, ScanPeopleAsyncTaskDelegate {
 	private PullToRefreshLayout mPullToRefreshLayout;
-	UserSharedPreferencesAdapter sharedPreferences;
 	MainFragmentDelegate mainFragmentDelegate;
-	
-	public int index = 1; 
-	
-	public int getIndex() {
-		return index;
-	}
 	
     @Override
     public void onAttach(Activity activity) {
@@ -62,8 +56,7 @@ public class ScanPeopleListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		
 		scanPeopleListAdapter = new ScanPeopleListAdapter(getActivity());
-		
-		setListAdapter(new ScanPeopleListAdapter(getActivity()));
+		setListAdapter(scanPeopleListAdapter);
 		setListShownNoAnimation(true);
 	}
 
@@ -88,10 +81,14 @@ public class ScanPeopleListFragment extends ListFragment implements
 	public void didNotFindBeacons(){
 		shouldResignRefresh();
 	}
-
+	
+	ArrayList<Person> personArrayList; 
 	@Override
-	public void didFinishIdentifyingBeacons(String response) {
-		showText(response);
+	public void didFinishIdentifyingBeacons(ArrayList<Person> personArrayList) {
+		this.personArrayList = personArrayList;
+		//Should populate list 
+		scanPeopleListAdapter.setPersonArray(this.personArrayList);
+		scanPeopleListAdapter.notifyDataSetChanged();
 		shouldResignRefresh();
 	}
 

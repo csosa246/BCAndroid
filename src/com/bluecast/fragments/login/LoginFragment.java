@@ -1,5 +1,6 @@
 package com.bluecast.fragments.login;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -7,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.bluecast.adapters.SharedPreferencesAdapter;
+import com.bluecast.bluecast.LoginActivity;
 import com.bluecast.bluecast.R;
 
 public class LoginFragment extends Fragment {
 	
 	private Typeface robotoTypeface ;
+	LoginActivity loginActivity; 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,9 +33,22 @@ public class LoginFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+//		willCheckLoginCredentials();
 		willSetupTypeface();
 		willSetupButtons();
 	}
+	
+	public void willSetupMainActivity() {
+		loginActivity = (LoginActivity) getActivity();
+	}
+	
+//	public void willCheckLoginCredentials(){
+//		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(getActivity());
+//		if(sharedPreferencesAdapter.getUserID()!=""){
+////			Toast.makeText(getActivity(), "woop", Toast.LENGTH_LONG).show();
+//			loginActivity.didConfirmLoginAndShouldProceedToMainActivity();
+//		}
+//	}
 	
 	public void willSetupTypeface(){
 		robotoTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");

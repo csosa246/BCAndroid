@@ -14,7 +14,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.bluecast.adapters.UserSharedPreferencesAdapter;
+import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.bluecast.LoginActivity;
 import com.bluecast.bluecast.R;
 import com.bluecast.models.LinkedInLoginCredentialsModel;
@@ -24,7 +24,7 @@ import com.google.gson.reflect.TypeToken;
 public class LoginLinkedInFragment extends Fragment {
 
 	private WebView webView;
-	UserSharedPreferencesAdapter sharedPreferences;
+	SharedPreferencesAdapter sharedPreferences;
 	private static String URL = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=77upwjrghunhka&state=KNO&redirect_uri=https://bluecastalpha.herokuapp.com/mobile/linkedin/login";
 	LoginActivity loginActivity;
 
@@ -50,7 +50,7 @@ public class LoginLinkedInFragment extends Fragment {
 	}
 
 	public void willSetupSharedPreferences() {
-		sharedPreferences = new UserSharedPreferencesAdapter(getActivity());
+		sharedPreferences = new SharedPreferencesAdapter(getActivity());
 	}
 
 	public void willSetupMainActivity() {

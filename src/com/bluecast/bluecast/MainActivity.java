@@ -10,12 +10,14 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.fragments.main.BookmarksFragment;
 import com.bluecast.fragments.main.MainLeftMenuFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
 import com.bluecast.fragments.main.ScanPeopleListFragment;
 import com.bluecast.fragments.main.SettingsRightMenuFragment;
 import com.bluecast.interfaces.MainFragmentDelegate;
+import com.bluecast.models.Person;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
@@ -51,6 +53,8 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
+		
+		
 		contentFragmentManager = getFragmentManager();
 		fragmentScanPeople = new ScanPeopleListFragment();
 		fragmentLeftMenu = new MainLeftMenuFragment();
@@ -225,8 +229,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 			
 		}
 	}
-	
-	
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -249,8 +251,22 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	
 	
 	public void shouldLogout() {
+		//Destroy credentials 
+		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(this);
+		sharedPreferencesAdapter.saveUser("", "");
 		Intent myIntent = new Intent(this, LoginActivity.class);
 		startActivity(myIntent);
 		finish();
+	}
+	
+	ArrayList<Person> personArrayList;
+
+	@Override
+	public void setPersonArrayList(ArrayList<Person> personArrayList) {
+		this.personArrayList = personArrayList;
+	}
+	
+	public ArrayList<Person> getPersonArrayList() {
+		return personArrayList;
 	}
 }

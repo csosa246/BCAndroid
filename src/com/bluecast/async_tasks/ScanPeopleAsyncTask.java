@@ -3,8 +3,9 @@ package com.bluecast.async_tasks;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Iterator;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,36 +19,35 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.bluecast.adapters.UserSharedPreferencesAdapter;
+import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.bluecast.models.Person;
 import com.radiusnetworks.ibeacon.IBeacon;
 
-public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
+public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>> {
 	public Collection<IBeacon> beacons;
-	UserSharedPreferencesAdapter sharedPreferences;
+	SharedPreferencesAdapter sharedPreferences;
 	private ScanPeopleAsyncTaskDelegate delegate;
 
 	public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback,
 			Context context, Collection<IBeacon> beacons) {
 		delegate = callback;
 		this.beacons = beacons;
-		sharedPreferences = new UserSharedPreferencesAdapter(context);
+		sharedPreferences = new SharedPreferencesAdapter(context);
 	}
+	ArrayList<Person> personArrayList;
 
 	@Override
-	protected String doInBackground(Void... params) {
+	protected ArrayList<Person> doInBackground(Void... params) {
 		JSONArray jsonBeaconArray = new JSONArray();
 		for (IBeacon beacon : beacons) {
 			JSONObject jsonBeaconObject = new JSONObject();
 			try {
 				jsonBeaconObject.put("uuid", beacon.getProximityUuid());
-				jsonBeaconObject.put("minor", String.valueOf(beacon.getMinor()));
-				jsonBeaconObject.put("major", String.valueOf(beacon.getMajor()));
+				jsonBeaconObject
+						.put("minor", String.valueOf(beacon.getMinor()));
+				jsonBeaconObject
+						.put("major", String.valueOf(beacon.getMajor()));
 			} catch (JSONException e1) {
 
 			}
@@ -57,7 +57,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 		JSONObject jsonFullObject = new JSONObject();
 		try {
 			jsonFullObject.put("user_id", sharedPreferences.getUserID());
-			jsonFullObject.put("remember_token", sharedPreferences.getUserToken());
+			jsonFullObject.put("remember_token",
+					sharedPreferences.getUserToken());
 			jsonFullObject.put("beacons", jsonBeaconArray);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
@@ -75,7 +76,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-
+		
 		try {
 			HttpResponse response = client.execute(httpPost);
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -85,22 +86,29 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, String> {
 				page += line + "\n";
 			}
 			
+			personArrayList = new ArrayList<Person>();
+			JSONObject inputJSON = new JSONObject(page);
+			Iterator<String> keysIterator = inputJSON.keys();
+			while (keysIterator.hasNext()) {
+				String keyStr = (String) keysIterator.next();
+				JSONObject jsonObject = new JSONObject(inputJSON.getString(keyStr));
+				Person person = new Person(jsonObject.getString("last_name"), 
+										   jsonObject.getString("first_name"),
+										   jsonObject.getString("distance"),
+										   jsonObject.getString("picture_url"));
+				personArrayList.add(person);
+			}
 			
-			// Gson gson = new Gson();
-			// Type listOfNewsStories = new
-			// TypeToken<ArrayList<NewsStory>>(){}.getType();
-			// stories = gson.fromJson(page, listOfNewsStories);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		Log.e("TAG", jsonFullObject.toString());
-		return page;
+		
+		return personArrayList;
 	};
 
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(ArrayList<Person> result) {
 		delegate.didFinishIdentifyingBeacons(result);
-		Log.e("Tag", result);
 	}
 
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.fragments.login.LoginFragment;
 import com.bluecast.fragments.login.LoginLinkedInFragment;
 
@@ -60,6 +61,15 @@ public class LoginActivity extends FragmentActivity {
 	public void didCancelLinkedInLogin() {
 		shouldShowMainLogin();
 	}
+	
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(this);
+		if(sharedPreferencesAdapter.getUserID()!=""){
+//			Toast.makeText(getActivity(), "woop", Toast.LENGTH_LONG).show();
+			didConfirmLoginAndShouldProceedToMainActivity();
+		}
+	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

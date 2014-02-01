@@ -15,20 +15,20 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.bluecast.adapters.UserSharedPreferencesAdapter;
+import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.interfaces.RegisterBeaconAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
 public class RegisterBeaconAsyncTask extends AsyncTask<Void, Void, String> {
 	IBeacon beacon;
-	UserSharedPreferencesAdapter sharedPreferences;
+	SharedPreferencesAdapter sharedPreferences;
 	private RegisterBeaconAsyncTaskDelegate delegate;
 
 	public RegisterBeaconAsyncTask(RegisterBeaconAsyncTaskDelegate callback,
 			Context context, IBeacon beacon) {
 		delegate = callback;
 		this.beacon = beacon;
-		sharedPreferences = new UserSharedPreferencesAdapter(context);
+		sharedPreferences = new SharedPreferencesAdapter(context);
 	}
 
 	@Override
