@@ -1,14 +1,15 @@
 package com.bluecast.models;
 
 public class Person {
-	String lastName, linkedInID, firstName, distance, pictureURL;
+	String lastName, linkedInID, firstName, details, distance, pictureURL,publicProfileURL;
 
 	public Person(String lastName, String firstName, String distance,
-			String pictureURL) {
+			String pictureURL, String publicProfileURL) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.distance = distance;
 		this.pictureURL = pictureURL;
+		this.publicProfileURL = publicProfileURL;
 	}
 
 	public String getDistance() {
@@ -33,6 +34,10 @@ public class Person {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public String getDetails() {
+		return details;
+	}
 
 	public String getLinkedInID() {
 		return linkedInID;
@@ -44,5 +49,9 @@ public class Person {
 	
 	public String getFullName(){
 		return firstName + " " + lastName;
+	}
+	
+	public String getPublicProfileURL() {
+		return publicProfileURL;
 	}
 }

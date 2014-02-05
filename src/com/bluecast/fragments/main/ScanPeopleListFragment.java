@@ -11,6 +11,7 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bluecast.adapters.ScanPeopleListAdapter;
@@ -57,7 +58,20 @@ public class ScanPeopleListFragment extends ListFragment implements
 		
 		scanPeopleListAdapter = new ScanPeopleListAdapter(getActivity());
 		setListAdapter(scanPeopleListAdapter);
+		
 		setListShownNoAnimation(true);
+	}
+	
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		
+		String publicProfileURL = personArrayList.get(position).getPublicProfileURL();
+		
+		mainFragmentDelegate.shouldLoadPublicProfile(publicProfileURL);
+		
 	}
 
 	@Override
@@ -81,6 +95,8 @@ public class ScanPeopleListFragment extends ListFragment implements
 	public void didNotFindBeacons(){
 		shouldResignRefresh();
 	}
+	
+	
 	
 	ArrayList<Person> personArrayList; 
 	@Override

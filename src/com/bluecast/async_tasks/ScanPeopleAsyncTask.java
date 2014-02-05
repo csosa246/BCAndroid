@@ -24,7 +24,8 @@ import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 import com.bluecast.models.Person;
 import com.radiusnetworks.ibeacon.IBeacon;
 
-public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>> {
+public class ScanPeopleAsyncTask extends
+		AsyncTask<Void, Void, ArrayList<Person>> {
 	public Collection<IBeacon> beacons;
 	SharedPreferencesAdapter sharedPreferences;
 	private ScanPeopleAsyncTaskDelegate delegate;
@@ -35,6 +36,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>
 		this.beacons = beacons;
 		sharedPreferences = new SharedPreferencesAdapter(context);
 	}
+
 	ArrayList<Person> personArrayList;
 
 	@Override
@@ -54,6 +56,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>
 			jsonBeaconArray.put(jsonBeaconObject);
 		}
 
+		Log.e("user id", sharedPreferences.getUserID());
+
 		JSONObject jsonFullObject = new JSONObject();
 		try {
 			jsonFullObject.put("user_id", sharedPreferences.getUserID());
@@ -63,6 +67,8 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
+
+		Log.e("JSONREQUEST", jsonFullObject.toString());
 
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
@@ -76,7 +82,7 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			HttpResponse response = client.execute(httpPost);
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -85,24 +91,27 @@ public class ScanPeopleAsyncTask extends AsyncTask<Void, Void, ArrayList<Person>
 			while ((line = in.readLine()) != null) {
 				page += line + "\n";
 			}
-			
+			Log.i("page", page);
+
 			personArrayList = new ArrayList<Person>();
 			JSONObject inputJSON = new JSONObject(page);
 			Iterator<String> keysIterator = inputJSON.keys();
 			while (keysIterator.hasNext()) {
 				String keyStr = (String) keysIterator.next();
-				JSONObject jsonObject = new JSONObject(inputJSON.getString(keyStr));
-				Person person = new Person(jsonObject.getString("last_name"), 
-										   jsonObject.getString("first_name"),
-										   jsonObject.getString("distance"),
-										   jsonObject.getString("picture_url"));
+				JSONObject jsonObject = new JSONObject(
+						inputJSON.getString(keyStr));
+				Person person = new Person(jsonObject.getString("last_name"),
+						jsonObject.getString("first_name"),
+						jsonObject.getString("distance"),
+						jsonObject.getString("picture_url"),
+						jsonObject.getString("public_profile_url"));
 				personArrayList.add(person);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return personArrayList;
 	};
 

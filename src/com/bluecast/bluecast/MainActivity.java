@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.fragments.main.BookmarksFragment;
 import com.bluecast.fragments.main.MainLeftMenuFragment;
+import com.bluecast.fragments.main.PublicProfileFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
 import com.bluecast.fragments.main.ScanPeopleListFragment;
 import com.bluecast.fragments.main.SettingsRightMenuFragment;
@@ -35,6 +37,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	ScanBusinessFragment fragmentScanBusiness;
 	BookmarksFragment fragmentBookmarks;
 	SettingsRightMenuFragment fragmentSettings;
+	PublicProfileFragment fragmentPublicProfile; 
 	FragmentManager contentFragmentManager;
 
 	public MainActivity() {
@@ -54,13 +57,13 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
 		
-		
 		contentFragmentManager = getFragmentManager();
 		fragmentScanPeople = new ScanPeopleListFragment();
 		fragmentLeftMenu = new MainLeftMenuFragment();
 		fragmentScanBusiness = new ScanBusinessFragment();
 		fragmentBookmarks = new BookmarksFragment();
 		fragmentSettings = new SettingsRightMenuFragment();
+		fragmentPublicProfile = new PublicProfileFragment();
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
@@ -97,8 +100,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	// .replace(R.id.content_frame, fragment).commit();
 	// getSlidingMenu().showContent();
 	// }
+	int currentPosition; 
 
-	public void switchFragment(int position) {
+	public void switchFragment(int position) {		
 		switch (position) {
 		case 0:
 			contentFragmentManager.beginTransaction()
@@ -120,6 +124,26 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 			break;
 		}
 		getSlidingMenu().showContent();
+	}
+	
+	@Override
+	public void shouldLoadPublicProfile(String URL) {
+		fragmentPublicProfile.loadURL(URL);
+		contentFragmentManager.beginTransaction().hide(fragmentScanPeople).commit();
+		contentFragmentManager.beginTransaction().add(R.id.content_frame, fragmentPublicProfile).commit();
+		contentFragmentManager.beginTransaction().show(fragmentPublicProfile).commit();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == KeyEvent.KEYCODE_BACK & fragmentPublicProfile.isVisible()){
+			contentFragmentManager.beginTransaction().hide(fragmentPublicProfile).commit();
+			contentFragmentManager.beginTransaction().show(fragmentScanPeople).commit();
+			contentFragmentManager.beginTransaction().remove(fragmentPublicProfile).commit();
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
