@@ -1,30 +1,69 @@
 package com.bluecast.models;
 
 public class Person {
-	String lastName, linkedInID, firstName, details, distance, pictureURL,publicProfileURL;
+	String lastName, linkedInID, firstName, headline, distance, pictureURL,
+			publicProfileURL, minor, major, rssi, proximity;
 
-	public Person(String lastName, String firstName, String distance,
-			String pictureURL, String publicProfileURL) {
+	public Person(String minor, String lastName, String firstName, String headline,
+			String distance, String pictureURL, String publicProfileURL) {
+		this.minor = minor;
 		this.lastName = lastName;
 		this.firstName = firstName;
+		this.headline = headline;
 		this.distance = distance;
 		this.pictureURL = pictureURL;
 		this.publicProfileURL = publicProfileURL;
 	}
 
+	public void setProximity(int proximityValue) {
+		if (proximityValue == 0) {
+			this.proximity = "";
+		} else if (proximityValue == 1) {
+			this.proximity = "Proximity Immediate";
+		} else if (proximityValue == 2) {
+			this.proximity = "Proximity Near";
+		} else if (proximityValue == 3) {
+			this.proximity = "Proximity Far";
+		}
+	}
+	
+	public String getHeadline() {
+		return headline;
+	}
+
+	public String getProximity() {
+		return proximity;
+	}
+
 	public String getDistance() {
-		if(distance.equals("1")){
+		if (distance.equals("1")) {
 			return "1st";
-		}else if (distance.equals("2")){
+		} else if (distance.equals("2")) {
 			return "2nd";
-		}else if (distance.equals("3")){
+		} else if (distance.equals("3")) {
 			return "3rd";
-		}else if (distance.equals("4")){
+		} else if (distance.equals("4")) {
 			return "4th";
-		}else if (distance.equals("5")){
+		} else if (distance.equals("5")) {
 			return "5th";
 		}
 		return ">6th";
+	}
+
+	public void setRssi(String rssi) {
+		this.rssi = rssi;
+	}
+
+	public String getRssi() {
+		return rssi;
+	}
+
+	public void setMinor(String minor) {
+		this.minor = minor;
+	}
+
+	public String getMinor() {
+		return minor;
 	}
 
 	public String getFirstName() {
@@ -34,10 +73,6 @@ public class Person {
 	public String getLastName() {
 		return lastName;
 	}
-	
-	public String getDetails() {
-		return details;
-	}
 
 	public String getLinkedInID() {
 		return linkedInID;
@@ -46,11 +81,11 @@ public class Person {
 	public String getPictureURL() {
 		return pictureURL;
 	}
-	
-	public String getFullName(){
+
+	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-	
+
 	public String getPublicProfileURL() {
 		return publicProfileURL;
 	}

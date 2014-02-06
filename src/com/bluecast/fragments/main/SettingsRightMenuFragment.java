@@ -28,7 +28,7 @@ public class SettingsRightMenuFragment extends Fragment implements
 
 	MainActivity mainActivity;
 	Collection<IBeacon> iBeaconCollection;
-	MainFragmentDelegate mainFragmentDelegate;
+//	MainFragmentDelegate mainFragmentDelegate;
 	
 	public int index = 5; 
 public int getIndex() {
@@ -38,17 +38,17 @@ public int getIndex() {
 	// this(R.color.white);
 	// }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		try {
-			mainFragmentDelegate = (MainFragmentDelegate) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnHeadlineSelectedListener");
-		}
-	}
+//	@Override
+//	public void onAttach(Activity activity) {
+//		super.onAttach(activity);
+//
+//		try {
+//			mainFragmentDelegate = (MainFragmentDelegate) activity;
+//		} catch (ClassCastException e) {
+//			throw new ClassCastException(activity.toString()
+//					+ " must implement OnHeadlineSelectedListener");
+//		}
+//	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +83,11 @@ public int getIndex() {
 				// mainActivity.startBeaconScan(6000);
 					// showText("There are beacons, and we're gonna run through to try and register them");
 //					shouldConfirmBeacon();
-					mainFragmentDelegate.shouldStartBeaconScan(5000,"settings");
+				
+				
+				
+				
+//					mainFragmentDelegate.shouldStartBeaconScan(5000,"settings");
 				
 			}
 		});

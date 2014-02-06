@@ -6,7 +6,6 @@ import java.util.Collection;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.bluecast.adapters.ScanPeopleListAdapter;
 import com.bluecast.async_tasks.ScanPeopleAsyncTask;
-import com.bluecast.interfaces.MainFragmentDelegate;
+import com.bluecast.bluecast.MainActivity;
 import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
 import com.bluecast.models.Person;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -24,19 +23,21 @@ import com.radiusnetworks.ibeacon.IBeacon;
 public class ScanPeopleListFragment extends ListFragment implements
 		OnRefreshListener, ScanPeopleAsyncTaskDelegate {
 	private PullToRefreshLayout mPullToRefreshLayout;
-	MainFragmentDelegate mainFragmentDelegate;
-	
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        
-        try {
-        	mainFragmentDelegate = (MainFragmentDelegate) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
-    }
+	Collection<IBeacon> iBeaconCollection;
+	ArrayList<Person> personArrayList; 
+//	MainFragmentDelegate mainFragmentDelegate;
+//	MainActivity mainActivity; 
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        mainActivity = (MainActivity) activity; 
+//        try {
+//        	mainFragmentDelegate = (MainFragmentDelegate) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement OnHeadlineSelectedListener");
+//        }
+//    }
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -55,54 +56,41 @@ public class ScanPeopleListFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
 		scanPeopleListAdapter = new ScanPeopleListAdapter(getActivity());
 		setListAdapter(scanPeopleListAdapter);
-		
 		setListShownNoAnimation(true);
 	}
 	
-	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
-		
 		String publicProfileURL = personArrayList.get(position).getPublicProfileURL();
-		
-		mainFragmentDelegate.shouldLoadPublicProfile(publicProfileURL);
-		
+		((MainActivity)getActivity()).shouldLoadPublicProfile(publicProfileURL);
+	}
+	
+	public void shouldUpdateProximity(Collection<IBeacon> iBeaconUpdateArray){
+		scanPeopleListAdapter.setBeaconUpdateArray(iBeaconUpdateArray);
 	}
 
 	@Override
 	public void onRefreshStarted(View view) {
 		setListShown(false);
-		mainFragmentDelegate.shouldStartBeaconScan(3000,"scan_people");
+		iBeaconCollection = ((MainActivity)getActivity()).getiBeaconCollection();
+		if(iBeaconCollection.size()>0){
+			ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this, getActivity(), iBeaconCollection);
+			scanPeopleAsyncTask.execute();
+		}else{
+			shouldResignRefresh();
+		}
 	}
 
 	public void showText(String result) {
 		Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 	}
 	
-	Collection<IBeacon> iBeaconCollection;
-	
-	public void didFindBeacons(Collection<IBeacon> iBeaconCollection){
-		this.iBeaconCollection = iBeaconCollection;
-		ScanPeopleAsyncTask scanPeopleAsyncTask = new ScanPeopleAsyncTask(this, getActivity(), iBeaconCollection);
-		scanPeopleAsyncTask.execute();
-	}
-	
-	public void didNotFindBeacons(){
-		shouldResignRefresh();
-	}
-	
-	
-	
-	ArrayList<Person> personArrayList; 
 	@Override
 	public void didFinishIdentifyingBeacons(ArrayList<Person> personArrayList) {
-		this.personArrayList = personArrayList;
-		//Should populate list 
+		this.personArrayList = personArrayList;		
 		scanPeopleListAdapter.setPersonArray(this.personArrayList);
 		scanPeopleListAdapter.notifyDataSetChanged();
 		shouldResignRefresh();

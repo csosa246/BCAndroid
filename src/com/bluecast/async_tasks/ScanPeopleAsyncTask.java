@@ -98,13 +98,28 @@ public class ScanPeopleAsyncTask extends
 			Iterator<String> keysIterator = inputJSON.keys();
 			while (keysIterator.hasNext()) {
 				String keyStr = (String) keysIterator.next();
-				JSONObject jsonObject = new JSONObject(
-						inputJSON.getString(keyStr));
-				Person person = new Person(jsonObject.getString("last_name"),
-						jsonObject.getString("first_name"),
-						jsonObject.getString("distance"),
-						jsonObject.getString("picture_url"),
-						jsonObject.getString("public_profile_url"));
+				
+				Log.e("KEY", keyStr);
+				
+				JSONObject jsonObject = new JSONObject(inputJSON.getString(keyStr));
+//				
+				String major = jsonObject.getString("major"); 
+				String minor = jsonObject.getString("minor");
+				
+				JSONObject profileObject = new JSONObject(jsonObject.getString("profile"));
+//				
+				Person person = new Person(minor,
+						profileObject.getString("last_name"),
+						profileObject.getString("first_name"),
+						profileObject.getString("headline"),
+						profileObject.getString("distance"),
+						profileObject.getString("picture_url"),
+						profileObject.getString("public_profile_url"));
+				
+				Log.e("MINOR", person.getMinor());
+
+//				
+//
 				personArrayList.add(person);
 			}
 

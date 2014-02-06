@@ -24,9 +24,10 @@
 
     <TextView
         android:id="@+id/profile_details"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_name"
+        android:layout_toLeftOf="@+id/profile_distance"
         android:layout_toRightOf="@+id/profile_picture"
         android:text="CTO Blue Canary"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -39,5 +40,17 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/profile_name"
         android:text="1st" />
+
+    <TextView
+        android:id="@+id/profile_accuracy"
+        android:layout_width="wrap_content"
+        android:layout_height="30dip"
+        android:padding="5dip"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Accuracy"
+        android:textColor="#707070"
+        android:textSize="10sp" />
 
 </RelativeLayout>

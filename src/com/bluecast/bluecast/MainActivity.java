@@ -18,7 +18,6 @@ import com.bluecast.fragments.main.PublicProfileFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
 import com.bluecast.fragments.main.ScanPeopleListFragment;
 import com.bluecast.fragments.main.SettingsRightMenuFragment;
-import com.bluecast.interfaces.MainFragmentDelegate;
 import com.bluecast.models.Person;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -27,17 +26,17 @@ import com.radiusnetworks.ibeacon.IBeaconManager;
 import com.radiusnetworks.ibeacon.RangeNotifier;
 import com.radiusnetworks.ibeacon.Region;
 
-public class MainActivity extends BaseActivity implements IBeaconConsumer, MainFragmentDelegate {
+public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	// private Fragment mContent;
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
-	
+
 	public ScanPeopleListFragment fragmentScanPeople;
 	MainLeftMenuFragment fragmentLeftMenu;
 	ScanBusinessFragment fragmentScanBusiness;
 	BookmarksFragment fragmentBookmarks;
 	SettingsRightMenuFragment fragmentSettings;
-	PublicProfileFragment fragmentPublicProfile; 
+	PublicProfileFragment fragmentPublicProfile;
 	FragmentManager contentFragmentManager;
 
 	public MainActivity() {
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 
 		// mContent = new BeaconIndividualScanFragment();
 		// mContent = new RefreshListFragment();
-		
+
 		contentFragmentManager = getFragmentManager();
 		fragmentScanPeople = new ScanPeopleListFragment();
 		fragmentLeftMenu = new MainLeftMenuFragment();
@@ -100,9 +99,9 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	// .replace(R.id.content_frame, fragment).commit();
 	// getSlidingMenu().showContent();
 	// }
-	int currentPosition; 
+	int currentPosition;
 
-	public void switchFragment(int position) {		
+	public void switchFragment(int position) {
 		switch (position) {
 		case 0:
 			contentFragmentManager.beginTransaction()
@@ -110,8 +109,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 			break;
 		case 1:
 			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragmentScanBusiness)
-					.commit();
+					.replace(R.id.content_frame, fragmentScanBusiness).commit();
 			break;
 		case 2:
 			contentFragmentManager.beginTransaction()
@@ -125,22 +123,29 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		}
 		getSlidingMenu().showContent();
 	}
-	
-	@Override
+
+//	@Override
 	public void shouldLoadPublicProfile(String URL) {
 		fragmentPublicProfile.loadURL(URL);
-		contentFragmentManager.beginTransaction().hide(fragmentScanPeople).commit();
-		contentFragmentManager.beginTransaction().add(R.id.content_frame, fragmentPublicProfile).commit();
-		contentFragmentManager.beginTransaction().show(fragmentPublicProfile).commit();
+		contentFragmentManager.beginTransaction().hide(fragmentScanPeople)
+				.commit();
+		contentFragmentManager.beginTransaction()
+				.add(R.id.content_frame, fragmentPublicProfile).commit();
+		contentFragmentManager.beginTransaction().show(fragmentPublicProfile)
+				.commit();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		if(keyCode == KeyEvent.KEYCODE_BACK & fragmentPublicProfile.isVisible()){
-			contentFragmentManager.beginTransaction().hide(fragmentPublicProfile).commit();
-			contentFragmentManager.beginTransaction().show(fragmentScanPeople).commit();
-			contentFragmentManager.beginTransaction().remove(fragmentPublicProfile).commit();
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				& fragmentPublicProfile.isVisible()) {
+			contentFragmentManager.beginTransaction()
+					.hide(fragmentPublicProfile).commit();
+			contentFragmentManager.beginTransaction().show(fragmentScanPeople)
+					.commit();
+			contentFragmentManager.beginTransaction()
+					.remove(fragmentPublicProfile).commit();
 			return false;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -159,8 +164,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 			iBeaconManager.setBackgroundMode(this, true);
 	}
 
-	long endTime;
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -169,7 +172,8 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 	}
 
 	Collection<IBeacon> iBeaconCollection;
-	
+
+	Collection<IBeacon> latestIBeacons;
 	@Override
 	public void onIBeaconServiceConnect() {
 		iBeaconManager.setRangeNotifier(new RangeNotifier() {
@@ -179,80 +183,63 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 				logToThread(iBeacons);
 			}
 		});
-	}
-	
-	String currentWorkingFragment; 
-	@Override
-	public void shouldStartBeaconScan(int scanTime,String currentWorkingFragment) {
-		this.currentWorkingFragment = currentWorkingFragment;
-		getSlidingMenu().setSlidingEnabled(false);
-		iBeaconCollection.clear();
+		
 		try {
-			iBeaconManager.startRangingBeaconsInRegion(new Region(
-					"myRangingUniqueId", null, null, null));
-		} catch (RemoteException e) {
-			
-		}
-		endTime = System.currentTimeMillis() + scanTime;
+            iBeaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {   }
 	}
-	
-	
-	public void shouldStopBeaconScan(){
-//		setSlidingActionBarEnabled(true);
-		getSlidingMenu().setSlidingEnabled(true);
-//		getSlidingMenu().getSecondaryMenu()
-		try {
-			iBeaconManager.stopRangingBeaconsInRegion(new Region(
-					"myRangingUniqueId", null, null, null));
-		} catch (RemoteException e) {
 
-		}
-	}
+	String currentWorkingFragment;
+
 
 	public void showText(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
-	
+
 	String cwf = "";
 
 	public void logToThread(final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if (endTime > System.currentTimeMillis()) {
-					for (IBeacon beacon : iBeacons) {
-						if (!iBeaconCollection.contains(beacon)) {
-							iBeaconCollection.add(beacon);
-						}
+				latestIBeacons = iBeacons;
+				for (IBeacon beacon : iBeacons) {
+					if (!iBeaconCollection.contains(beacon)) {
+						iBeaconCollection.add(beacon);
 					}
-				} else {
-					shouldStopBeaconScan();
-					delegateResponseToFragment();
 				}
 				
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
 				
+				//Lets go ahead and update the distance 
+				if(fragmentScanPeople.isVisible()){
+					fragmentScanPeople.shouldUpdateProximity(latestIBeacons);
+				}
 			}
 		});
 	}
 	
-	public void delegateResponseToFragment(){
-		if(currentWorkingFragment.equals("scan_people")){
-			if(iBeaconCollection.size()>0){
-				fragmentScanPeople.didFindBeacons(iBeaconCollection);
-			}else{
-				fragmentScanPeople.didNotFindBeacons();
-			}
-		}
-		
-		if(currentWorkingFragment.equals("settings")){
-			if(iBeaconCollection.size()>0){
-				fragmentSettings.didFindBeacons(iBeaconCollection);
-			}else{
-				fragmentSettings.didNotFindBeacons();
-			}
-			
-		}
+	public Collection<IBeacon> getiBeaconCollection() {
+		return iBeaconCollection;
 	}
+
+	// public void delegateResponseToFragment(){
+	// if(currentWorkingFragment.equals("scan_people")){
+	// if(iBeaconCollection.size()>0){
+	// fragmentScanPeople.didFindBeacons(iBeaconCollection);
+	// }else{
+	// fragmentScanPeople.didNotFindBeacons();
+	// }
+	// }
+	//
+	// if(currentWorkingFragment.equals("settings")){
+	// if(iBeaconCollection.size()>0){
+	// fragmentSettings.didFindBeacons(iBeaconCollection);
+	// }else{
+	// fragmentSettings.didNotFindBeacons();
+	// }
+	//
+	// }
+	// }
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -262,7 +249,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 			return true;
 		case R.id.github:
 			getSlidingMenu().showSecondaryMenu();
-			return true; 
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -272,24 +259,24 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer, MainF
 		getMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
-	
+
 	public void shouldLogout() {
-		//Destroy credentials 
-		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(this);
+		// Destroy credentials
+		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(
+				this);
 		sharedPreferencesAdapter.saveUser("", "");
 		Intent myIntent = new Intent(this, LoginActivity.class);
 		startActivity(myIntent);
 		finish();
 	}
-	
+
 	ArrayList<Person> personArrayList;
 
-	@Override
-	public void setPersonArrayList(ArrayList<Person> personArrayList) {
-		this.personArrayList = personArrayList;
-	}
-	
+//	@Override
+//	public void setPersonArrayList(ArrayList<Person> personArrayList) {
+//		this.personArrayList = personArrayList;
+//	}
+
 	public ArrayList<Person> getPersonArrayList() {
 		return personArrayList;
 	}
