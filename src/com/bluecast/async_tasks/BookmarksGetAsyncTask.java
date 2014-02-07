@@ -4,36 +4,30 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.bluecast.adapters.SharedPreferencesAdapter;
-import com.bluecast.interfaces.ScanPeopleAsyncTaskDelegate;
+import com.bluecast.interfaces.BookmarkGetAsyncTaskDelegate;
 import com.bluecast.models.Person;
-import com.radiusnetworks.ibeacon.IBeacon;
 
-public class ScanPeopleAsyncTask extends
+public class BookmarksGetAsyncTask extends
 		AsyncTask<Void, Void, ArrayList<Person>> {
-	public Collection<IBeacon> beacons;
 	SharedPreferencesAdapter sharedPreferences;
-	private ScanPeopleAsyncTaskDelegate delegate;
+	private BookmarkGetAsyncTaskDelegate delegate;
 
-	public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback,
-			Context context, Collection<IBeacon> beacons) {
+	public BookmarksGetAsyncTask(BookmarkGetAsyncTaskDelegate callback,
+			Context context) {
 		delegate = callback;
-		this.beacons = beacons;
 		sharedPreferences = new SharedPreferencesAdapter(context);
 	}
 
@@ -41,39 +35,20 @@ public class ScanPeopleAsyncTask extends
 
 	@Override
 	protected ArrayList<Person> doInBackground(Void... params) {
-		JSONArray jsonBeaconArray = new JSONArray();
-		for (IBeacon beacon : beacons) {
-			JSONObject jsonBeaconObject = new JSONObject();
-			try {
-				jsonBeaconObject.put("uuid", beacon.getProximityUuid());
-				jsonBeaconObject
-						.put("minor", String.valueOf(beacon.getMinor()));
-				jsonBeaconObject
-						.put("major", String.valueOf(beacon.getMajor()));
-			} catch (JSONException e1) {
-
-			}
-			jsonBeaconArray.put(jsonBeaconObject);
-		}
-
-		Log.e("user id", sharedPreferences.getUserID());
 
 		JSONObject jsonFullObject = new JSONObject();
 		try {
 			jsonFullObject.put("user_id", sharedPreferences.getUserID());
 			jsonFullObject.put("remember_token",
 					sharedPreferences.getUserToken());
-			jsonFullObject.put("beacons", jsonBeaconArray);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
 
-		Log.e("JSONREQUEST", jsonFullObject.toString());
-
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(
-				"https://bluecastalpha.herokuapp.com/mobile/beacon/scan");
+				"https://bluecastalpha.herokuapp.com/mobile/beacon/linkedin/bookmark/show");
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {
@@ -91,7 +66,7 @@ public class ScanPeopleAsyncTask extends
 			while ((line = in.readLine()) != null) {
 				page += line + "\n";
 			}
-			Log.i("page", page);
+//			Log.i("page", page);
 
 			personArrayList = new ArrayList<Person>();
 			JSONObject inputJSON = new JSONObject(page);
@@ -99,15 +74,8 @@ public class ScanPeopleAsyncTask extends
 			while (keysIterator.hasNext()) {
 				String keyStr = (String) keysIterator.next();
 				
-				Log.e("KEY", keyStr);
-				
 				JSONObject jsonObject = new JSONObject(inputJSON.getString(keyStr));
-//				
-				String major = jsonObject.getString("major"); 
-				String minor = jsonObject.getString("minor");
-				
 				JSONObject profileObject = new JSONObject(jsonObject.getString("profile"));
-//				
 				Person person = new Person(
 						profileObject.getString("last_name"),
 						profileObject.getString("first_name"),
@@ -116,13 +84,8 @@ public class ScanPeopleAsyncTask extends
 						profileObject.getString("picture_url"),
 						profileObject.getString("public_profile_url"),
 						profileObject.getString("id"));
-				person.setMinor(minor);
 				
 				
-				Log.e("MINOR", person.getMinor());
-
-//				
-//
 				personArrayList.add(person);
 			}
 
@@ -135,7 +98,7 @@ public class ScanPeopleAsyncTask extends
 
 	@Override
 	protected void onPostExecute(ArrayList<Person> result) {
-		delegate.didFinishIdentifyingBeacons(result);
+		delegate.didFinishAddingBookmarks(result);
 	}
 
 }

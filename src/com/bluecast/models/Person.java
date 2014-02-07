@@ -4,16 +4,24 @@ public class Person {
 	String lastName, linkedInID, firstName, headline, distance, pictureURL,
 			publicProfileURL, minor, major, rssi, proximity;
 
-	public Person(String minor, String lastName, String firstName, String headline,
-			String distance, String pictureURL, String publicProfileURL) {
-		this.minor = minor;
+	public Person( String lastName, String firstName, String headline,
+			String distance, String pictureURL, String publicProfileURL, String linkedInID) {
+//		this.minor = minor;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.headline = headline;
 		this.distance = distance;
 		this.pictureURL = pictureURL;
 		this.publicProfileURL = publicProfileURL;
+		this.linkedInID = linkedInID;
 	}
+	
+	
+	public void setLinkedInID(String linkedInID) {
+		this.linkedInID = linkedInID;
+	}
+	
+	
 
 	public void setProximity(int proximityValue) {
 		if (proximityValue == 0) {

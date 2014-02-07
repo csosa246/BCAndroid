@@ -64,8 +64,9 @@ public class ScanPeopleListFragment extends ListFragment implements
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		String publicProfileURL = personArrayList.get(position).getPublicProfileURL();
-		((MainActivity)getActivity()).shouldLoadPublicProfile(publicProfileURL);
+//		String publicProfileURL = personArrayList.get(position).getPublicProfileURL();
+		
+		((MainActivity)getActivity()).shouldLoadPublicProfile(personArrayList.get(position));
 	}
 	
 	public void shouldUpdateProximity(Collection<IBeacon> iBeaconUpdateArray){

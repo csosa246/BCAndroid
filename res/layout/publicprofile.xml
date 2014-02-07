@@ -5,5 +5,26 @@
     <WebView
         android:id="@+id/webview_public_profile"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button_bookmark" />
+
+        <Button
+            android:id="@+id/button_bookmark"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="+"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/edittext_note"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/button_bookmark"
+            android:layout_toLeftOf="@+id/button_bookmark"
+            android:ems="10" />
+    
 </RelativeLayout>

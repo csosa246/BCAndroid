@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.bluecast.adapters.SharedPreferencesAdapter;
+import com.bluecast.fragments.main.BookmarkListFragment;
 import com.bluecast.fragments.main.BookmarksFragment;
 import com.bluecast.fragments.main.MainLeftMenuFragment;
 import com.bluecast.fragments.main.PublicProfileFragment;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	public ScanPeopleListFragment fragmentScanPeople;
 	MainLeftMenuFragment fragmentLeftMenu;
 	ScanBusinessFragment fragmentScanBusiness;
-	BookmarksFragment fragmentBookmarks;
+	BookmarkListFragment fragmentBookmarks;
 	SettingsRightMenuFragment fragmentSettings;
 	PublicProfileFragment fragmentPublicProfile;
 	FragmentManager contentFragmentManager;
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		fragmentScanPeople = new ScanPeopleListFragment();
 		fragmentLeftMenu = new MainLeftMenuFragment();
 		fragmentScanBusiness = new ScanBusinessFragment();
-		fragmentBookmarks = new BookmarksFragment();
+		fragmentBookmarks = new BookmarkListFragment();
 		fragmentSettings = new SettingsRightMenuFragment();
 		fragmentPublicProfile = new PublicProfileFragment();
 
@@ -125,8 +126,8 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 	}
 
 //	@Override
-	public void shouldLoadPublicProfile(String URL) {
-		fragmentPublicProfile.loadURL(URL);
+	public void shouldLoadPublicProfile(Person person) {
+		fragmentPublicProfile.setProperties(person);
 		contentFragmentManager.beginTransaction().hide(fragmentScanPeople)
 				.commit();
 		contentFragmentManager.beginTransaction()

@@ -2,7 +2,6 @@ package com.bluecast.fragments.main;
 
 import java.util.Collection;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -16,10 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bluecast.async_tasks.RegisterBeaconAsyncTask;
-import com.bluecast.async_tasks.ScanPeopleAsyncTask;
 import com.bluecast.bluecast.MainActivity;
 import com.bluecast.bluecast.R;
-import com.bluecast.interfaces.MainFragmentDelegate;
 import com.bluecast.interfaces.RegisterBeaconAsyncTaskDelegate;
 import com.radiusnetworks.ibeacon.IBeacon;
 
@@ -80,29 +77,12 @@ public int getIndex() {
 		didClickRegisterButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// mainActivity.startBeaconScan(6000);
-					// showText("There are beacons, and we're gonna run through to try and register them");
-//					shouldConfirmBeacon();
-				
-				
-				
-				
-//					mainFragmentDelegate.shouldStartBeaconScan(5000,"settings");
+				iBeaconCollection = ((MainActivity)getActivity()).getiBeaconCollection();
+				shouldConfirmBeacon();
 				
 			}
 		});
 	}
-	
-	public void didFindBeacons(Collection<IBeacon> iBeaconCollection){
-		this.iBeaconCollection = iBeaconCollection;
-//		showText("did find some ibeacons on settings");
-		shouldConfirmBeacon();
-	}
-	
-	public void didNotFindBeacons(){
-		
-	}
-
 
 	public void shouldConfirmBeacon() {
 		AlertDialog.Builder saveDialog = new AlertDialog.Builder(getActivity());
