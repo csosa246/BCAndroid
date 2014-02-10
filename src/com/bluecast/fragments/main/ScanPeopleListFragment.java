@@ -59,13 +59,12 @@ public class ScanPeopleListFragment extends ListFragment implements
 		scanPeopleListAdapter = new ScanPeopleListAdapter(getActivity());
 		setListAdapter(scanPeopleListAdapter);
 		setListShownNoAnimation(true);
+		onRefreshStarted(this.getView());
 	}
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-//		String publicProfileURL = personArrayList.get(position).getPublicProfileURL();
-		
 		((MainActivity)getActivity()).shouldLoadPublicProfile(personArrayList.get(position));
 	}
 	
@@ -93,7 +92,6 @@ public class ScanPeopleListFragment extends ListFragment implements
 	public void didFinishIdentifyingBeacons(ArrayList<Person> personArrayList) {
 		this.personArrayList = personArrayList;		
 		scanPeopleListAdapter.setPersonArray(this.personArrayList);
-		scanPeopleListAdapter.notifyDataSetChanged();
 		shouldResignRefresh();
 	}
 

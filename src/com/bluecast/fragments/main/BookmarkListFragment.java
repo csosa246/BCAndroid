@@ -7,7 +7,6 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -42,7 +41,9 @@ public class BookmarkListFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		bookmarkListAdapter = new BookmarkListAdapter(getActivity());
+		setListAdapter(bookmarkListAdapter);
 		setListShownNoAnimation(true);
+		onRefreshStarted(this.getView());
 	}
 	
 	@Override
@@ -71,13 +72,8 @@ public class BookmarkListFragment extends ListFragment implements
 
 	@Override
 	public void didFinishAddingBookmarks(ArrayList<Person> personArrayList) {
-		this.personArrayList = personArrayList;		
-		
-		Log.e("PERSONARRAYSIZE", String.valueOf(personArrayList.size()));
-		
+		this.personArrayList = personArrayList;			
 		bookmarkListAdapter.setPersonArray(this.personArrayList);
-		bookmarkListAdapter.notifyDataSetChanged();
-		
 		shouldResignRefresh();
 	}
 }

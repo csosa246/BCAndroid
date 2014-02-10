@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.fragments.main.BookmarkListFragment;
-import com.bluecast.fragments.main.BookmarksFragment;
 import com.bluecast.fragments.main.MainLeftMenuFragment;
 import com.bluecast.fragments.main.PublicProfileFragment;
 import com.bluecast.fragments.main.ScanBusinessFragment;
@@ -67,8 +66,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 
 		// set the Above View
 		setContentView(R.layout.content_frame);
-		contentFragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragmentScanPeople).commit();
+		switchFragment(0);
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
@@ -125,7 +123,6 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		getSlidingMenu().showContent();
 	}
 
-//	@Override
 	public void shouldLoadPublicProfile(Person person) {
 		fragmentPublicProfile.setProperties(person);
 		contentFragmentManager.beginTransaction().hide(fragmentScanPeople)
@@ -266,6 +263,7 @@ public class MainActivity extends BaseActivity implements IBeaconConsumer {
 		SharedPreferencesAdapter sharedPreferencesAdapter = new SharedPreferencesAdapter(
 				this);
 		sharedPreferencesAdapter.saveUser("", "");
+		
 		Intent myIntent = new Intent(this, LoginActivity.class);
 		startActivity(myIntent);
 		finish();

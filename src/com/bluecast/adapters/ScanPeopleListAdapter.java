@@ -37,6 +37,7 @@ public class ScanPeopleListAdapter extends BaseAdapter {
 
 	public void setPersonArray(ArrayList<Person> personArray) {
 		this.personArray = personArray;
+		notifyDataSetChanged();
 	}
 
 	public void setBeaconUpdateArray(Collection<IBeacon> beaconUpdateArray) {
@@ -72,6 +73,7 @@ public class ScanPeopleListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
@@ -93,7 +95,11 @@ public class ScanPeopleListAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		convertView.setBackgroundResource(R.drawable.container_dropshadow);
+//		convertView.setBackgroundResource(R.drawable.container_dropshadow);
+		
+		
+//		Toast.makeText(context, personArray.get(position).getFullName(), Toast.LENGTH_LONG).show();
+
 
 		viewHolder.name.setText(personArray.get(position).getFullName());
 		viewHolder.details.setText(personArray.get(position).getHeadline());
@@ -134,6 +140,7 @@ public class ScanPeopleListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
+
 		return personArray.size();
 	}
 

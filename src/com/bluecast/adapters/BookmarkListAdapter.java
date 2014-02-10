@@ -31,15 +31,16 @@ public class BookmarkListAdapter extends BaseAdapter {
 		public TextView distance;
 	}
 
-	public void setPersonArray(ArrayList<Person> personArray) {
-		this.personArray = personArray;
-	}
-
 	public BookmarkListAdapter(Activity context) {
 		this.context = context;
 		personArray = new ArrayList<Person>();
 		typeface = Typeface.createFromAsset(this.context.getAssets(),
 				"fonts/Roboto-Light.ttf");
+	}
+	
+	public void setPersonArray(ArrayList<Person> personArray) {
+		this.personArray = personArray;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -63,8 +64,8 @@ public class BookmarkListAdapter extends BaseAdapter {
 		}
 
 		convertView.setBackgroundResource(R.drawable.container_dropshadow);
-
 		viewHolder.name.setText(personArray.get(position).getFullName());
+		
 		viewHolder.details.setText(personArray.get(position).getHeadline());
 		viewHolder.distance.setText(personArray.get(position).getDistance());
 		
@@ -85,18 +86,11 @@ public class BookmarkListAdapter extends BaseAdapter {
 						}
 					}
 				});
-
 		// Setting typeface
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.distance.setTypeface(typeface);
 		viewHolder.details.setTypeface(typeface);
 		return convertView;
-	}
-
-	public int selected;
-
-	public void setSelected(int selected) {
-		this.selected = selected;
 	}
 
 	@Override

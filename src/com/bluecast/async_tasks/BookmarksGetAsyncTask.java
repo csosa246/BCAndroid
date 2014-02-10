@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.bluecast.adapters.SharedPreferencesAdapter;
 import com.bluecast.interfaces.BookmarkGetAsyncTaskDelegate;
@@ -24,13 +25,17 @@ public class BookmarksGetAsyncTask extends
 		AsyncTask<Void, Void, ArrayList<Person>> {
 	SharedPreferencesAdapter sharedPreferences;
 	private BookmarkGetAsyncTaskDelegate delegate;
+	Context context; 
 
 	public BookmarksGetAsyncTask(BookmarkGetAsyncTaskDelegate callback,
 			Context context) {
 		delegate = callback;
-		sharedPreferences = new SharedPreferencesAdapter(context);
+		this.context = context;
+		sharedPreferences = new SharedPreferencesAdapter(this.context);
 	}
 
+	String pageFinal; 
+	
 	ArrayList<Person> personArrayList;
 
 	@Override
@@ -67,6 +72,7 @@ public class BookmarksGetAsyncTask extends
 				page += line + "\n";
 			}
 //			Log.i("page", page);
+			pageFinal = page;
 
 			personArrayList = new ArrayList<Person>();
 			JSONObject inputJSON = new JSONObject(page);
@@ -98,6 +104,9 @@ public class BookmarksGetAsyncTask extends
 
 	@Override
 	protected void onPostExecute(ArrayList<Person> result) {
+		
+
+
 		delegate.didFinishAddingBookmarks(result);
 	}
 

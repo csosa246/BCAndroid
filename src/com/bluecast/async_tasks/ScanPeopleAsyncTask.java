@@ -30,10 +30,10 @@ public class ScanPeopleAsyncTask extends
 	SharedPreferencesAdapter sharedPreferences;
 	private ScanPeopleAsyncTaskDelegate delegate;
 
-	public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback,
-			Context context, Collection<IBeacon> beacons) {
+	public ScanPeopleAsyncTask(ScanPeopleAsyncTaskDelegate callback,Context context, Collection<IBeacon> beacons) {
 		delegate = callback;
 		this.beacons = beacons;
+		
 		sharedPreferences = new SharedPreferencesAdapter(context);
 	}
 
