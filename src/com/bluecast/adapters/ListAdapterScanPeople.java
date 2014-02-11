@@ -33,6 +33,7 @@ public class ListAdapterScanPeople extends BaseAdapter {
 		public ImageView imageView;
 		public TextView distance;
 		public TextView proximity;
+		public TextView proximityColor;
 	}
 
 	public void setPersonArray(ArrayList<ModelPerson> personArray) {
@@ -56,7 +57,6 @@ public class ListAdapterScanPeople extends BaseAdapter {
 					currentPerson.setProximity(beacon.getProximity());
 					personArray.set(i, currentPerson);
 				}
-
 			}
 		}
 		
@@ -86,8 +86,10 @@ public class ListAdapterScanPeople extends BaseAdapter {
 					.findViewById(R.id.profile_details);
 			viewHolder.distance = (TextView) convertView
 					.findViewById(R.id.profile_distance);
-			convertView.setTag(viewHolder);
-			viewHolder.proximity = (TextView) convertView.findViewById(R.id.profile_accuracy);
+			viewHolder.proximity = (TextView) convertView.
+					findViewById(R.id.profile_accuracy);
+			viewHolder.proximityColor = (TextView) convertView.
+					findViewById(R.id.profile_accuracy_color);
 			convertView.setTag(viewHolder);
 
 		} else {
@@ -95,15 +97,12 @@ public class ListAdapterScanPeople extends BaseAdapter {
 		}
 
 //		convertView.setBackgroundResource(R.drawable.container_dropshadow);
-		
-		
-//		Toast.makeText(context, personArray.get(position).getFullName(), Toast.LENGTH_LONG).show();
-
-
 		viewHolder.name.setText(personArray.get(position).getFullName());
 		viewHolder.details.setText(personArray.get(position).getHeadline());
 		viewHolder.distance.setText(personArray.get(position).getDistance());
 		viewHolder.proximity.setText(personArray.get(position).getProximity());
+		viewHolder.proximity.setTextColor(personArray.get(position).getProximityColor());
+//		viewHolder.proximityColor.setBackgroundColor(personArray.get(position).getProximityColor());
 
 		UrlImageViewHelper.setUrlDrawable(viewHolder.imageView, personArray
 				.get(position).getPictureURL(), R.drawable.loading,
@@ -139,7 +138,6 @@ public class ListAdapterScanPeople extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-
 		return personArray.size();
 	}
 

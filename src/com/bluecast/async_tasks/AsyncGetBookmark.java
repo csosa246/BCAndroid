@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.bluecast.adapters.AdapterSharedPreferences;
 import com.bluecast.interfaces.DelegateAsyncGetBookmark;

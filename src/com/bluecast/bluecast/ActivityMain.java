@@ -12,12 +12,12 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.bluecast.adapters.AdapterSharedPreferences;
-import com.bluecast.fragments.main.ListFragmentBookmark;
 import com.bluecast.fragments.main.FragmentLeftMenu;
 import com.bluecast.fragments.main.FragmentPublicProfile;
-import com.bluecast.fragments.main.FragmentScanBusiness;
-import com.bluecast.fragments.main.ListFragmentScanPeople;
 import com.bluecast.fragments.main.FragmentRightMenu;
+import com.bluecast.fragments.main.ListFragmentBookmark;
+import com.bluecast.fragments.main.ListFragmentScanBusiness;
+import com.bluecast.fragments.main.ListFragmentScanPeople;
 import com.bluecast.models.ModelPerson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -33,7 +33,7 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 
 	public ListFragmentScanPeople fragmentScanPeople;
 	FragmentLeftMenu fragmentLeftMenu;
-	FragmentScanBusiness fragmentScanBusiness;
+	ListFragmentScanBusiness fragmentScanBusiness;
 	ListFragmentBookmark fragmentBookmarks;
 	FragmentRightMenu fragmentSettings;
 	FragmentPublicProfile fragmentPublicProfile;
@@ -59,7 +59,7 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 		contentFragmentManager = getFragmentManager();
 		fragmentScanPeople = new ListFragmentScanPeople();
 		fragmentLeftMenu = new FragmentLeftMenu();
-		fragmentScanBusiness = new FragmentScanBusiness();
+		fragmentScanBusiness = new ListFragmentScanBusiness();
 		fragmentBookmarks = new ListFragmentBookmark();
 		fragmentSettings = new FragmentRightMenu();
 		fragmentPublicProfile = new FragmentPublicProfile();
@@ -83,7 +83,13 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 
 		iBeaconManager.bind(this);
 		iBeaconCollection = new ArrayList<IBeacon>();
+		
+//		setupActionBar();
 	}
+	
+//	public void setupActionBar(){
+//		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.argb(255, 23, 71, 107)));
+//	}
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {

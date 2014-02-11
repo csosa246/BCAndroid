@@ -1,8 +1,11 @@
 package com.bluecast.models;
 
+import android.graphics.Color;
+
 public class ModelPerson {
 	String lastName, linkedInID, firstName, headline, distance, pictureURL,
 			publicProfileURL, minor, major, rssi, proximity;
+	int proximityColor; 
 
 	public ModelPerson( String lastName, String firstName, String headline,
 			String distance, String pictureURL, String publicProfileURL, String linkedInID) {
@@ -16,23 +19,28 @@ public class ModelPerson {
 		this.linkedInID = linkedInID;
 	}
 	
-	
 	public void setLinkedInID(String linkedInID) {
 		this.linkedInID = linkedInID;
 	}
-	
-	
 
 	public void setProximity(int proximityValue) {
 		if (proximityValue == 0) {
 			this.proximity = "";
+			this.proximityColor = Color.TRANSPARENT;
 		} else if (proximityValue == 1) {
 			this.proximity = "Proximity Immediate";
+			this.proximityColor = Color.GREEN;
 		} else if (proximityValue == 2) {
 			this.proximity = "Proximity Near";
+			this.proximityColor = Color.GRAY;
 		} else if (proximityValue == 3) {
 			this.proximity = "Proximity Far";
+			this.proximityColor = Color.RED;
 		}
+	}
+	
+	public int getProximityColor() {
+		return proximityColor;
 	}
 	
 	public String getHeadline() {
@@ -72,14 +80,6 @@ public class ModelPerson {
 
 	public String getMinor() {
 		return minor;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
 	}
 
 	public String getLinkedInID() {

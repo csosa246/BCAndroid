@@ -45,6 +45,7 @@ public class ListAdapterBookmark extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
@@ -59,16 +60,16 @@ public class ListAdapterBookmark extends BaseAdapter {
 			viewHolder.distance = (TextView) convertView
 					.findViewById(R.id.profile_distance);
 			convertView.setTag(viewHolder);
+
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		convertView.setBackgroundResource(R.drawable.container_dropshadow);
+//		convertView.setBackgroundResource(R.drawable.container_dropshadow);
 		viewHolder.name.setText(personArray.get(position).getFullName());
-		
 		viewHolder.details.setText(personArray.get(position).getHeadline());
 		viewHolder.distance.setText(personArray.get(position).getDistance());
-		
+
 		UrlImageViewHelper.setUrlDrawable(viewHolder.imageView, personArray
 				.get(position).getPictureURL(), R.drawable.loading,
 				new UrlImageViewCallback() {
@@ -86,6 +87,7 @@ public class ListAdapterBookmark extends BaseAdapter {
 						}
 					}
 				});
+
 		// Setting typeface
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.distance.setTypeface(typeface);

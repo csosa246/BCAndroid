@@ -18,7 +18,6 @@ public class AdapterBeacon extends Activity implements IBeaconConsumer {
 	private IBeaconManager iBeaconManager = IBeaconManager
 			.getInstanceForApplication(this);
 	
-	
 	Collection<IBeacon> iBeaconCollection;
 
 	long endTime;
