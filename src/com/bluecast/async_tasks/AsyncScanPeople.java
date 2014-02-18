@@ -57,7 +57,9 @@ public class AsyncScanPeople extends
 		}
 
 //		Log.e("user id", sharedPreferences.getUserID());
-
+		
+		
+		
 		JSONObject jsonFullObject = new JSONObject();
 		try {
 			jsonFullObject.put("user_id", sharedPreferences.getUserID());
@@ -77,6 +79,7 @@ public class AsyncScanPeople extends
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {
+			Log.e("TAGGGGGG", jsonFullObject.toString());
 			se = new StringEntity(jsonFullObject.toString());
 			httpPost.setEntity(se);
 		} catch (UnsupportedEncodingException e1) {
@@ -91,7 +94,7 @@ public class AsyncScanPeople extends
 			while ((line = in.readLine()) != null) {
 				page += line + "\n";
 			}
-			Log.i("page", page);
+//			Log.i("page", page);
 
 			personArrayList = new ArrayList<ModelPerson>();
 			JSONObject inputJSON = new JSONObject(page);
@@ -107,9 +110,11 @@ public class AsyncScanPeople extends
 				String minor = jsonObject.getString("minor");
 				
 				JSONObject profileObject = new JSONObject(jsonObject.getString("profile"));
+				
+				Log.i("profile object", profileObject.toString());
+
 //				
-				ModelPerson person = new ModelPerson(
-						profileObject.getString("last_name"),
+				ModelPerson person = new ModelPerson(profileObject.getString("last_name"),
 						profileObject.getString("first_name"),
 						profileObject.getString("headline"),
 						profileObject.getString("distance"),
@@ -118,11 +123,8 @@ public class AsyncScanPeople extends
 						profileObject.getString("id"));
 				person.setMinor(minor);
 				
-				
 				Log.e("MINOR", person.getMinor());
 
-//				
-//
 				personArrayList.add(person);
 			}
 
