@@ -47,7 +47,7 @@ public class AsyncBeaconRegister extends AsyncTask<Void, Void, String> {
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(
-				"https://bluecastalpha.herokuapp.com/mobile/beacon/register");
+				"http://bluecastme.herokuapp.com/beacons/new");
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {
@@ -72,7 +72,7 @@ public class AsyncBeaconRegister extends AsyncTask<Void, Void, String> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Log.e("TAG", mainObj.toString());
+//		Log.e("TAG", mainObj.toString());
 		return page;
 	};
 

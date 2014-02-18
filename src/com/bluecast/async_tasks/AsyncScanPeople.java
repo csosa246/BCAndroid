@@ -56,7 +56,7 @@ public class AsyncScanPeople extends
 			jsonBeaconArray.put(jsonBeaconObject);
 		}
 
-		Log.e("user id", sharedPreferences.getUserID());
+//		Log.e("user id", sharedPreferences.getUserID());
 
 		JSONObject jsonFullObject = new JSONObject();
 		try {
@@ -68,12 +68,12 @@ public class AsyncScanPeople extends
 			e1.printStackTrace();
 		}
 
-		Log.e("JSONREQUEST", jsonFullObject.toString());
+//		Log.e("JSONREQUEST", jsonFullObject.toString());
 
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(
-				"https://bluecastalpha.herokuapp.com/mobile/beacon/scan");
+				"http://bluecastme.herokuapp.com/beacons/linkedin_scan");
 		httpPost.setHeader("Content-type", "application/json");
 		StringEntity se;
 		try {

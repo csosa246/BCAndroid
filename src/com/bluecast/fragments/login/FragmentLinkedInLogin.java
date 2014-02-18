@@ -25,7 +25,7 @@ public class FragmentLinkedInLogin extends Fragment {
 
 	private WebView webView;
 	AdapterSharedPreferences sharedPreferences;
-	private static String URL = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=77upwjrghunhka&state=KNO&redirect_uri=https://bluecastalpha.herokuapp.com/mobile/linkedin/login";
+	private static String URL = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=77zamhjq50ug04&state=asdqwe123&redirect_uri=http://bluecastme.herokuapp.com/linkedins/new_mobile";
 	ActivityLogin loginActivity;
 
 	@Override
@@ -100,7 +100,7 @@ public class FragmentLinkedInLogin extends Fragment {
 			for (ModelLinkedInLoginCredentials credentials : linkedInCredentials) {
 				sharedPreferences.saveUser(credentials.getId(),
 						credentials.getRememberToken());
-				Log.e("tag", sharedPreferences.getUserID()+"\n"+sharedPreferences.getUserToken());
+				Log.e("USER", sharedPreferences.getUserID()+"\n"+sharedPreferences.getUserToken());
 			}
 			loginActivity.didConfirmLoginAndShouldProceedToMainActivity();
 		}
