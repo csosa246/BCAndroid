@@ -103,7 +103,7 @@ public class FragmentRightMenu extends Fragment implements
 									confirmationNumber)) {
 								// Send registration
 								Toast.makeText(getActivity(),
-										"Yeah we got that", Toast.LENGTH_LONG)
+										"|", Toast.LENGTH_LONG)
 										.show();
 
 								shouldRegisterBeacon(beacon);

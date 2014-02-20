@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -23,12 +24,17 @@ public class AsyncBeaconRegister extends AsyncTask<Void, Void, String> {
 	IBeacon beacon;
 	AdapterSharedPreferences sharedPreferences;
 	private DelegateAsyncBeaconRegister delegate;
+	private ProgressDialog progressDialog; 
 
 	public AsyncBeaconRegister(DelegateAsyncBeaconRegister callback,
 			Context context, IBeacon beacon) {
 		delegate = callback;
 		this.beacon = beacon;
 		sharedPreferences = new AdapterSharedPreferences(context);
+		progressDialog = new ProgressDialog(context);
+		progressDialog.setMessage("Registering Beacon...");
+		progressDialog.show();
+		
 	}
 
 	@Override
@@ -78,6 +84,8 @@ public class AsyncBeaconRegister extends AsyncTask<Void, Void, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
+		progressDialog.dismiss();
+
 		delegate.didReceiveResponse(result);
 		Log.e("Tag", result);
 	}

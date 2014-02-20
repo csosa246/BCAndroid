@@ -51,14 +51,10 @@ public class ListAdapterScanBusiness extends BaseAdapter {
 			LayoutInflater inflater = context.getLayoutInflater();
 			convertView = inflater.inflate(R.layout.rowlayout, null);
 			viewHolder = new ViewHolder();
-			viewHolder.imageView = (ImageView) convertView
-					.findViewById(R.id.profile_picture);
-			viewHolder.name = (TextView) convertView
-					.findViewById(R.id.profile_name);
-			viewHolder.details = (TextView) convertView
-					.findViewById(R.id.profile_details);
-			viewHolder.distance = (TextView) convertView
-					.findViewById(R.id.profile_distance);
+			viewHolder.imageView = (ImageView) convertView.findViewById(R.id.profile_picture);
+			viewHolder.name = (TextView) convertView.findViewById(R.id.profile_name);
+			viewHolder.details = (TextView) convertView.findViewById(R.id.profile_details);
+			viewHolder.distance = (TextView) convertView.findViewById(R.id.profile_distance);
 			convertView.setTag(viewHolder);
 
 		} else {

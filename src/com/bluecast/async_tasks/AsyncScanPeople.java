@@ -121,8 +121,7 @@ public class AsyncScanPeople extends
 				
 				Log.e("MINOR", person.getMinor());
 
-//				
-//
+		
 				personArrayList.add(person);
 			}
 
