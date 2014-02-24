@@ -14,12 +14,13 @@ import android.widget.Toast;
 import com.bluecast.adapters.ListAdapterScanBusiness;
 import com.bluecast.async_tasks.AsyncGetBusiness;
 import com.bluecast.interfaces.DelegateAsyncGetBusiness;
+import com.bluecast.models.Business;
 import com.bluecast.models.ModelBusiness;
 
 public class ListFragmentScanBusiness extends ListFragment implements
 		OnRefreshListener, DelegateAsyncGetBusiness {
 	private PullToRefreshLayout mPullToRefreshLayout;
-	ArrayList<ModelBusiness> businessArrayList; 
+	ArrayList<Business> businessArrayList; 
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class ListFragmentScanBusiness extends ListFragment implements
 	
 
 	@Override
-	public void didFinishGettingBussiness(ArrayList<ModelBusiness> businessArrayList) {		
+	public void didFinishGettingBussiness(ArrayList<Business> businessArrayList) {		
 //		Toast.makeText(getActivity(), businessArrayList.get(0).getPicture_url()	, Toast.LENGTH_LONG).show();
 		this.businessArrayList = businessArrayList;
 		

@@ -2,9 +2,9 @@ package com.bluecast.interfaces;
 
 import java.util.ArrayList;
 
-import com.bluecast.models.ModelBusiness;
+import com.bluecast.models.Business;
 
 
 public interface DelegateAsyncGetBusiness {
-    void didFinishGettingBussiness(ArrayList<ModelBusiness> businessArrayList);
+    void didFinishGettingBussiness(ArrayList<Business> businessArrayList);
 }

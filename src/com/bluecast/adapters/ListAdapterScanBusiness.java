@@ -15,13 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bluecast.bluecast.R;
+import com.bluecast.models.Business;
 import com.bluecast.models.ModelBusiness;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewCallback;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 public class ListAdapterScanBusiness extends BaseAdapter {
 	private final Activity context;
-	ArrayList<ModelBusiness> businessArray;
+	ArrayList<Business> businessArray;
 	Typeface typeface;
 
 	static class ViewHolder {
@@ -33,12 +34,12 @@ public class ListAdapterScanBusiness extends BaseAdapter {
 
 	public ListAdapterScanBusiness(Activity context) {
 		this.context = context;
-		businessArray = new ArrayList<ModelBusiness>();
+		businessArray = new ArrayList<Business>();
 		typeface = Typeface.createFromAsset(this.context.getAssets(),
 				"fonts/Roboto-Light.ttf");
 	}
 	
-	public void setBusinessArray(ArrayList<ModelBusiness> businessArray) {
+	public void setBusinessArray(ArrayList<Business> businessArray) {
 		this.businessArray = businessArray;
 		notifyDataSetChanged();
 	}
@@ -61,12 +62,12 @@ public class ListAdapterScanBusiness extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.name.setText(businessArray.get(position).getTitle());
+		viewHolder.name.setText(businessArray.get(position).getCompany());
 		viewHolder.details.setText(businessArray.get(position).getDescription());
 		viewHolder.distance.setText("");
 
 		UrlImageViewHelper.setUrlDrawable(viewHolder.imageView, businessArray
-				.get(position).getPicture_url(), R.drawable.loading,
+				.get(position).getPictureURL(), R.drawable.loading,
 				new UrlImageViewCallback() {
 					@Override
 					public void onLoaded(ImageView imageView,
