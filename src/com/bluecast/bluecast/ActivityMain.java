@@ -12,12 +12,14 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.bluecast.adapters.AdapterSharedPreferences;
+import com.bluecast.fragments.main.FragmentCompanyProfile;
 import com.bluecast.fragments.main.FragmentLeftMenu;
 import com.bluecast.fragments.main.FragmentPublicProfile;
 import com.bluecast.fragments.main.FragmentRightMenu;
 import com.bluecast.fragments.main.ListFragmentBookmark;
 import com.bluecast.fragments.main.ListFragmentScanBusiness;
 import com.bluecast.fragments.main.ListFragmentScanPeople;
+import com.bluecast.models.Business;
 import com.bluecast.models.ModelPerson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.radiusnetworks.ibeacon.IBeacon;
@@ -27,10 +29,7 @@ import com.radiusnetworks.ibeacon.RangeNotifier;
 import com.radiusnetworks.ibeacon.Region;
 
 public class ActivityMain extends ActivityBase implements IBeaconConsumer {
-	// private Fragment mContent;
-	private IBeaconManager iBeaconManager = IBeaconManager
-			.getInstanceForApplication(this);
-
+	private IBeaconManager iBeaconManager = IBeaconManager.getInstanceForApplication(this);
 	public ListFragmentScanPeople fragmentScanPeople;
 	FragmentLeftMenu fragmentLeftMenu;
 	ListFragmentScanBusiness fragmentScanBusiness;
@@ -38,6 +37,7 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 	FragmentRightMenu fragmentSettings;
 	FragmentPublicProfile fragmentPublicProfile;
 	FragmentManager contentFragmentManager;
+	FragmentCompanyProfile fragmentCompanyProfile; 
 
 	public ActivityMain() {
 		super(R.string.changing_fragments);
@@ -53,9 +53,6 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 		// "mContent");
 		// if (mContent == null)
 
-		// mContent = new BeaconIndividualScanFragment();
-		// mContent = new RefreshListFragment();
-
 		contentFragmentManager = getFragmentManager();
 		fragmentScanPeople = new ListFragmentScanPeople();
 		fragmentLeftMenu = new FragmentLeftMenu();
@@ -63,33 +60,25 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 		fragmentBookmarks = new ListFragmentBookmark();
 		fragmentSettings = new FragmentRightMenu();
 		fragmentPublicProfile = new FragmentPublicProfile();
-
+		fragmentCompanyProfile = new FragmentCompanyProfile();
 		// set the Above View
 		setContentView(R.layout.content_frame);
 		switchFragment(0);
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, fragmentLeftMenu).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, fragmentLeftMenu).commit();
 
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
-		getFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame_two, fragmentSettings).commit();
+		getFragmentManager().beginTransaction().replace(R.id.menu_frame_two, fragmentSettings).commit();
 		// customize the SlidingMenu
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		iBeaconManager.bind(this);
 		iBeaconCollection = new ArrayList<IBeacon>();
-		
-//		setupActionBar();
 	}
-	
-//	public void setupActionBar(){
-//		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.argb(255, 23, 71, 107)));
-//	}
 
 	// @Override
 	// public void onSaveInstanceState(Bundle outState) {
@@ -104,21 +93,17 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 	// .replace(R.id.content_frame, fragment).commit();
 	// getSlidingMenu().showContent();
 	// }
-	int currentPosition;
-
+	
 	public void switchFragment(int position) {
 		switch (position) {
 		case 0:
-			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragmentScanPeople).commit();
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, fragmentScanPeople).commit();
 			break;
 		case 1:
-			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragmentScanBusiness).commit();
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, fragmentScanBusiness).commit();
 			break;
 		case 2:
-			contentFragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragmentBookmarks).commit();
+			contentFragmentManager.beginTransaction().replace(R.id.content_frame, fragmentBookmarks).commit();
 			break;
 		case 3:
 			break;
@@ -131,25 +116,31 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 
 	public void shouldLoadPublicProfile(ModelPerson person) {
 		fragmentPublicProfile.setProperties(person);
-		contentFragmentManager.beginTransaction().hide(fragmentScanPeople)
-				.commit();
-		contentFragmentManager.beginTransaction()
-				.add(R.id.content_frame, fragmentPublicProfile).commit();
-		contentFragmentManager.beginTransaction().show(fragmentPublicProfile)
-				.commit();
+		contentFragmentManager.beginTransaction().hide(fragmentScanPeople).commit();
+		contentFragmentManager.beginTransaction().add(R.id.content_frame, fragmentPublicProfile).commit();
+		contentFragmentManager.beginTransaction().show(fragmentPublicProfile).commit();
+	}
+	
+	public void shouldLoadCompanyProfile(Business business){
+		fragmentCompanyProfile.setBusiness(business);
+		contentFragmentManager.beginTransaction().hide(fragmentScanBusiness).commit();
+		contentFragmentManager.beginTransaction().add(R.id.content_frame, fragmentCompanyProfile).commit();
+		contentFragmentManager.beginTransaction().show(fragmentCompanyProfile).commit();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				& fragmentPublicProfile.isVisible()) {
-			contentFragmentManager.beginTransaction()
-					.hide(fragmentPublicProfile).commit();
-			contentFragmentManager.beginTransaction().show(fragmentScanPeople)
-					.commit();
-			contentFragmentManager.beginTransaction()
-					.remove(fragmentPublicProfile).commit();
+		if (keyCode == KeyEvent.KEYCODE_BACK & fragmentPublicProfile.isVisible()) {
+			contentFragmentManager.beginTransaction().hide(fragmentPublicProfile).commit();
+			contentFragmentManager.beginTransaction().show(fragmentScanPeople).commit();
+			contentFragmentManager.beginTransaction().remove(fragmentPublicProfile).commit();
+			return false;
+		}
+		
+		if (keyCode == KeyEvent.KEYCODE_BACK & fragmentCompanyProfile.isVisible()) {
+			contentFragmentManager.beginTransaction().hide(fragmentCompanyProfile).commit();
+			contentFragmentManager.beginTransaction().show(fragmentScanBusiness).commit();
+			contentFragmentManager.beginTransaction().remove(fragmentCompanyProfile).commit();
 			return false;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -175,15 +166,12 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 			iBeaconManager.setBackgroundMode(this, false);
 	}
 
-	Collection<IBeacon> iBeaconCollection;
-
-	Collection<IBeacon> latestIBeacons;
+	Collection<IBeacon> iBeaconCollection,latestIBeacons;
 	@Override
 	public void onIBeaconServiceConnect() {
 		iBeaconManager.setRangeNotifier(new RangeNotifier() {
 			@Override
-			public void didRangeBeaconsInRegion(
-					final Collection<IBeacon> iBeacons, Region region) {
+			public void didRangeBeaconsInRegion(final Collection<IBeacon> iBeacons, Region region) {
 				logToThread(iBeacons);
 			}
 		});
@@ -193,14 +181,9 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
         } catch (RemoteException e) {   }
 	}
 
-	String currentWorkingFragment;
-
-
 	public void showText(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
-
-	String cwf = "";
 
 	public void logToThread(final Collection<IBeacon> iBeacons) {
 		runOnUiThread(new Runnable() {
@@ -213,7 +196,6 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 				}
 				
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
-				
 				//Lets go ahead and update the distance 
 				if(fragmentScanPeople.isVisible()){
 					fragmentScanPeople.shouldUpdateProximity(latestIBeacons);
@@ -225,25 +207,6 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 	public Collection<IBeacon> getiBeaconCollection() {
 		return iBeaconCollection;
 	}
-
-	// public void delegateResponseToFragment(){
-	// if(currentWorkingFragment.equals("scan_people")){
-	// if(iBeaconCollection.size()>0){
-	// fragmentScanPeople.didFindBeacons(iBeaconCollection);
-	// }else{
-	// fragmentScanPeople.didNotFindBeacons();
-	// }
-	// }
-	//
-	// if(currentWorkingFragment.equals("settings")){
-	// if(iBeaconCollection.size()>0){
-	// fragmentSettings.didFindBeacons(iBeaconCollection);
-	// }else{
-	// fragmentSettings.didNotFindBeacons();
-	// }
-	//
-	// }
-	// }
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -266,21 +229,14 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 
 	public void shouldLogout() {
 		// Destroy credentials
-		AdapterSharedPreferences sharedPreferencesAdapter = new AdapterSharedPreferences(
-				this);
+		AdapterSharedPreferences sharedPreferencesAdapter = new AdapterSharedPreferences(this);
 		sharedPreferencesAdapter.saveUser("", "");
-		
 		Intent myIntent = new Intent(this, ActivityLogin.class);
 		startActivity(myIntent);
 		finish();
 	}
 
 	ArrayList<ModelPerson> personArrayList;
-
-//	@Override
-//	public void setPersonArrayList(ArrayList<Person> personArrayList) {
-//		this.personArrayList = personArrayList;
-//	}
 
 	public ArrayList<ModelPerson> getPersonArrayList() {
 		return personArrayList;

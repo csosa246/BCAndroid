@@ -9,33 +9,29 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bluecast.adapters.ListAdapterScanBusiness;
 import com.bluecast.async_tasks.AsyncGetBusiness;
+import com.bluecast.bluecast.ActivityMain;
 import com.bluecast.interfaces.DelegateAsyncGetBusiness;
 import com.bluecast.models.Business;
-import com.bluecast.models.ModelBusiness;
 
 public class ListFragmentScanBusiness extends ListFragment implements
 		OnRefreshListener, DelegateAsyncGetBusiness {
 	private PullToRefreshLayout mPullToRefreshLayout;
-	ArrayList<Business> businessArrayList; 
+	private ArrayList<Business> businessArrayList; 
+	private ListAdapterScanBusiness businessListAdapter; 
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ViewGroup viewGroup = (ViewGroup) view;
 		mPullToRefreshLayout = new PullToRefreshLayout(viewGroup.getContext());
-		ActionBarPullToRefresh
-				.from(getActivity())
-				.insertLayoutInto(viewGroup)
-				.theseChildrenArePullable(android.R.id.list, android.R.id.empty)
-				.listener(this).setup(mPullToRefreshLayout);
+		ActionBarPullToRefresh.from(getActivity()).insertLayoutInto(viewGroup).theseChildrenArePullable(android.R.id.list, android.R.id.empty).listener(this).setup(mPullToRefreshLayout);
 	}
 
-	ListAdapterScanBusiness businessListAdapter; 
-	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -45,11 +41,11 @@ public class ListFragmentScanBusiness extends ListFragment implements
 		onRefreshStarted(this.getView());
 	}
 	
-//	@Override
-//	public void onListItemClick(ListView l, View v, int position, long id) {
-//		super.onListItemClick(l, v, position, id);
-//		((ActivityMain)getActivity()).shouldLoadPublicProfile(businessArrayList.get(position));
-//	}
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		((ActivityMain)getActivity()).shouldLoadCompanyProfile(this.businessArrayList.get(position));
+	}
 
 	@Override
 	public void onRefreshStarted(View view) {
@@ -69,16 +65,11 @@ public class ListFragmentScanBusiness extends ListFragment implements
 		}
 	}
 	
-
 	@Override
 	public void didFinishGettingBussiness(ArrayList<Business> businessArrayList) {		
-//		Toast.makeText(getActivity(), businessArrayList.get(0).getPicture_url()	, Toast.LENGTH_LONG).show();
 		this.businessArrayList = businessArrayList;
-		
 		businessListAdapter.setBusinessArray(this.businessArrayList);
-		
 		shouldResignRefresh();
-		
 	}
 
 //	@Override

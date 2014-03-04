@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF" >
+
+    <TextView
+        android:id="@+id/textview_job_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dip"
+        android:text="Job"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textview_job_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textview_job_name"
+        android:layout_below="@+id/textview_job_name"
+        android:text="Description"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#707070"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/textview_job_position"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textview_job_name"
+        android:layout_below="@+id/textview_job_description"
+        android:paddingTop="5dip"
+        android:text="Position"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#707070"
+        android:textSize="10sp" />
+    <TextView
+        android:id="@+id/textview_job_term"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textview_job_name"
+        android:layout_below="@+id/textview_job_position"
+        android:paddingTop="5dip"
+        android:text="Term"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#707070"
+        android:textSize="10sp" />
+</RelativeLayout>

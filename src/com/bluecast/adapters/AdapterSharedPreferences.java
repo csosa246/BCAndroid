@@ -22,7 +22,7 @@ public class AdapterSharedPreferences {
 		return sharedPreferences.getString(TOKEN, "");
 	}
 
-	public void saveUser(String id, String token) {
+	public void saveUser(String id, String token) {	
 		Editor editor = sharedPreferences.edit();
 		editor.putString(ID, id);
 		editor.putString(TOKEN, token);

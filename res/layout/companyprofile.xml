@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#DDD" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="100dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dip"
+        android:background="#FFF" >
+
+        <ImageView
+            android:id="@+id/imageview_company_profile_pic"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/abs__list_selector_disabled_holo_light" />
+
+        <TextView
+            android:id="@+id/textview_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="17sp"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/imageview_company_profile_pic"
+            android:layout_marginTop="18dp"
+            android:text="Company"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textview_company_description"
+            android:layout_width="wrap_content"
+            android:textSize="10sp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textview_company_name"
+            android:layout_below="@+id/textview_company_name"
+            android:text="Description" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textview_jobs_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_below="@+id/relativeLayout1"
+        android:text="Jobs/Internships"
+        android:textSize="17sp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ListView
+        android:id="@+id/listview_jobs_list"
+        android:background="#FFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_below="@+id/textview_jobs_header" >
+    </ListView>
+
+</RelativeLayout>

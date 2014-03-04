@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.bluecast.bluecast.R;
 import com.bluecast.models.Business;
-import com.bluecast.models.ModelBusiness;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewCallback;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
@@ -35,8 +34,7 @@ public class ListAdapterScanBusiness extends BaseAdapter {
 	public ListAdapterScanBusiness(Activity context) {
 		this.context = context;
 		businessArray = new ArrayList<Business>();
-		typeface = Typeface.createFromAsset(this.context.getAssets(),
-				"fonts/Roboto-Light.ttf");
+		typeface = Typeface.createFromAsset(this.context.getAssets(),"fonts/Roboto-Light.ttf");
 	}
 	
 	public void setBusinessArray(ArrayList<Business> businessArray) {

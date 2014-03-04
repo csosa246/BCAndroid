@@ -18,7 +18,6 @@ import com.bluecast.adapters.AdapterSharedPreferences;
 import com.bluecast.interfaces.DelegateAsyncGetBusiness;
 import com.bluecast.models.Business;
 import com.bluecast.models.Job;
-import com.bluecast.models.ModelBusiness;
 
 public class AsyncGetBusiness extends
 		AsyncTask<Void, Void, ArrayList<Business>> {
@@ -35,7 +34,6 @@ public class AsyncGetBusiness extends
 	}
 	
 	ArrayList<Business> businessArrayList; 
-
 	String pageFinal; 
 	
 	@Override
@@ -43,8 +41,7 @@ public class AsyncGetBusiness extends
 
 		String page = "";
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(
-				"https://dl.dropboxusercontent.com/u/2606800/test.txt");
+		HttpGet httpGet = new HttpGet("http://bluecastme.herokuapp.com/event_show");
 
 		try {
 			HttpResponse response = client.execute(httpGet);
@@ -56,23 +53,25 @@ public class AsyncGetBusiness extends
 			}
 						
 			JSONArray jsonArrayCompanies = new JSONArray(page);
-			
 			for(int i = 0; i<jsonArrayCompanies.length(); i++){
 				JSONObject jsonObjectCompany = jsonArrayCompanies.getJSONObject(i);
-				
 				JSONArray jsonArrayJobs = jsonObjectCompany.getJSONArray("Jobs");
 				ArrayList<Job> jobsArrayList= new ArrayList<Job>();
 				for(int j = 0; j < jsonArrayJobs.length(); j++){
 					JSONObject jsonObjectJob = jsonArrayJobs.getJSONObject(j);
-					
+					JSONArray jsonArrayAcceptableMajors = jsonObjectJob.getJSONArray("Majors");
+					ArrayList<String> majorsArrayList = new ArrayList<String>();
+					for(int k = 0; k < jsonArrayAcceptableMajors.length();k++){
+						Log.e("Majors", jsonArrayAcceptableMajors.getString(k).toString());
+						majorsArrayList.add(jsonArrayAcceptableMajors.getString(k));
+					}
 					Job job = new Job(jsonObjectJob.getString("title"),
 							jsonObjectJob.getString("position"), 
 							jsonObjectJob.getString("term"), 
-							jsonObjectJob.getString("description"));
-					jobsArrayList.add(job);
-					
+							jsonObjectJob.getString("description"),
+							majorsArrayList);
+					jobsArrayList.add(job);	
 				}
-				
 				Business business = new Business(jsonObjectCompany.getString("event_id"),
 						jsonObjectCompany.getString("company"),
 						jsonObjectCompany.getString("description"), 
@@ -80,32 +79,7 @@ public class AsyncGetBusiness extends
 						jsonObjectCompany.getString("url"),
 						jobsArrayList);
 				businessArrayList.add(business);
-
 			}
-			
-////			pageFinal = page;
-//			JSONArray jsonArraye1 = new JSONArray(page);
-//			JSONArray jsonArraye2 = jsonArraye1.getJSONArray(0);
-//
-//			for(int i = 0; i<jsonArraye2.length(); i++) {
-//				JSONObject jsonObject = jsonArraye2.getJSONObject(i);
-//				String businessID = jsonObject.getString("id");
-//				String title = jsonObject.getString("title");
-//				
-//				ModelBusiness modelBusiness = new ModelBusiness(
-//						jsonObject.getString("id"), 
-//						jsonObject.getString("title"), 
-//						jsonObject.getString("description"), 
-//						jsonObject.getString("url"), 
-//						jsonObject.getString("picture_url"), 
-//						jsonObject.getString("user_id"), 
-//						jsonObject.getString("created_at"), 
-//						jsonObject.getString("updated_at"),
-//						jsonObject.getString("event_id"));
-////				Log.i("businesstitle", modelBusiness.get);
-//				businessArrayList.add(modelBusiness);
-//
-//			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
