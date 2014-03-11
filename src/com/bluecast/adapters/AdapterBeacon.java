@@ -78,6 +78,7 @@ public class AdapterBeacon extends Activity implements IBeaconConsumer {
 				}
 				Log.e("TAG", String.valueOf(iBeaconCollection.size()));
 
+				
 			}
 		});
 	}

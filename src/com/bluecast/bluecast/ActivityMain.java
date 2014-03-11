@@ -2,16 +2,22 @@ package com.bluecast.bluecast;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.JSONException;
 
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.bluecast.adapters.AdapterSharedPreferences;
+import com.bluecast.async_tasks.AndroidAsyncHTTPTest;
 import com.bluecast.fragments.main.FragmentCompanyProfile;
 import com.bluecast.fragments.main.FragmentLeftMenu;
 import com.bluecast.fragments.main.FragmentPublicProfile;
@@ -38,6 +44,8 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 	FragmentPublicProfile fragmentPublicProfile;
 	FragmentManager contentFragmentManager;
 	FragmentCompanyProfile fragmentCompanyProfile; 
+	
+	Timer timer;
 
 	public ActivityMain() {
 		super(R.string.changing_fragments);
@@ -46,6 +54,45 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(null);
+		
+		//TIMER----------------------------------------------------//
+		TimerTask doAsynchronousTask;
+		final Handler handler = new Handler();
+		Timer timer = new Timer();
+
+		
+		
+		doAsynchronousTask = new TimerTask() {
+
+		    @Override
+		    public void run() {
+
+		        handler.post(new Runnable() {
+		            public void run() {
+//		                 if(isOnline){// check net connection
+//		                  //what u want to do....
+//		                }
+//		            	Log.e("CALL TIMER", "CALL TIMER");
+		            	AndroidAsyncHTTPTest test = new AndroidAsyncHTTPTest();
+		            	try {
+							test.getGoogle();
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		            	
+
+		            }
+		        });
+
+		    }
+
+		};
+
+		timer.schedule(doAsynchronousTask, 0, 10000);// execute in every 10 s
+		//TIMER----------------------------------------------------//
+
+	    
 		// set the Above View
 		// if (savedInstanceState != null)
 		// mContent =
@@ -78,6 +125,10 @@ public class ActivityMain extends ActivityBase implements IBeaconConsumer {
 
 		iBeaconManager.bind(this);
 		iBeaconCollection = new ArrayList<IBeacon>();
+		
+		
+
+		
 	}
 
 	// @Override
