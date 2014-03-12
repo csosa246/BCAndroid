@@ -24,6 +24,8 @@ public class AndroidAsyncHTTPTest {
     	AsyncHttpClient client = new AsyncHttpClient();
     	client.setTimeout(10);
     	client.get("http://www.google.com", new AsyncHttpResponseHandler() {
+    		
+    		
     	    @Override
     	    public void onSuccess(String response) {
     	        Log.e("RESPONSE", response);
@@ -35,8 +37,6 @@ public class AndroidAsyncHTTPTest {
     	    @Override
     	    public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
     	    	super.onFailure(arg0, arg1, arg2, arg3);
-    	    	
-    	    	
     	    	
     	    }
     	    
